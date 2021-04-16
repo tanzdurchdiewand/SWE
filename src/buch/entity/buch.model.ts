@@ -144,7 +144,6 @@ const optimistic = (schema: Schema<BuchDocument, Model<BuchDocument>>) => {
             // eslint-disable-next-line no-null/no-null
             if (update[key]?.__v !== null) {
                 delete update[key].__v;
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                 if (Object.entries(update[key]).length === 0) {
                     // @ts-expect-error UpdateQuery laesst nur Lesevorgaenge zu: abgeleitet von ReadonlyPartial<...>
                     delete update[key]; // eslint-disable-line @typescript-eslint/no-dynamic-delete

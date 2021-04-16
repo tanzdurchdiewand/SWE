@@ -32,7 +32,6 @@ export * from './apollo';
 export * from './cloud';
 export * from './db';
 export * from './express';
-export * from './kubernetes';
 export * from './jwt';
 export * from './logger';
 export * from './mail';

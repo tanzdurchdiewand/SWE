@@ -120,9 +120,7 @@ describe('PUT /api/buecher/:id', () => {
         loginUri = `${baseUri}${PATHS.login}`;
     });
 
-    afterAll(() => {
-        server.close();
-    });
+    afterAll(() => { server.close() });
 
     test('Vorhandenes Buch aendern', async () => {
         // given
@@ -201,9 +199,7 @@ describe('PUT /api/buecher/:id', () => {
         expect(art).to.be.equal(
             'Die Art eines Buches muss KINDLE oder DRUCKAUSGABE sein.',
         );
-        expect(rating).to.be.equal(
-            `Eine Bewertung muss zwischen 0 und ${MAX_RATING} liegen.`,
-        );
+        expect(rating).to.be.equal(`Eine Bewertung muss zwischen 0 und ${MAX_RATING} liegen.`);
         expect(verlag).to.be.equal(
             'Der Verlag eines Buches muss FOO_VERLAG oder BAR_VERLAG sein.',
         );

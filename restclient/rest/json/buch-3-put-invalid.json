@@ -5,7 +5,7 @@
   "art": "KINDLE",
   "verlag": "IWI_VERLAG",
   "preis": 9999,
-  "rabatt": 1,
+  "rabatt": 99,
   "lieferbar": true,
   "datum": "12345-123-123",
   "isbn": "falsche-isbn",

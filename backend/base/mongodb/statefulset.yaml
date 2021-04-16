@@ -72,7 +72,6 @@ spec:
             - containerPort: 27017
               name: mongod
           securityContext:
-            # eingebauten User aus dem Basis-Image nutzen
             runAsNonRoot: true
             # mongodb
             runAsUser: 999

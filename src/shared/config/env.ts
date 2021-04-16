@@ -24,7 +24,6 @@
 import dotenv from 'dotenv';
 
 interface NodeConfigEnv {
-    nodeEnv: string | undefined;
     serverPort: string | undefined;
     // fuer OpenShift
     port: string | undefined;
@@ -37,10 +36,6 @@ interface DbConfigEnv {
     password: string | undefined;
     populate: string | undefined;
     populateFiles: string | undefined;
-}
-
-interface ApolloConfigEnv {
-    playground: string | undefined;
 }
 
 interface MailConfigEnv {
@@ -60,13 +55,16 @@ dotenv.config();
 
 const { env } = process;
 
+/**
+ * Umgebungsvariable `NODE_ENV` als gleichnamige Konstante, die i.a. einen der
+ * folgenden Werte enthält:
+ * - `production`, z.B. in der _Heroku_-Cloud,
+ * - `development` oder
+ * - `test`
+ */
+export const NODE_ENV = env.NODE_ENV; // eslint-disable-line prefer-destructuring
+
 const {
-    // Umgebungsvariable `NODE_ENV` als gleichnamige Konstante, die i.a. einen der
-    // folgenden Werte enthält:
-    // - `production`, z.B. in der _Heroku_-Cloud,
-    // - `development` oder
-    // - `test`
-    NODE_ENV,
     SERVER_PORT,
     PORT,
     DB_NAME,
@@ -75,7 +73,6 @@ const {
     DB_PASS,
     DB_POPULATE,
     DB_POPULATE_FILES,
-    APOLLO_PLAYGROUND,
     MAIL_HOST,
     MAIL_PORT,
     MAIL_LOG,
@@ -90,7 +87,6 @@ const {
  * - PORT (wird implizit bei _Heroku_ gesetzt)
  */
 export const nodeConfigEnv: NodeConfigEnv = {
-    nodeEnv: NODE_ENV,
     serverPort: SERVER_PORT,
     port: PORT,
 };
@@ -114,15 +110,6 @@ export const dbConfigEnv: DbConfigEnv = {
     populateFiles: DB_POPULATE_FILES,
 };
 Object.freeze(dbConfigEnv);
-
-/**
- * Eingelesene Umgebungsvariable APOLLO_PLAYGROUND
- */
-/* eslint-disable object-curly-newline */
-export const apolloConfigEnv: ApolloConfigEnv = {
-    playground: APOLLO_PLAYGROUND,
-};
-/* eslint-enable object-curly-newline */
 
 /**
  * Eingelesene Umgebungsvariable für den Mail-Client:

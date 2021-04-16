@@ -67,7 +67,6 @@ spec:
               cpu: 600m
               memory: 512Mi
           securityContext:
-            # eingebauten User aus dem Basis-Image nutzen
             runAsNonRoot: true
             allowPrivilegeEscalation: false
             # Logdatei in einem Verzeichnis durch Mounting
@@ -79,5 +78,5 @@ spec:
         - name: log-buch
           # https://kubernetes.io/docs/concepts/storage/volumes/#hostpath
           hostPath:
-            path: /run/desktop/mnt/host/c/Zimmermann/volumes/node
+            path: /run/desktop/mnt/host/c/Zimmermann/volumes/buch
             type: Directory

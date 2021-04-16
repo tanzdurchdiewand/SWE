@@ -57,5 +57,3 @@ if (herokuRegexp.test(computername)) {
         cloud = Cloud.OPENSHIFT;
     }
 }
-
-console.info('cloud: %s', cloud);

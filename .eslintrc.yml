@@ -33,7 +33,6 @@ plugins:
   - security
   - security-node
   - prefer-arrow
-  - clean-regex
   - deprecation
   - no-null
   - jest
@@ -52,8 +51,6 @@ extends:
   - plugin:promise/recommended
   - plugin:security/recommended
   - plugin:security-node/recommended
-  # https://github.com/RunDevelopment/eslint-plugin-clean-regex/blob/master/lib/configs.ts
-  - plugin:clean-regex/recommended
   # https://github.com/benmosher/eslint-plugin-import
   - plugin:import/errors
   - plugin:import/warnings
@@ -195,7 +192,6 @@ rules:
   '@typescript-eslint/no-unnecessary-type-arguments': error
   '@typescript-eslint/no-unnecessary-type-assertion': error
   '@typescript-eslint/no-unnecessary-type-constraint': error
-  '@typescript-eslint/no-unsafe-argument': error
   '@typescript-eslint/no-unsafe-assignment': error
   #"@typescript-eslint/no-unsafe-call": error
   #"@typescript-eslint/no-unsafe-member-access": error
@@ -323,12 +319,10 @@ rules:
   unicorn/no-nested-ternary: error
   unicorn/no-object-as-default-parameter: error
   unicorn/no-process-exit: off
-  unicorn/no-static-only-class: error
   unicorn/no-unsafe-regex: error
   unicorn/no-unused-properties: error
   unicorn/numeric-separators-style: error
   unicorn/prefer-array-find: error
-  unicorn/prefer-array-flat: error
   unicorn/prefer-flat-map: error
   unicorn/prefer-replace-all: error
   unicorn/prevent-abbreviations: off

@@ -13,9 +13,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-# Aufruf:   cd kustomize\dev
-#           kustomize build | kubectl apply -f -
-#           kustomize build | kubectl delete -f -
+# Aufruf:   cd kustomize\overlay\dev\appserver
+#             kustomize build | kubectl apply -f -
+#             kustomize build | kubectl delete -f -
 
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1

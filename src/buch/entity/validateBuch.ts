@@ -23,10 +23,11 @@
  * @packageDocumentation
  */
 
-// https://ajv.js.org/guide/schema-language.html#draft-2019-09-and-draft-2012-12
 // https://github.com/ajv-validator/ajv/blob/master/docs/validation.md
-import Ajv2020 from 'ajv/dist/2020';
+import Ajv from 'ajv/dist/2019';
 import type { Buch } from './buch';
+import addFormats from 'ajv-formats';
+import ajvErrors from 'ajv-errors';
 import { jsonSchema } from './jsonSchema';
 import { logger } from '../../shared';
 
@@ -35,10 +36,16 @@ import { logger } from '../../shared';
  */
 export const MAX_RATING = 5;
 
-const ajv = new Ajv2020({
+const ajv = new Ajv({
     allowUnionTypes: true,
     allErrors: true,
 });
+
+// Formate für Ajv bereitstellen, wie z.B. date oder uri
+addFormats(ajv);
+
+// eigene Fehlermeldungen im JSON Schema statt der generischen Texte
+ajvErrors(ajv);
 
 /**
  * Typ für mögliche Fehlertexte bei der Validierung.
@@ -52,51 +59,16 @@ export type ValidationErrorMsg = Record<string, string | undefined>;
 export const validateBuch = (buch: Buch) => {
     const validate = ajv.compile<Buch>(jsonSchema);
     validate(buch);
-    // nullish coalescing
+    // as DefinedError[]
     const errors = validate.errors ?? [];
     logger.debug('validateBuch: errors=%o', errors);
     const errorMsg: ValidationErrorMsg = {};
     errors.forEach((err) => {
-        const { instancePath } = err;
-        // eslint-disable-next-line default-case
-        switch (instancePath) {
-            case '/titel':
-                errorMsg.titel =
-                    'Ein Buchtitel muss mit einem Buchstaben, einer Ziffer oder _ beginnen.';
-                break;
-            case '/rating':
-                errorMsg.rating =
-                    'Eine Bewertung muss zwischen 0 und 5 liegen.';
-                break;
-            case '/art':
-                errorMsg.art =
-                    'Die Art eines Buches muss KINDLE oder DRUCKAUSGABE sein.';
-                break;
-            case '/verlag':
-                errorMsg.verlag =
-                    'Der Verlag eines Buches muss FOO_VERLAG oder BAR_VERLAG sein.';
-                break;
-            case '/preis':
-                errorMsg.preis = 'Der Preis darf nicht negativ sein.';
-                break;
-            case '/rabatt':
-                errorMsg.rabatt =
-                    'Der Rabatt muss ein Wert zwischen 0 und 1 sein.';
-                break;
-            case '/lieferbar':
-                errorMsg.lieferbar =
-                    '"lieferbar" muss auf true oder false gesetzt sein.';
-                break;
-            case '/datum':
-                errorMsg.datum = 'Das Datum muss im Format yyyy-MM-dd sein.';
-                break;
-            case '/isbn':
-                errorMsg.isbn = 'Die ISBN-Nummer ist nicht korrekt.';
-                break;
-            case '/homepage':
-                errorMsg.homepage = 'Die Homepage ist nicht korrekt.';
-                break;
-        }
+        const key = err.dataPath.slice(1);
+        // errorMsg[key] = (err as any).errorMessage as string; // eslint-disable-line security/detect-object-injection
+        // Keine Benutzereingabe ("User Input")
+        // https://github.com/nodesecurity/eslint-plugin-security/blob/master/docs/the-dangers-of-square-bracket-notation.md
+        errorMsg[key] = err.message; // eslint-disable-line security/detect-object-injection
     });
 
     logger.debug('validateBuch: errorMsg=%o', errorMsg);

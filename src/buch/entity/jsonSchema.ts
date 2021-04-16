@@ -3,10 +3,10 @@ import type { GenericJsonSchema } from './GenericJsonSchema';
 export const MAX_RATING = 5;
 
 export const jsonSchema: GenericJsonSchema = {
-    $schema: 'https://json-schema.org/draft/2020-12/schema',
+    $schema: 'https://json-schema.org/draft/2019-09/schema',
     $id: 'http://acme.com/buch.json#',
     title: 'Buch',
-    description: 'Eigenschaften eines Buches: Typen und Constraints',
+    description: 'Eigenschaften eines Buches: Typen und Einschraenkungen',
     type: 'object',
     properties: {
         /* eslint-disable @typescript-eslint/naming-convention */
@@ -47,24 +47,20 @@ export const jsonSchema: GenericJsonSchema = {
             exclusiveMaximum: 1,
         },
         lieferbar: { type: 'boolean' },
-        datum: { type: 'string', pattern: '\\d{4}-\\d{2}-\\d{2}' },
+        // https://github.com/ajv-validator/ajv-formats
+        datum: { type: 'string', format: 'date' },
         isbn: {
             type: 'string',
             // https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s13.html
+            // TODO https://github.com/ajv-validator/ajv-formats/issues/14
             pattern:
                 '^(?:ISBN(?:-1[03])?:? )?(?=[0-9X]{10}$|' +
                 '(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|' +
                 '(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?' +
                 '[0-9]+[- ]?[0-9]+[- ]?[0-9X]*',
         },
-        homepage: {
-            type: 'string',
-            // https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch08s01.html
-            // https://mathiasbynens.be/demo/url-regex
-            // https://stackoverflow.com/questions/161738/what-is-the-best-regular-expression-to-check-if-a-string-is-a-valid-url
-            // https://github.com/validatorjs/validator.js/blob/master/src/lib/isURL.js
-            pattern: '^(https?://|www.)[a-z0-9-]+(.[a-z0-9-]+)+([/?].*)?$',
-        },
+        // https://github.com/ajv-validator/ajv-formats
+        homepage: { type: 'string', format: 'uri' },
         schlagwoerter: {
             type: 'array',
             items: { type: 'string' },
@@ -77,5 +73,21 @@ export const jsonSchema: GenericJsonSchema = {
     // isbn ist NUR beim Neuanlegen ein Pflichtfeld
     // Mongoose bietet dazu die Funktion MyModel.findByIdAndUpdate()
     required: ['titel', 'art', 'verlag'],
+    errorMessage: {
+        properties: {
+            titel:
+                'Ein Buchtitel muss mit einem Buchstaben, einer Ziffer oder _ beginnen.',
+            rating: 'Eine Bewertung muss zwischen 0 und 5 liegen.',
+            art: 'Die Art eines Buches muss KINDLE oder DRUCKAUSGABE sein.',
+            verlag:
+                'Der Verlag eines Buches muss FOO_VERLAG oder BAR_VERLAG sein.',
+            preis: 'Der Preis darf nicht negativ sein.',
+            rabatt: 'Der Rabatt muss ein Wert zwischen 0 und 1 sein.',
+            lieferbar: '"lieferbar" muss auf true oder false gesetzt sein.',
+            datum: 'Das Datum muss im Format yyyy-MM-dd sein.',
+            isbn: 'Die ISBN-Nummer ist nicht korrekt.',
+            homepage: 'Die URL der Homepage ist nicht korrekt.',
+        },
+    },
     additionalProperties: false,
 };

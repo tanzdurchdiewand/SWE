@@ -73,6 +73,7 @@ interface IdCriteria {
 }
 
 const createBuch = async (buch: Buch) => {
+    buch.datum = new Date(buch.datum as string);
     const result = await buchService.create(buch);
     logger.debug('resolvers createBuch(): result=%o', result);
     if (result instanceof BuchServiceError) {
@@ -125,8 +126,8 @@ const updateBuch = async (buch: Buch) => {
         'resolvers updateBuch(): zu aktualisieren = %s',
         JSON.stringify(buch),
     );
-    // nullish coalescing
     const version = buch.__v ?? 0;
+    buch.datum = new Date(buch.datum as string);
     const result = await buchService.update(buch, version.toString());
     logUpdateResult(result);
     return result;

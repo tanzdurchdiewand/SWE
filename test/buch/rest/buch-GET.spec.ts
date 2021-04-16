@@ -60,9 +60,7 @@ describe('GET /api/buecher', () => {
         buecherUri = `https://${nodeConfig.host}:${address.port}${path}`;
     });
 
-    afterAll(() => {
-        server.close();
-    });
+    afterAll(() => { server.close() });
 
     test('Alle Buecher', async () => {
         // given

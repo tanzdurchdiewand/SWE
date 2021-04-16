@@ -14,7 +14,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # Aufruf:   i.a. bereits eingestellt:   $env:SCAFFOLD_PROFILE = 'dev'
-#           skaffold dev --port-forward
+#           skaffold deploy --port-forward
 
 apiVersion: skaffold/v2beta13
 kind: Config

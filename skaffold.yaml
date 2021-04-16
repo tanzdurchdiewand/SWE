@@ -18,7 +18,6 @@
 #           skaffold dev --port-forward
 
 # https://skaffold.dev/docs/references/yaml
-# https://skaffold-latest.firebaseapp.com/docs/references/yaml
 
 apiVersion: skaffold/v2beta13
 kind: Config

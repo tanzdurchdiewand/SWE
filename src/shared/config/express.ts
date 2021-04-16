@@ -20,17 +20,16 @@
  * @packageDocumentation
  */
 
+import { NODE_ENV } from './env';
 import type { Options } from 'express-rate-limit';
-import { nodeConfigEnv } from './env';
 
-const { nodeEnv } = nodeConfigEnv;
 /**
  * Soll die _Express_-App im Entwicklermodus laufen und deshalb mehr
  * Protokoll-Ausgaben produzieren?
  */
 export const devMode =
-    nodeEnv !== undefined &&
-    (nodeEnv.startsWith('dev') || nodeEnv.startsWith('test'));
+    NODE_ENV !== undefined &&
+    (NODE_ENV.startsWith('dev') || NODE_ENV.startsWith('test'));
 
 /**
  * Konfiguration für _express-rate-limit_:

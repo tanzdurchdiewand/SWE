@@ -22,7 +22,7 @@
  * @packageDocumentation
  */
 
-import type { Buch, BuchData, BuchDocument } from '../entity';
+import type { Buch, BuchData } from '../entity';
 import {
     BuchInvalid,
     BuchNotExists,
@@ -33,15 +33,15 @@ import {
     VersionOutdated,
 } from './errors';
 import { BuchModel, validateBuch } from '../entity';
-import type { FilterQuery, QueryOptions } from 'mongoose';
 import { cloud, logger, mailConfig } from '../../shared';
+import type { QueryOptions } from 'mongoose';
 import type { SendMailOptions } from 'nodemailer';
 
 // API-Dokumentation zu Mongoose:
 // http://mongoosejs.com/docs/api.html
 // https://github.com/Automattic/mongoose/issues/3949
 
-/* eslint-disable no-null/no-null, unicorn/no-useless-undefined */
+/* eslint-disable no-null/no-null, unicorn/no-useless-undefined, @typescript-eslint/no-unsafe-assignment */
 
 /**
  * Die Klasse `BuchService` implementiert den Anwendungskern für Bücher und
@@ -66,8 +66,6 @@ export class BuchService {
      * Ein Buch asynchron anhand seiner ID suchen
      * @param id ID des gesuchten Buches
      * @returns Das gefundene Buch vom Typ {@linkcode BuchData} oder undefined
-     *          in einem Promise aus ES2015 (vgl.: Mono aus Project Reactor oder
-     *          Future aus Java)
      */
     async findById(id: string) {
         logger.debug('BuchService.findById(): id=%s', id);
@@ -94,7 +92,7 @@ export class BuchService {
      * @returns Ein JSON-Array mit den gefundenen Büchern. Ggf. ist das Array leer.
      */
     // eslint-disable-next-line max-lines-per-function
-    async find(query?: FilterQuery<BuchDocument> | undefined) {
+    async find(query?: any | undefined) {
         logger.debug('BuchService.find(): query=%o', query);
 
         // alle Buecher asynchron suchen u. aufsteigend nach titel sortieren
@@ -122,13 +120,8 @@ export class BuchService {
         // 'i': keine Unterscheidung zw. Gross- u. Kleinschreibung
         // NICHT /.../, weil das Muster variabel sein muss
         // CAVEAT: KEINE SEHR LANGEN Strings wg. regulaerem Ausdruck
-        if (
-            titel !== undefined &&
-            titel !== null &&
-            typeof titel === 'string' &&
-            // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-            titel.length < 10
-        ) {
+        // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+        if (titel !== undefined && titel.length < 10) {
             // RegExp statt Re2 wegen Mongoose
             dbQuery.titel = new RegExp(titel, 'iu'); // eslint-disable-line security/detect-non-literal-regexp, security-node/non-literal-reg-expr
         }
@@ -417,5 +410,5 @@ export class BuchService {
         return undefined;
     }
 }
-/* eslint-enable no-null/no-null, unicorn/no-useless-undefined */
+/* eslint-enable no-null/no-null, unicorn/no-useless-undefined, @typescript-eslint/no-unsafe-assignment */
 /* eslint-enable max-lines */

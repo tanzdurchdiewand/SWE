@@ -21,11 +21,11 @@
  * @packageDocumentation
  */
 
-import { apolloConfigEnv } from './env';
+const { env } = process;
+const apolloPlayground = env.APOLLO_PLAYGROUND;
 
-const { playground } = apolloConfigEnv;
 /**
  * Wird der _Playground_ von _Apollo_ unterstützt?
  */
-export const enablePlayground = playground === 'true' || playground === 'TRUE';
-console.info(`enablePlayground: ${enablePlayground}`);
+export const enablePlayground =
+    apolloPlayground === 'true' || apolloPlayground === 'TRUE';

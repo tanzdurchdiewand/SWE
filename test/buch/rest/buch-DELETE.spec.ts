@@ -60,9 +60,7 @@ describe('DELETE /api/buecher', () => {
         loginUri = `${baseUri}${PATHS.login}`;
     });
 
-    afterAll(() => {
-        server.close();
-    });
+    afterAll(() => { server.close() });
 
     test('Vorhandenes Buch loeschen', async () => {
         // given

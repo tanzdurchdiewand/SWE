@@ -16,7 +16,7 @@
  */
 
 import { Cloud, cloud } from './cloud';
-import { logConfigEnv, nodeConfigEnv } from './env';
+import { NODE_ENV, logConfigEnv } from './env';
 import JSON5 from 'json5';
 import { format } from 'winston';
 import { resolve } from 'path';
@@ -33,7 +33,6 @@ import { resolve } from 'path';
 // https://github.com/winstonjs/winston/blob/master/docs/transports.md
 // Alternative: Pino, log4js, Bunyan
 
-// nullish coalescing
 const logLevelConsole = logConfigEnv.logLevelConsole ?? 'info';
 const { logDir, colorConsole } = logConfigEnv;
 
@@ -51,8 +50,7 @@ const consoleFormat =
     cloud !== undefined || !logColorConsole
         ? combine(splat(), simple())
         : combine(splat(), colorize(), simple());
-const { nodeEnv } = nodeConfigEnv;
-const production = nodeEnv === 'production' || nodeEnv === 'PRODUCTION';
+const production = NODE_ENV === 'production' || NODE_ENV === 'PRODUCTION';
 /**
  * Optionen für die Protokoll-Ausgaben in der Konsole.
  */

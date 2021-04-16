@@ -23,7 +23,6 @@
 import { Cloud, cloud } from './cloud';
 import { hostname } from 'os';
 import ip from 'ip';
-import { kubernetes } from './kubernetes';
 import { nodeConfigEnv } from './env';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
@@ -34,7 +33,6 @@ interface NodeConfig {
     ip: string;
     key?: Buffer;
     cert?: Buffer;
-    nodeEnv: string | undefined;
 }
 
 const computername = hostname();
@@ -59,22 +57,6 @@ if (Number.isNaN(port)) {
     }
 }
 
-// https://nodejs.org/api/fs.html
-// https://nodejs.org/api/path.html
-// http://2ality.com/2017/11/import-meta.html
-/* global __dirname */
-const key =
-    cloud === undefined && !kubernetes
-        ? readFileSync(resolve(__dirname, 'key.pem'))
-        : undefined;
-
-const cert =
-    cloud === undefined && !kubernetes
-        ? readFileSync(resolve(__dirname, 'certificate.cer'))
-        : undefined;
-
-const { nodeEnv } = nodeConfigEnv;
-
 /**
  * Die Konfiguration für den _Node_-basierten Server:
  * - Rechnername
@@ -87,9 +69,19 @@ export const nodeConfig: NodeConfig = {
     host: computername,
     ip: ipAddress,
     port,
-    key,
-    cert,
-    nodeEnv,
+
+    // https://nodejs.org/api/fs.html
+    // https://nodejs.org/api/path.html
+    // http://2ality.com/2017/11/import-meta.html
+    /* global __dirname */
+    key:
+        cloud === undefined
+            ? readFileSync(resolve(__dirname, 'key.pem'))
+            : undefined,
+    cert:
+        cloud === undefined
+            ? readFileSync(resolve(__dirname, 'certificate.cer'))
+            : undefined,
 };
 Object.freeze(nodeConfig);
 
@@ -97,6 +89,5 @@ const logNodeConfig = {
     host: computername,
     port,
     ip: ipAddress,
-    nodeEnv,
 };
 console.info('nodeConfig: %o', logNodeConfig);

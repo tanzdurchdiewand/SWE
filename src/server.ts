@@ -33,14 +33,7 @@
 // Stacktraces mit Beruecksichtigung der TypeScript-Dateien
 import 'source-map-support/register';
 
-import {
-    cloud,
-    connectDB,
-    kubernetes,
-    logger,
-    nodeConfig,
-    populateDB,
-} from './shared';
+import { cloud, connectDB, logger, nodeConfig, populateDB } from './shared';
 import { release, type, userInfo } from 'os';
 // "type-only import" ab TypeScript 3.8
 import type { Application } from 'express';
@@ -50,23 +43,24 @@ import type { Server } from 'net';
 import { app } from './app';
 import { connection } from 'mongoose';
 import { createServer } from 'https';
-import { createServer as createServerHttp } from 'http';
 import ip from 'ip';
 import stripIndent from 'strip-indent';
 
+/* eslint-disable no-process-exit */
 // Arrow Function
 const disconnectDB = () => {
-    connection.close().catch(() => process.exit(0)); // eslint-disable-line no-process-exit, node/no-process-exit
+    connection.close().catch(() => process.exit(0)); // eslint-disable-line node/no-process-exit
 };
 
 const shutdown = () => {
     logger.info('Server wird heruntergefahren...');
     disconnectDB();
-    process.exit(0); // eslint-disable-line no-process-exit, node/no-process-exit
+    process.exit(0); // eslint-disable-line node/no-process-exit
 };
+/* eslint-enable no-process-exit */
 
 // Destructuring
-const { host, port, nodeEnv } = nodeConfig;
+const { host, port } = nodeConfig;
 const printBanner = () => {
     // Heroku entfernt fuehrende Leerzeichen
     const banner = `
@@ -87,43 +81,31 @@ const printBanner = () => {
     logger.info('Rechnername:    %s', host);
     logger.info('IP-Adresse:     %s', ip.address());
     logger.info('Username:       %s', userInfo().username);
-    logger.info('NODE_ENV:       %s', nodeEnv);
-    logger.info('Kubernetes:     %s', kubernetes);
     logger.info('');
-    if (cloud === undefined && !kubernetes) {
+    if (cloud === undefined) {
         logger.info(
             'https://%s:%d ist gestartet: Herunterfahren durch <Strg>C',
             host,
             port,
         );
     } else {
-        logger.info('Der Server ist gestartet');
+        logger.info('Der Server ist gestartet: Herunterfahren durch <Strg>C');
     }
 };
 
 const startServer = () => {
     let server: Application | Server;
-    // lokaler Entwicklungsrechner? Kubernetes? Cloud, z.B. Heroku?
     if (cloud === undefined) {
-        if (kubernetes) {
-            // lokaler Kubernetes-Cluster mit HTTP
-            server = createServerHttp(app);
-        } else {
-            // lokaler Server ohne Kubernetes
-            // Destructuring
-            const { cert, key } = nodeConfig;
-            // Shorthand Properties
-            const options: SecureContextOptions = {
-                // key: key
-                key,
-                cert,
-                minVersion: 'TLSv1.3',
-            };
-            // https://stackoverflow.com/questions/11744975/enabling-https-on-express-js#answer-11745114
-            server = createServer(options, app as RequestListener);
-        }
+        const { cert, key } = nodeConfig;
+        // Shorthand Properties
+        const options: SecureContextOptions = {
+            key,
+            cert,
+            minVersion: 'TLSv1.3',
+        };
+        // https://stackoverflow.com/questions/11744975/enabling-https-on-express-js#answer-11745114
+        server = createServer(options, app as RequestListener);
     } else {
-        // Cloud, z.B. Heroku
         server = app;
     }
     server.listen(port, printBanner);

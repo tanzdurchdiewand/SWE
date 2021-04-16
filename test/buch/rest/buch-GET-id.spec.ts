@@ -83,9 +83,7 @@ describe('GET /api/buecher/:id', () => {
         buecherUri = `https://${nodeConfig.host}:${address.port}${path}`;
     });
 
-    afterAll(() => {
-        server.close();
-    });
+    afterAll(() => { server.close() });
 
     each(idVorhanden).test('Buch zu vorhandener ID %s', async (id) => {
         // given

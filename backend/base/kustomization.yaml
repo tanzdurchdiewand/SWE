@@ -31,7 +31,6 @@ configMapGenerator:
       - SPRING_LAZY-INITIALIZATION="true"
       - SPRING_JPA_OPEN-IN-VIEW="true"
 
-# Ein Secret ist z.B. ein Passwort, ein sensibler Konfigurationsparameter oder ein API-Schluessel
 # https://github.com/kubernetes-sigs/kustomize/blob/master/examples/secretGeneratorPlugin.md
 # Caveat: Codierung (encoding) vs. Verschluesselung (encryption)
 # kubectl get secret mongodb --output jsonpath='{.data}' --namespace acme
@@ -48,10 +47,10 @@ generatorOptions:
   disableNameSuffixHash: true
 
 commonLabels:
-  # https://kubernetes.io/docs/concepts/overview/working-with-objects/labels
   # https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels
-  component: backend
-  managed-by: kustomize
+  # https://kubernetes.io/docs/concepts/overview/working-with-objects/labels
+  app.kubernetes.io/component: backend
+  app.kubernetes.io/managed-by: kustomize
 
 # Reihenfolge fuer die Installation der Kubernetes Ressourcen
 # https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/#composing-and-customizing-resources

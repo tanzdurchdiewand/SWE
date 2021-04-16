@@ -23,7 +23,7 @@
 version: "3.9"
 services:
   sonarqube:
-    image: sonarqube:8.8-community
+    image: sonarqube:8.7.1-community
     ports:
       - published: 9000
         target: 9000

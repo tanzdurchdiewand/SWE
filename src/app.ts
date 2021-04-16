@@ -76,7 +76,6 @@ const apiPath = '/api';
  * werden in einem JSON-Objekt gebündelt.
  */
 export const PATHS = {
-    // Template String
     buecher: `${apiPath}/buecher`,
     verlage: `${apiPath}/verlage`,
     login: `${apiPath}/login`,
@@ -248,7 +247,7 @@ class App {
         router.route('/neues-buch').get(neuesBuch);
         this.app.use(PATHS.html, router);
 
-        // Alternativen zu EJS: Handlebars.js, mustache.js, Pug, ...
+        // Alternativen zu Pug: EJS, Handlebars, ...
         // https://github.com/expressjs/express/wiki#template-engines
         this.app.set('view engine', 'ejs');
         // __dirname ist das Verzeichnis ".../dist/server"
@@ -261,5 +260,4 @@ class App {
 /**
  * Das Objekt mit der Express-App.
  */
-// Destructuring
 export const { app } = new App();

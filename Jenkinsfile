@@ -33,9 +33,6 @@ pipeline {
             args '--publish 3000:3000 --publish 5000:5000'
             // fuer "apt-get install ..."
             args '--user root:root'
-
-            // node:14.16.0-buster : in /etc/passwd gibt es "node" mit uid=1000
-            //args '--user 1000:1000'
         }
     }
 
@@ -87,7 +84,6 @@ pipeline {
                 // https://www.debian.org/distrib/packages
                 // https://packages.debian.org/buster/nodejs
                 // sh 'curl -sL https://deb.nodesource.com/setup_current.x | bash -; apt-get install --yes nodejs'
-                sh 'cat /etc/passwd'
                 sh 'curl --silent --location https://deb.nodesource.com/setup_14.x | bash -; apt-get install --yes nodejs'
 
                 sh 'npm i -g npm'
@@ -103,7 +99,7 @@ pipeline {
 
                 // https://docs.docker.com/engine/install/debian
                 // https://packages.debian.org/buster/docker.io
-                sh 'apt-get install --yes --no-install-recommends docker.io=18.09.1+dfsg1-7.1+deb10u3'
+                sh 'apt-get install --yes --no-install-recommends docker.io=18.09.1+dfsg1-7.1+deb10u2'
 
                 // https://medium.com/@manav503/how-to-build-docker-images-inside-a-jenkins-container-d59944102f30
 

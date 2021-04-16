@@ -148,7 +148,7 @@ auf einem Notebook mehrere Minuten dauern.
 
 ```PowerShell
     cd backend
-    skaffold dev --port-forward
+    skaffold deploy --port-forward
 ```
 
 Das Deployment wird mit dem Unterkommando `delete` wieder entfernt. Dabei muss
@@ -255,52 +255,6 @@ _Send Request_ (keine Zeilennummer!). Auf _Send Request_ kann man klicken und
 der Request wird ausgeführt, wozu natürlich der Server erfolgreich gestartet
 sein sollte.
 
-Für den REST-Client benötigt man unterschiedliche Umgebungen (_Environment_) je
-nachdem, ob der Server lokal oder in einem (lokalen) Kubernetes-Cluster oder in
-der Heroku-Cloud läuft. Verschiedene Umgebungen können prinzipiell die gleichen
-Eigenschaften, aber mit verschiedenen Werten haben. Beispielsweise lautet die
-URL für die REST-Schnittstelle beim lokalen Server `https://localhost:3000/...`
-aber im Kubernetes-Cluster `http://localhost:3000/...`. Dazu kann man über den
-Menüpunkt _File_ und die beiden Unterpunkte _Einstellungen_ und nochmals
-_Einstellungen_ die Einstellungen für VS Code bearbeiten. Nun klickt man auf
-das Icon rechts oben ("Einstellungen öffnen"), um direkt die Datei
-`settings.json` zu bearbeiten.
-
-In der Datei `settings.json` kann man dann am Dateiende beispielsweise die
-Umgebungen `local`, `kubernetes` und `heroku` einrichten, bei denen man die
-Variablen `restUrl`, `loginUrl` und `graphQlUrl` definiert. Dabei muss man
-darauf achten, dass die JSON-Datei syntaktisch korrekt ist und z.B. Kommata
-und Anführungszeichen korrekt sind.
-
-```JSON
-    "rest-client.environmentVariables": {
-      "local": {
-        "restUrl": "https://localhost:3000/api/buecher",
-        "loginUrl": "https://localhost:3000/api/login",
-        "graphQlUrl": "https://localhost:3000/graphql"
-      },
-      "kubernetes": {
-        "restUrl": "http://localhost:3000/api/buecher",
-        "loginUrl": "http://localhost:3000/api/login",
-        "graphQlUrl": "http://localhost:3000/graphql"
-      },
-      "heroku": {
-        "restUrl": "https://gener-iert-12345.herokuapp.com/api/buecher",
-        "loginUrl": "https://gener-iert-12345.herokuapp.com/api/login",
-        "graphQlUrl": "https://gener-iert-12345.herokuapp.com/graphql"
-      }
-    }
-```
-
-Wenn man von nun an eine `.rest`-Datei öffnet, dann sieht man rechts unten in
-der Statusleiste die aktuelle Umgebung. Sobald man rechts unten auf den Namen
-der aktuellen Umgebung (oder _No Environment_) klickt, erscheinen die möglichen
-Umgebungen in der Auswahl am oberen Fensterrand.
-
-Im Dateisystem von Windows findet man die Datei `settings.json` im Verzeichnis
-`$env:APPDATA\Code\User`. Im Windows Explorer kann man dazu in der Pfadleiste
-einfach `%APPDATA%\Code\User` eingeben.
-
 ### Playground für eine GraphQL-Schnittstelle
 
 Falls die Umgebungsvariable `NODE_ENV` _nicht_ auf `production` gesetzt ist,
@@ -381,7 +335,7 @@ _keine_ Shell. Ob das `Dockerfile` gemäß _Best Practices_ erstellt wurde, kann
 man in einer PowerShell mit folgendem Kommando überprüfen:
 
 ```PowerShell
-    Get-Content Dockerfile | docker run --rm --interactive hadolint/hadolint:2.1.0
+    Get-Content Dockerfile | docker run --rm --interactive hadolint/hadolint:v1.23.0
 ```
 
 Um das Image für Kubernetes korrekt zu bauen, müssen in `.env` die Rechnernamen

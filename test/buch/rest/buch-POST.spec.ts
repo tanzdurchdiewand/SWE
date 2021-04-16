@@ -104,9 +104,7 @@ describe('POST /api/buecher', () => {
 
     // (done?: DoneFn) => Promise<void | undefined | unknown> | void | undefined
     // close(callback?: (err?: Error) => void): this
-    afterAll(() => {
-        server.close();
-    });
+    afterAll(() => { server.close() });
 
     test('Neues Buch', async () => {
         // given
@@ -175,9 +173,7 @@ describe('POST /api/buecher', () => {
         expect(art).to.be.equal(
             'Die Art eines Buches muss KINDLE oder DRUCKAUSGABE sein.',
         );
-        expect(rating).to.be.equal(
-            'Eine Bewertung muss zwischen 0 und 5 liegen.',
-        );
+        expect(rating).to.be.equal('Eine Bewertung muss zwischen 0 und 5 liegen.');
         expect(verlag).to.be.equal(
             'Der Verlag eines Buches muss FOO_VERLAG oder BAR_VERLAG sein.',
         );
