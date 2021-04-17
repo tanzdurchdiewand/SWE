@@ -25,7 +25,7 @@ export const jsonSchema: GenericJsonSchema = {
                 
         gemaeldeart: {
             type: 'string',
-            enum: ['OELGEMAELDE' , 'SIEBDRUCK', 'WASSERFARBENGEMAELDE'],
+            enum: ['OELGEMAELDE', 'SIEBDRUCK', 'WASSERFARBENGEMAELDE'],
         },
         haendler: {
             type: 'string',
@@ -37,7 +37,7 @@ export const jsonSchema: GenericJsonSchema = {
         },
         bewertung: {
             type: 'string',
-            enum: ['AAA', 'AA','A','BBB','BB', 'B' ,'']
+            enum: ['AAA', 'AA','A','BBB','BB', 'B' ,'C']
         },
       
         ausgestellt: { type: 'boolean' },

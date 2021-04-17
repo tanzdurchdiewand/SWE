@@ -20,8 +20,8 @@
  * @packageDocumentation
  */
 
-import { Document, Schema, SchemaType, model } from 'mongoose';
 import type { Bewertung, Gemaelde, GemaeldeArt, Haendler } from './gemaelde';
+import { Document, Schema, SchemaType, model } from 'mongoose';
 import { autoIndex, logColorConsole } from '../../shared';
 import type { Model } from 'mongoose';
 // RFC version 1: timestamps            https://github.com/uuidjs/uuid#uuidv1options-buffer-offset

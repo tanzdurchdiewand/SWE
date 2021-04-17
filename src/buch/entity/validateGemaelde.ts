@@ -25,11 +25,7 @@
 
 // https://github.com/ajv-validator/ajv/blob/master/docs/validation.md
 import Ajv from 'ajv/dist/2019';
-<<<<<<< HEAD:src/buch/entity/validateBuch.ts
-import type { Buch } from './gemaelde';
-=======
 import type { Gemaelde } from './gemaelde';
->>>>>>> 51ba9a52ab0be83b4ab3f75983a0b9ba77b26d52:src/buch/entity/validateGemaelde.ts
 import addFormats from 'ajv-formats';
 import ajvErrors from 'ajv-errors';
 import { jsonSchema } from './jsonSchema';
@@ -38,7 +34,6 @@ import { logger } from '../../shared';
 /**
  * Konstante für den maximalen Wert bei den Bewertungen
  */
-
 
 const ajv = new Ajv({
     allowUnionTypes: true,
