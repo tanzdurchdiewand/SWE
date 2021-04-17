@@ -1,12 +1,10 @@
 import type { GenericJsonSchema } from './GenericJsonSchema';
 
-export const MAX_RATING = 5;
-
 export const jsonSchema: GenericJsonSchema = {
     $schema: 'https://json-schema.org/draft/2019-09/schema',
-    $id: 'http://acme.com/buch.json#',
-    title: 'Buch',
-    description: 'Eigenschaften eines Buches: Typen und Einschraenkungen',
+    $id: 'http://acme.com/gemaelde.json#',
+    title: 'Gemaelde',
+    description: 'Eigenschaften eines Gemaeldes: Typen und Einschraenkungen',
     type: 'object',
     properties: {
         /* eslint-disable @typescript-eslint/naming-convention */
@@ -24,69 +22,64 @@ export const jsonSchema: GenericJsonSchema = {
             type: 'string',
             pattern: '^\\w.*',
         },
-        rating: {
-            type: 'number',
-            minimum: 0,
-            maximum: MAX_RATING,
-        },
-        art: {
+                
+        gemaeldeart: {
             type: 'string',
-            enum: ['DRUCKAUSGABE', 'KINDLE', ''],
+            enum: ['OELGEMAELDE' , 'SIEBDRUCK', 'WASSERFARBENGEMAELDE'],
         },
-        verlag: {
+        haendler: {
             type: 'string',
-            enum: ['BAR_VERLAG', 'FOO_VERLAG', ''],
+            enum: ['HAENDLER1', 'HAENDLER2', ''],
         },
-        preis: {
+        wert: {
             type: 'number',
             minimum: 0,
         },
-        rabatt: {
-            type: 'number',
-            exclusiveMinimum: 0,
-            exclusiveMaximum: 1,
+        bewertung: {
+            type: 'string',
+            enum: ['AAA', 'AA','A','BBB','BB', 'B' ,'']
         },
-        lieferbar: { type: 'boolean' },
+      
+        ausgestellt: { type: 'boolean' },
         // https://github.com/ajv-validator/ajv-formats
         datum: { type: 'string', format: 'date' },
-        isbn: {
+        zertifizierung: {
             type: 'string',
             // https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s13.html
             // TODO https://github.com/ajv-validator/ajv-formats/issues/14
             pattern:
-                '^(?:ISBN(?:-1[03])?:? )?(?=[0-9X]{10}$|' +
+                '^(?:ISGN(?:-1[03])?:? )?(?=[0-9X]{10}$|' +
                 '(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|' +
                 '(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?' +
                 '[0-9]+[- ]?[0-9]+[- ]?[0-9X]*',
         },
         // https://github.com/ajv-validator/ajv-formats
         homepage: { type: 'string', format: 'uri' },
-        schlagwoerter: {
+        kategorie: {
             type: 'array',
             items: { type: 'string' },
         },
-        autoren: {
+        kuenstler: {
             type: 'array',
             items: { type: 'object' },
         },
     },
-    // isbn ist NUR beim Neuanlegen ein Pflichtfeld
+    // isgn ist NUR beim Neuanlegen ein Pflichtfeld
     // Mongoose bietet dazu die Funktion MyModel.findByIdAndUpdate()
-    required: ['titel', 'art', 'verlag'],
+    required: ['titel', 'gemaeldeart', 'haendler'],
     errorMessage: {
         properties: {
             titel:
-                'Ein Buchtitel muss mit einem Buchstaben, einer Ziffer oder _ beginnen.',
-            rating: 'Eine Bewertung muss zwischen 0 und 5 liegen.',
-            art: 'Die Art eines Buches muss KINDLE oder DRUCKAUSGABE sein.',
+                'Ein Gemaeldetitel muss mit einem Buchstaben, einer Ziffer oder _ beginnen.',
+            beschreibung:
+                 'Die Beschreibung muss vorhanden sein und darf maximal 99 Zeichen lang sein',
+            art: 'Die Art eines Gemaelde muss KINDLE oder DRUCKAUSGABE sein.',
             verlag:
-                'Der Verlag eines Buches muss FOO_VERLAG oder BAR_VERLAG sein.',
-            preis: 'Der Preis darf nicht negativ sein.',
-            rabatt: 'Der Rabatt muss ein Wert zwischen 0 und 1 sein.',
-            lieferbar: '"lieferbar" muss auf true oder false gesetzt sein.',
+                'Der Haendler eines Gemaeldes muss ein OELGEMAELDE, SIEBDRUCK oder WASSERFARBENGEMAELDE sein.',
+            wert: 'Der Wert darf nicht negativ sein.',
+            ausgestellt: '"ausgestellt" muss auf true oder false gesetzt sein.',
             datum: 'Das Datum muss im Format yyyy-MM-dd sein.',
-            isbn: 'Die ISBN-Nummer ist nicht korrekt.',
-            homepage: 'Die URL der Homepage ist nicht korrekt.',
+            zertifizierung: 'Die Zertifizierungsnummer ist nicht korrekt.',
         },
     },
     additionalProperties: false,

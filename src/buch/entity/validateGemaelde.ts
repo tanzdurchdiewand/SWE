@@ -19,13 +19,17 @@
 
 /**
  * Das Modul besteht aus dem Typ {@linkcode ValidationErrorMsg} und der
- * Funktion {@linkcode validateBuch} sowie notwendigen Konstanten.
+ * Funktion {@linkcode validateGemaelde} sowie notwendigen Konstanten.
  * @packageDocumentation
  */
 
 // https://github.com/ajv-validator/ajv/blob/master/docs/validation.md
 import Ajv from 'ajv/dist/2019';
+<<<<<<< HEAD:src/buch/entity/validateBuch.ts
 import type { Buch } from './gemaelde';
+=======
+import type { Gemaelde } from './gemaelde';
+>>>>>>> 51ba9a52ab0be83b4ab3f75983a0b9ba77b26d52:src/buch/entity/validateGemaelde.ts
 import addFormats from 'ajv-formats';
 import ajvErrors from 'ajv-errors';
 import { jsonSchema } from './jsonSchema';
@@ -34,7 +38,7 @@ import { logger } from '../../shared';
 /**
  * Konstante für den maximalen Wert bei den Bewertungen
  */
-export const MAX_RATING = 5;
+
 
 const ajv = new Ajv({
     allowUnionTypes: true,
@@ -56,12 +60,12 @@ export type ValidationErrorMsg = Record<string, string | undefined>;
  * Funktion zur Validierung, wenn neue Bücher angelegt oder vorhandene Bücher
  * aktualisiert bzw. überschrieben werden sollen.
  */
-export const validateBuch = (buch: Buch) => {
-    const validate = ajv.compile<Buch>(jsonSchema);
-    validate(buch);
+export const validateGemaelde = (gemaelde: Gemaelde) => {
+    const validate = ajv.compile<Gemaelde>(jsonSchema);
+    validate(gemaelde);
     // as DefinedError[]
     const errors = validate.errors ?? [];
-    logger.debug('validateBuch: errors=%o', errors);
+    logger.debug('validateGemaelde: errors=%o', errors);
     const errorMsg: ValidationErrorMsg = {};
     errors.forEach((err) => {
         const key = err.dataPath.slice(1);
@@ -71,6 +75,6 @@ export const validateBuch = (buch: Buch) => {
         errorMsg[key] = err.message; // eslint-disable-line security/detect-object-injection
     });
 
-    logger.debug('validateBuch: errorMsg=%o', errorMsg);
+    logger.debug('validateGemaelde: errorMsg=%o', errorMsg);
     return Object.entries(errorMsg).length === 0 ? undefined : errorMsg;
 };
