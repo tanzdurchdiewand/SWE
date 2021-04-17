@@ -30,7 +30,7 @@ import {
     BuchNotExists,
     BuchService,
     BuchServiceError,
-    IsbnExists,
+    ZertifzierungExists,
     TitelExists,
     VersionInvalid,
     VersionOutdated,
@@ -337,7 +337,7 @@ export class BuchRequestHandler {
             return;
         }
 
-        if (err instanceof IsbnExists) {
+        if (err instanceof ZertifzierungExists) {
             this.handleIsbnExists(err.isbn, err.id, res);
         }
     }
