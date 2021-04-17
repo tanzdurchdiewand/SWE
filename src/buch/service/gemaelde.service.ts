@@ -22,17 +22,17 @@
  * @packageDocumentation
  */
 
-import type { Buch, BuchData } from '../entity';
+import type { Gemaelde, GemaeldeData } from '../entity';
 import {
-    BuchInvalid,
-    BuchNotExists,
-    BuchServiceError,
-    IsbnExists,
+    GemaeldeInvalid,
+    GemaeldeNotExists,
+    GemaeldeServiceError,
     TitelExists,
     VersionInvalid,
     VersionOutdated,
+    ZertifzierungExists,
 } from './errors';
-import { BuchModel, validateBuch } from '../entity';
+import { GemaeldeModel, validateGemaelde } from '../entity';
 import { cloud, logger, mailConfig } from '../../shared';
 import type { QueryOptions } from 'mongoose';
 import type { SendMailOptions } from 'nodemailer';
@@ -44,10 +44,10 @@ import type { SendMailOptions } from 'nodemailer';
 /* eslint-disable no-null/no-null, unicorn/no-useless-undefined, @typescript-eslint/no-unsafe-assignment */
 
 /**
- * Die Klasse `BuchService` implementiert den Anwendungskern für Bücher und
+ * Die Klasse `GemaeldeService` implementiert den Anwendungskern für Bücher und
  * greift mit _Mongoose_ auf MongoDB zu.
  */
-export class BuchService {
+export class GemaeldeService {
     private static readonly UPDATE_OPTIONS: QueryOptions = { new: true };
 
     // Rueckgabetyp Promise bei asynchronen Funktionen
@@ -63,27 +63,29 @@ export class BuchService {
     //              Im Promise-Objekt ist dann die Fehlerursache enthalten.
 
     /**
-     * Ein Buch asynchron anhand seiner ID suchen
-     * @param id ID des gesuchten Buches
-     * @returns Das gefundene Buch vom Typ {@linkcode BuchData} oder undefined
+     * Ein Gemaelde asynchron anhand seiner ID suchen
+     * @param id ID des gesuchten Gemaeldees
+     * @returns Das gefundene Gemaelde vom Typ {@linkcode GemaeldeData} oder undefined
      */
     async findById(id: string) {
-        logger.debug('BuchService.findById(): id=%s', id);
+        logger.debug('GemaeldeService.findById(): id=%s', id);
 
-        // ein Buch zur gegebenen ID asynchron mit Mongoose suchen
+        // ein Gemaelde zur gegebenen ID asynchron mit Mongoose suchen
         // Pattern "Active Record" (urspruengl. von Ruby-on-Rails)
         // Das Resultat ist null, falls nicht gefunden.
         // lean() liefert ein "Plain JavaScript Object" statt ein Mongoose Document,
         // so dass u.a. der virtuelle getter "id" auch nicht mehr vorhanden ist.
-        const buch = await BuchModel.findById(id).lean<BuchData | null>();
-        logger.debug('BuchService.findById(): buch=%o', buch);
+        const gemaelde = await GemaeldeModel.findById(
+            id,
+        ).lean<GemaeldeData | null>();
+        logger.debug('GemaeldeService.findById(): gemaelde=%o', gemaelde);
 
-        if (buch === null) {
+        if (gemaelde === null) {
             return undefined;
         }
 
-        this.deleteTimestamps(buch);
-        return buch;
+        this.deleteTimestamps(gemaelde);
+        return gemaelde;
     }
 
     /**
@@ -93,28 +95,28 @@ export class BuchService {
      */
     // eslint-disable-next-line max-lines-per-function
     async find(query?: any | undefined) {
-        logger.debug('BuchService.find(): query=%o', query);
+        logger.debug('GemaeldeService.find(): query=%o', query);
 
-        // alle Buecher asynchron suchen u. aufsteigend nach titel sortieren
+        // alle Gemaelde asynchron suchen u. aufsteigend nach titel sortieren
         // https://docs.mongodb.org/manual/reference/object-id
         // entries(): { titel: 'a', rating: 5 } => [{ titel: 'x'}, {rating: 5}]
         if (query === undefined || Object.entries(query).length === 0) {
-            logger.debug('BuchService.find(): alle Buecher');
+            logger.debug('GemaeldeService.find(): alle Gemaelde');
             // lean() liefert ein "Plain JavaScript Object" statt ein Mongoose Document
-            const buecher = await BuchModel.find()
+            const gemaelden = await GemaeldeModel.find()
                 .sort('titel')
-                .lean<BuchData[]>();
-            for await (const buch of buecher) {
-                this.deleteTimestamps(buch);
+                .lean<GemaeldeData[]>();
+            for await (const gemaelde of gemaelden) {
+                this.deleteTimestamps(gemaelde);
             }
-            return buecher;
+            return gemaelden;
         }
 
         // { titel: 'a', rating: 5, javascript: true }
         // Rest Properties
         const { titel, javascript, typescript, ...dbQuery } = query;
 
-        // Buecher zur Query (= JSON-Objekt durch Express) asynchron suchen
+        // Gemaelde zur Query (= JSON-Objekt durch Express) asynchron suchen
         // Titel in der Query: Teilstring des Titels,
         // d.h. "LIKE" als regulaerer Ausdruck
         // 'i': keine Unterscheidung zw. Gross- u. Kleinschreibung
@@ -127,165 +129,167 @@ export class BuchService {
         }
 
         // z.B. {javascript: true, typescript: true}
-        const schlagwoerter = [];
+        const kategorien = [];
         if (javascript === 'true') {
-            schlagwoerter.push('JAVASCRIPT');
+            kategorien.push('JAVASCRIPT');
         }
         if (typescript === 'true') {
-            schlagwoerter.push('TYPESCRIPT');
+            kategorien.push('TYPESCRIPT');
         }
-        if (schlagwoerter.length === 0) {
+        if (kategorien.length === 0) {
             delete dbQuery.schlagwoerter;
         } else {
-            dbQuery.schlagwoerter = schlagwoerter;
+            dbQuery.schlagwoerter = kategorien;
         }
 
-        logger.debug('BuchService.find(): dbQuery=%o', dbQuery);
+        logger.debug('GemaeldeService.find(): dbQuery=%o', dbQuery);
 
         // Pattern "Active Record" (urspruengl. von Ruby-on-Rails)
         // leeres Array, falls nichts gefunden wird
-        // BuchModel.findOne(query), falls das Suchkriterium eindeutig ist
+        // GemaeldeModel.findOne(query), falls das Suchkriterium eindeutig ist
         // bei findOne(query) wird null zurueckgeliefert, falls nichts gefunden
         // lean() liefert ein "Plain JavaScript Object" statt ein Mongoose Document
-        const buecher = await BuchModel.find(dbQuery).lean<BuchData[]>();
-        for await (const buch of buecher) {
-            this.deleteTimestamps(buch);
+        const buecher = await GemaeldeModel.find(dbQuery).lean<
+            GemaeldeData[]
+        >();
+        for await (const gemaelde of buecher) {
+            this.deleteTimestamps(gemaelde);
         }
 
         return buecher;
     }
 
     /**
-     * Ein neues Buch soll angelegt werden.
-     * @param buch Das neu abzulegende Buch
-     * @returns Die ID des neu angelegten Buches oder im Fehlerfall
-     * - {@linkcode BuchInvalid} falls die Buchdaten gegen Constraints verstoßen
+     * Ein neues Gemaelde soll angelegt werden.
+     * @param gemaelde Das neu abzulegende Gemaelde
+     * @returns Die ID des neu angelegten Gemaeldees oder im Fehlerfall
+     * - {@linkcode GemaeldeInvalid} falls die Gemaeldedaten gegen Constraints verstoßen
      * - {@linkcode IsbnExists} falls die ISBN-Nr bereits existiert
      * - {@linkcode TitelExists} falls der Titel bereits existiert
      */
     async create(
-        buch: Buch,
-    ): Promise<BuchInvalid | IsbnExists | TitelExists | string> {
-        logger.debug('BuchService.create(): buch=%o', buch);
-        const validateResult = await this.validateCreate(buch);
-        if (validateResult instanceof BuchServiceError) {
+        gemaelde: Gemaelde,
+    ): Promise<GemaeldeInvalid | TitelExists | ZertifzierungExists | string> {
+        logger.debug('GemaeldeService.create(): gemaelde=%o', gemaelde);
+        const validateResult = await this.validateCreate(gemaelde);
+        if (validateResult instanceof GemaeldeServiceError) {
             return validateResult;
         }
 
-        const buchModel = new BuchModel(buch);
-        const saved = await buchModel.save();
+        const gemaeldeModel = new GemaeldeModel(gemaelde);
+        const saved = await gemaeldeModel.save();
         const id = saved._id as string; // eslint-disable-line @typescript-eslint/non-nullable-type-assertion-style
-        logger.debug('BuchService.create(): id=%s', id);
+        logger.debug('GemaeldeService.create(): id=%s', id);
 
-        await this.sendmail(buch);
+        await this.sendmail(gemaelde);
 
         return id;
     }
 
     /**
-     * Ein vorhandenes Buch soll aktualisiert werden.
-     * @param buch Das zu aktualisierende Buch
+     * Ein vorhandenes Gemaelde soll aktualisiert werden.
+     * @param gemaelde Das zu aktualisierende Gemaelde
      * @param versionStr Die Versionsnummer für optimistische Synchronisation
      * @returns Die neue Versionsnummer gemäß optimistischer Synchronisation
      *  oder im Fehlerfall
-     *  - {@linkcode BuchInvalid}, falls Constraints verletzt sind
-     *  - {@linkcode BuchNotExists}, falls das Buch nicht existiert
+     *  - {@linkcode GemaeldeInvalid}, falls Constraints verletzt sind
+     *  - {@linkcode GemaeldeNotExists}, falls das Gemaelde nicht existiert
      *  - {@linkcode TitelExists}, falls der Titel bereits existiert
      *  - {@linkcode VersionInvalid}, falls die Versionsnummer ungültig ist
      *  - {@linkcode VersionOutdated}, falls die Versionsnummer nicht aktuell ist
      */
     async update(
-        buch: Buch,
+        gemaelde: Gemaelde,
         versionStr: string,
     ): Promise<
-        | BuchInvalid
-        | BuchNotExists
+        | GemaeldeInvalid
+        | GemaeldeNotExists
         | TitelExists
         | VersionInvalid
         | VersionOutdated
         | number
     > {
-        logger.debug('BuchService.update(): buch=%o', buch);
-        logger.debug('BuchService.update(): versionStr=%s', versionStr);
+        logger.debug('GemaeldeService.update(): gemaelde=%o', gemaelde);
+        logger.debug('GemaeldeService.update(): versionStr=%s', versionStr);
 
-        const validateResult = await this.validateUpdate(buch, versionStr);
-        if (validateResult instanceof BuchServiceError) {
+        const validateResult = await this.validateUpdate(gemaelde, versionStr);
+        if (validateResult instanceof GemaeldeServiceError) {
             return validateResult;
         }
 
         // findByIdAndReplace ersetzt ein Document mit ggf. weniger Properties
-        const buchModel = new BuchModel(buch);
+        const gemaeldeModel = new GemaeldeModel(gemaelde);
         // Weitere Methoden zum Aktualisieren:
-        //    Buch.findOneAndUpdate(update)
-        //    buch.updateOne(bedingung)
-        const updated = await BuchModel.findByIdAndUpdate(
-            buch._id,
-            buchModel,
-            BuchService.UPDATE_OPTIONS,
-        ).lean<BuchData | null>();
+        //    Gemaelde.findOneAndUpdate(update)
+        //    gemaelde.updateOne(bedingung)
+        const updated = await GemaeldeModel.findByIdAndUpdate(
+            gemaelde._id,
+            gemaeldeModel,
+            GemaeldeService.UPDATE_OPTIONS,
+        ).lean<GemaeldeData | null>();
         if (updated === null) {
-            return new BuchNotExists(buch._id);
+            return new GemaeldeNotExists(gemaelde._id);
         }
 
         const version = updated.__v as number; // eslint-disable-line @typescript-eslint/non-nullable-type-assertion-style
-        logger.debug('BuchService.update(): version=%d', version);
+        logger.debug('GemaeldeService.update(): version=%d', version);
 
         return Promise.resolve(version);
     }
 
     /**
-     * Ein Buch wird asynchron anhand seiner ID gelöscht.
+     * Ein Gemaelde wird asynchron anhand seiner ID gelöscht.
      *
-     * @param id ID des zu löschenden Buches
-     * @returns true, falls das Buch vorhanden war und gelöscht wurde. Sonst false.
+     * @param id ID des zu löschenden Gemaeldees
+     * @returns true, falls das Gemaelde vorhanden war und gelöscht wurde. Sonst false.
      */
     async delete(id: string) {
-        logger.debug('BuchService.delete(): id=%s', id);
+        logger.debug('GemaeldeService.delete(): id=%s', id);
 
-        // Das Buch zur gegebenen ID asynchron loeschen
-        const deleted = await BuchModel.findByIdAndDelete(id).lean();
-        logger.debug('BuchService.delete(): deleted=%o', deleted);
+        // Das Gemaelde zur gegebenen ID asynchron loeschen
+        const deleted = await GemaeldeModel.findByIdAndDelete(id).lean();
+        logger.debug('GemaeldeService.delete(): deleted=%o', deleted);
         return deleted !== null;
 
         // Weitere Methoden von mongoose, um zu loeschen:
-        //  Buch.findByIdAndRemove(id)
-        //  Buch.findOneAndRemove(bedingung)
+        //  Gemaelde.findByIdAndRemove(id)
+        //  Gemaelde.findOneAndRemove(bedingung)
     }
 
-    private deleteTimestamps(buch: BuchData) {
-        delete buch.createdAt;
-        delete buch.updatedAt;
+    private deleteTimestamps(gemaelde: GemaeldeData) {
+        delete gemaelde.createdAt;
+        delete gemaelde.updatedAt;
     }
 
-    private async validateCreate(buch: Buch) {
-        const msg = validateBuch(buch);
+    private async validateCreate(gemaelde: Gemaelde) {
+        const msg = validateGemaelde(gemaelde);
         if (msg !== undefined) {
             logger.debug(
-                'BuchService.validateCreate(): Validation Message: %o',
+                'GemaeldeService.validateCreate(): Validation Message: %o',
                 msg,
             );
-            return new BuchInvalid(msg);
+            return new GemaeldeInvalid(msg);
         }
 
         // statt 2 sequentiellen DB-Zugriffen waere 1 DB-Zugriff mit OR besser
 
-        const { titel } = buch;
+        const { titel } = gemaelde;
         // eslint-disable-next-line security/detect-non-literal-fs-filename
-        if (await BuchModel.exists({ titel })) {
+        if (await GemaeldeModel.exists({ titel })) {
             return new TitelExists(titel);
         }
 
-        const { isbn } = buch;
+        const { zertifizierung } = gemaelde;
         // eslint-disable-next-line security/detect-non-literal-fs-filename
-        if (await BuchModel.exists({ isbn })) {
-            return new IsbnExists(isbn);
+        if (await GemaeldeModel.exists({ zertifizierung })) {
+            return new ZertifzierungExists(zertifizierung);
         }
 
-        logger.debug('BuchService.validateCreate(): ok');
+        logger.debug('GemaeldeService.validateCreate(): ok');
         return undefined;
     }
 
-    private async sendmail(buch: Buch) {
+    private async sendmail(gemaelde: Gemaelde) {
         if (cloud !== undefined || mailConfig.host === 'skip') {
             // In der Cloud kann man z.B. "@sendgrid/mail" statt
             // "nodemailer" mit lokalem Mailserver verwenden
@@ -294,8 +298,8 @@ export class BuchService {
 
         const from = '"Joe Doe" <Joe.Doe@acme.com>';
         const to = '"Foo Bar" <Foo.Bar@acme.com>';
-        const subject = `Neues Buch ${buch._id}`;
-        const body = `Das Buch mit dem Titel <strong>${buch.titel}</strong> ist angelegt`;
+        const subject = `Neues Gemaelde ${gemaelde._id}`;
+        const body = `Das Gemaelde mit dem Titel <strong>${gemaelde.titel}</strong> ist angelegt`;
 
         const data: SendMailOptions = { from, to, subject, html: body };
         logger.debug('sendMail(): data=%o', data);
@@ -305,45 +309,45 @@ export class BuchService {
             await nodemailer.createTransport(mailConfig).sendMail(data);
         } catch (err: unknown) {
             logger.error(
-                'BuchService.create(): Fehler beim Verschicken der Email: %o',
+                'GemaeldeService.create(): Fehler beim Verschicken der Email: %o',
                 err,
             );
         }
     }
 
-    private async validateUpdate(buch: Buch, versionStr: string) {
+    private async validateUpdate(gemaelde: Gemaelde, versionStr: string) {
         const result = this.validateVersion(versionStr);
         if (typeof result !== 'number') {
             return result;
         }
 
         const version = result;
-        logger.debug('BuchService.validateUpdate(): version=%d', version);
-        logger.debug('BuchService.validateUpdate(): buch=%o', buch);
+        logger.debug('GemaeldeService.validateUpdate(): version=%d', version);
+        logger.debug('GemaeldeService.validateUpdate(): gemaelde=%o', gemaelde);
 
-        const validationMsg = validateBuch(buch);
+        const validationMsg = validateGemaelde(gemaelde);
         if (validationMsg !== undefined) {
-            return new BuchInvalid(validationMsg);
+            return new GemaeldeInvalid(validationMsg);
         }
 
-        const resultTitel = await this.checkTitelExists(buch);
-        if (resultTitel !== undefined && resultTitel.id !== buch._id) {
+        const resultTitel = await this.checkTitelExists(gemaelde);
+        if (resultTitel !== undefined && resultTitel.id !== gemaelde._id) {
             return resultTitel;
         }
 
-        if (buch._id === undefined) {
-            return new BuchNotExists(undefined);
+        if (gemaelde._id === undefined) {
+            return new GemaeldeNotExists(undefined);
         }
 
         const resultIdAndVersion = await this.checkIdAndVersion(
-            buch._id,
+            gemaelde._id,
             version,
         );
         if (resultIdAndVersion !== undefined) {
             return resultIdAndVersion;
         }
 
-        logger.debug('BuchService.validateUpdate(): ok');
+        logger.debug('GemaeldeService.validateUpdate(): ok');
         return undefined;
     }
 
@@ -351,7 +355,7 @@ export class BuchService {
         if (versionStr === undefined) {
             const error = new VersionInvalid(versionStr);
             logger.debug(
-                'BuchService.validateVersion(): VersionInvalid=%o',
+                'GemaeldeService.validateVersion(): VersionInvalid=%o',
                 error,
             );
             return error;
@@ -361,7 +365,7 @@ export class BuchService {
         if (Number.isNaN(version)) {
             const error = new VersionInvalid(versionStr);
             logger.debug(
-                'BuchService.validateVersion(): VersionInvalid=%o',
+                'GemaeldeService.validateVersion(): VersionInvalid=%o',
                 error,
             );
             return error;
@@ -370,38 +374,43 @@ export class BuchService {
         return version;
     }
 
-    private async checkTitelExists(buch: Buch) {
-        const { titel } = buch;
+    private async checkTitelExists(gemaelde: Gemaelde) {
+        const { titel } = gemaelde;
 
         // Pattern "Active Record" (urspruengl. von Ruby-on-Rails)
-        const result = await BuchModel.findOne({ titel }, { _id: true }).lean();
+        const result = await GemaeldeModel.findOne(
+            { titel },
+            { _id: true },
+        ).lean();
         if (result !== null) {
             const id = result._id;
-            logger.debug('BuchService.checkTitelExists(): _id=%s', id);
+            logger.debug('GemaeldeService.checkTitelExists(): _id=%s', id);
             return new TitelExists(titel, id);
         }
 
-        logger.debug('BuchService.checkTitelExists(): ok');
+        logger.debug('GemaeldeService.checkTitelExists(): ok');
         return undefined;
     }
 
     private async checkIdAndVersion(id: string, version: number) {
-        const buchDb: BuchData | null = await BuchModel.findById(id).lean();
-        if (buchDb === null) {
-            const result = new BuchNotExists(id);
+        const gemaeldeDb: GemaeldeData | null = await GemaeldeModel.findById(
+            id,
+        ).lean();
+        if (gemaeldeDb === null) {
+            const result = new GemaeldeNotExists(id);
             logger.debug(
-                'BuchService.checkIdAndVersion(): BuchNotExists=%o',
+                'GemaeldeService.checkIdAndVersion(): GemaeldeNotExists=%o',
                 result,
             );
             return result;
         }
 
         // nullish coalescing
-        const versionDb = buchDb.__v ?? 0;
+        const versionDb = gemaeldeDb.__v ?? 0;
         if (version < versionDb) {
             const result = new VersionOutdated(id, version);
             logger.debug(
-                'BuchService.checkIdAndVersion(): VersionOutdated=%o',
+                'GemaeldeService.checkIdAndVersion(): VersionOutdated=%o',
                 result,
             );
             return result;

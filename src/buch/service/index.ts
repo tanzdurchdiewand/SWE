@@ -16,13 +16,13 @@
  */
 
 /**
- * Das Modul besteht aus den Klassen {@linkcode BuchFileService} und
- * {@linkcode BuchService}, um Bücher und ihre zugehörige Binärdateien in
+ * Das Modul besteht aus den Klassen {@linkcode GemaeldeFileService} und
+ * {@linkcode GemaeldeService}, um Bücher und ihre zugehörige Binärdateien in
  * MongoDB abzuspeichern, auszulesen, zu ändern und zu löschen einschließlich
  * der Klassen für die Fehlerbehandlung.
  * @packageDocumentation
  */
 
-export * from './buch-file.service';
-export * from './buch.service';
+export * from './gemaelde-file.service';
+export * from './gemaelde.service';
 export * from './errors';
