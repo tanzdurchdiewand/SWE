@@ -16,12 +16,11 @@
  */
 
 /**
- * Das Modul besteht aus Interfaces, Klassen und Funktionen für Bücher als
+ * Das Modul besteht aus Interfaces, Klassen und Funktionen für Gemaelde als
  * _Entity_ gemäß _Domain Driven Design_. Dazu gehört auch die Validierung.
  * @packageDocumentation
  */
 
-export { Buch, BuchArt, BuchData, Verlag } from './buch';
-export { BuchDocument, BuchModel, buchSchema } from './buch.model';
-export { MAX_RATING } from './jsonSchema';
-export { ValidationErrorMsg, validateBuch } from './validateBuch';
+export { Gemaelde, GemaeldeArt, GemaeldeData, Haendler } from './gemaelde';
+export { GemaeldeDocument, GemaeldeModel, gemaeldeSchema } from './gemaelde.model';
+export { ValidationErrorMsg, validateGemaelde } from './validateGemaelde';

@@ -20,7 +20,7 @@
  * @packageDocumentation
  */
 
-import type { Buch, BuchArt, Verlag } from './buch';
+import type { Buch, BuchArt, Verlag } from './gemaelde';
 import { Document, Schema, SchemaType, model } from 'mongoose';
 import { autoIndex, logColorConsole } from '../../shared';
 import type { Model } from 'mongoose';

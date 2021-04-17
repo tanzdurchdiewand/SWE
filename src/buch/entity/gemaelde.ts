@@ -16,27 +16,29 @@
  */
 
 /**
- * Das Modul besteht aus dem Interface {@linkcode BuchData} und der Klasse
- * {@linkcode BuchDocument} für Mongoose. Aus dem Interface {@linkcode BuchData}
- * ist das Interface {@linkcode Buch} extrahiert, das an der REST- und
+ * Das Modul besteht aus dem Interface {@linkcode GemaeldeData} und der Klasse
+ * {@linkcode GemaeldeDocument} für Mongoose. Aus dem Interface {@linkcode GemaeldeData}
+ * ist das Interface {@linkcode Gemaelde} extrahiert, das an der REST- und
  * GraphQL-Schnittstelle verwendet wird.
  * @packageDocumentation
  */
 
 /**
- * Alias-Typ für gültige Strings bei Verlagen.
+ * Alias-Typ für gültige Strings bei Haendlern.
  */
-export type Verlag = 'BAR_VERLAG' | 'FOO_VERLAG';
+export type Haendler = 'BAR_VERLAG' | 'FOO_VERLAG';
 
 /**
- * Alias-Typ für gültige Strings bei der Art eines Buches.
+ * Alias-Typ für gültige Strings bei der Art eines Gemaeldes.
  */
-export type BuchArt = 'DRUCKAUSGABE' | 'KINDLE';
+export type GemaeldeArt = 'OELGEMAELDE' | 'SIEBDRUCK'| 'WASSERFARBENGEMAELDE';
+
+export type Bewertung = 'AAA' | 'AA'| 'A'|'BBB' | 'BB'| 'B';
 
 /**
  * Gemeinsames Interface für _REST_, _GraphQL_ und _Mongoose_.
  */
-export interface Buch {
+export interface Gemaelde {
     // _id und __v werden bei REST durch HATEOAS und ETag abgedeckt
     // und deshalb beim Response entfernt.
     // Ausserdem wird _id bei einem POST-Request generiert
@@ -45,26 +47,25 @@ export interface Buch {
     __v?: number; // eslint-disable-line @typescript-eslint/naming-convention
 
     readonly titel: string | null | undefined;
-    readonly rating: number | null | undefined;
-    readonly art: BuchArt | '' | null | undefined;
-    readonly verlag: Verlag | '' | null | undefined;
-    readonly preis: number | undefined;
-    readonly rabatt: number | undefined;
-    readonly lieferbar: boolean | undefined;
+    readonly beschreibung: string | null | undefined; 
+    readonly gemaeldeart: GemaeldeArt | '' | null | undefined;
+    readonly haendler: Haendler | '' | null | undefined;
+    readonly wert: number | undefined;
+    readonly ausgestellt: boolean | undefined;
 
     // string bei REST und Date bei GraphQL sowie Mongoose
     datum: Date | string | undefined;
 
-    readonly isbn: string | null | undefined;
-    readonly homepage: string | null | undefined;
-    readonly schlagwoerter?: string[];
-    readonly autoren: unknown;
+    readonly zertifizierung: string | null | undefined;
+    readonly kategorien?: string[];
+    readonly kuenstler: unknown;
+    readonly bewertung: Bewertung | '' | null | undefined;
 }
 
 /**
  * Interface für die Rohdaten aus MongoDB durch die _Mongoose_-Funktion `lean()`.
  */
-export interface BuchData extends Buch {
+export interface GemaeldeData extends Gemaelde {
     // Zeitstempel fuer die MongoDB-Dokumente:
     // wird bei der Rueckgabe aus dem Anwendungskern entfernt
     createdAt?: Date;
