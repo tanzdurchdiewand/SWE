@@ -22,7 +22,7 @@
 
 import type { Request, Response } from 'express';
 import { BuchService } from '../service/buch.service';
-import { logger } from './../../shared/logger';
+import { logger } from '../../shared/logger';
 
 const buchService = new BuchService();
 

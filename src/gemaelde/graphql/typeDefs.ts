@@ -45,71 +45,77 @@ import { gql } from 'apollo-server-express';
  * und für die Formatierung durch Prettier verwendet.
  */
 export const typeDefs = gql`
-    "Enum-Typ fuer die Art eines Buches"
-    enum Art {
-        DRUCKAUSGABE
-        KINDLE
+    "Enum-Typ fuer die Art eines Gemäldes"
+    enum GemaeldeArt {
+        OElGEMAELEDE
+        SIEBDRUCK
+        WASSERFARBENGEMAELDE
     }
 
-    "Enum-Typ fuer den Verlag eines Buches"
-    enum Verlag {
-        FOO_VERLAG
-        BAR_VERLAG
+    "Enum-Typ fuer den Verlag eines Gemäldes"
+    enum Haendler {
+        BAR_HAENDLER
+        FOO_HAENDLER
     }
 
-    "Datenschema eines Buches, das empfangen oder gesendet wird"
-    type Buch {
+    "Enum-Typ fuer den Verlag eines Gemäldes"
+    enum Bewertung {
+        A
+        AA
+        AAA
+        B
+        C
+    }
+    "Datenschema eines Gemäldes, das empfangen oder gesendet wird"
+    type Gemaelde {
         id: ID!
         version: Int
         titel: String!
-        rating: Int
-        art: Art
-        verlag: Verlag!
-        preis: Float
-        rabatt: Float
-        lieferbar: Boolean
+        beschreibung: String
+        bewertung: Bewertung
+        art: GemaeldeArt
+        haendler: Haendler!
+        wert: Float
+        ausgestellt: Boolean
         datum: String
-        isbn: String
-        homepage: String
-        schlagwoerter: [String]
+        zertifizierung: String
+        kategorien: [String]
     }
 
     "Funktionen, um Buecher zu empfangen"
     type Query {
-        buecher(titel: String): [Buch]
-        buch(id: ID!): Buch
+        gemaelden(titel: String): [Gemaelde]
+        gemaelde(id: ID!): Gemaelde
     }
 
     "Funktionen, um Buecher anzulegen, zu aktualisieren oder zu loeschen"
     type Mutation {
-        createBuch(
+        createGemaelde(
             titel: String!
-            rating: Int
+            beschreibung: String
+            bewertung: String
             art: String
-            verlag: String!
-            preis: Float
-            rabatt: Float
-            lieferbar: Boolean
+            haendler: String!
+            wert: Float
+            ausgestellt: Boolean
             datum: String
-            isbn: String
-            homepage: String
-            schlagwoerter: [String]
+            zertifizierung: String
+            kategorien: [String]
         ): String
-        updateBuch(
+        updateGemaelde(
             _id: ID
             titel: String!
-            rating: Int
+            beschreibung: String
+            bewertung: String
             art: String
-            verlag: String!
-            preis: Float
-            rabatt: Float
-            lieferbar: Boolean
+            haendler: String!
+            wert: Float
+            ausgestellt: Boolean
             datum: String
-            isbn: String
-            homepage: String
-            schlagwoerter: [String]
+            zertifizierung: String
+            kategorien: [String]
             version: Int
         ): Int
-        deleteBuch(id: ID!): Boolean
+        deleteGemaelde(id: ID!): Boolean
     }
 `;

@@ -44,7 +44,7 @@ if (logColorConsole) {
 export class GemaeldeDocument extends Document<string> implements Gemaelde {
     readonly titel: string | null | undefined;
 
-    readonly beschreibung: string| null | undefined;
+    readonly beschreibung: string | null | undefined;
 
     readonly bewertung: Bewertung | null | undefined;
 
