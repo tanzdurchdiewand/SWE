@@ -20,8 +20,8 @@
  * @packageDocumentation
  */
 
-import type { Buch, BuchArt, Verlag } from './buch';
 import { Document, Schema, SchemaType, model } from 'mongoose';
+import type { Bewertung, Gemaelde, GemaeldeArt, Haendler } from './gemaelde';
 import { autoIndex, logColorConsole } from '../../shared';
 import type { Model } from 'mongoose';
 // RFC version 1: timestamps            https://github.com/uuidjs/uuid#uuidv1options-buffer-offset
@@ -39,32 +39,30 @@ if (logColorConsole) {
 
 /**
  * Document-Klasse für _Mongoose_ mit `_id` vom Typ `string` und passend zum
- * Interface {@linkcode Buch}
+ * Interface {@linkcode Gemaelde}
  */
-export class BuchDocument extends Document<string> implements Buch {
+export class GemaeldeDocument extends Document<string> implements Gemaelde {
     readonly titel: string | null | undefined;
 
-    readonly rating: number | null | undefined;
+    readonly beschreibung: string| null | undefined;
 
-    readonly art: BuchArt | '' | null | undefined;
+    readonly bewertung: Bewertung | null | undefined;
 
-    readonly verlag: Verlag | '' | null | undefined;
+    readonly art: GemaeldeArt | '' | null | undefined;
 
-    readonly preis: number | undefined;
+    readonly haendler: Haendler | '' | null | undefined;
 
-    readonly rabatt: number | undefined;
+    readonly wert: number | undefined;
 
-    readonly lieferbar: boolean | undefined;
+    readonly ausgestaelt: boolean | undefined;
 
     readonly datum: Date | string | undefined;
 
-    readonly isbn: string | null | undefined;
+    readonly zertifizierung: string | null | undefined;
 
-    readonly homepage: string | null | undefined;
+    readonly kategorien?: string[];
 
-    readonly schlagwoerter?: string[];
-
-    readonly autoren: unknown;
+    readonly kuenstler: unknown;
 
     readonly createdAt?: number;
 
@@ -82,32 +80,37 @@ export class BuchDocument extends Document<string> implements Buch {
  * Das Schema für Mongoose, das dem Schema bei einem relationalen DB-System
  * entspricht, welches durch `CREATE TABLE`, `CREATE INDEX` usw. entsteht.
  */
-export const buchSchema = new Schema<BuchDocument, Model<BuchDocument>>(
+export const gemaeldeSchema = new Schema<
+    GemaeldeDocument,
+    Model<GemaeldeDocument>
+>(
     {
         // MongoDB erstellt implizit einen Index fuer _id
         // mongoose-id-assigner hat geringe Download-Zahlen und
         // uuid-mongodb hat keine Typ-Definitionen fuer TypeScript
         _id: { type: String, default: uuid },
         titel: { type: String, required: true, unique: true },
-        rating: { type: Number, min: 0, max: 5 },
-        art: { type: String, enum: ['DRUCKAUSGABE', 'KINDLE'] },
-        verlag: {
+        beschreibung: { type: String, required: true },
+        bewertung: { type: String, enum: ['AAA', 'AA', 'A', 'B', 'C'] },
+        art: {
+            type: String,
+            enum: ['OElGEMAELEDE', 'SIEBDRUCK', 'WASSERFARBENGEMAELDE'],
+        },
+        haendler: {
             type: String,
             required: true,
-            enum: ['FOO_VERLAG', 'BAR_VERLAG'],
+            enum: ['FOO_HAENDLER', 'BAR_HAENDLER'],
             // es gibt auch
             //  lowercase: true
             //  uppercase: true
         },
-        preis: { type: Number, required: true },
-        rabatt: Number,
-        lieferbar: Boolean,
+        wert: { type: Number, required: true },
+        ausgestellt: Boolean,
         datum: Date,
         isbn: { type: String, required: true, unique: true, immutable: true },
-        homepage: String,
-        schlagwoerter: { type: [String], sparse: true },
+        kategorien: { type: [String], sparse: true },
         // "anything goes"
-        autoren: [{}],
+        kuenstler: [{}],
     },
     {
         // default: virtueller getter "id"
@@ -124,7 +127,9 @@ export const buchSchema = new Schema<BuchDocument, Model<BuchDocument>>(
 // Optimistische Synchronisation durch das Feld __v fuer die Versionsnummer
 // https://mongoosejs.com/docs/guide.html#versionKey
 // https://github.com/Automattic/mongoose/issues/1265
-const optimistic = (schema: Schema<BuchDocument, Model<BuchDocument>>) => {
+const optimistic = (
+    schema: Schema<GemaeldeDocument, Model<GemaeldeDocument>>,
+) => {
     schema.pre('findOneAndUpdate', function () {
         // UpdateQuery ist abgeleitet von ReadonlyPartial<Schema<...>>
         const update = this.getUpdate(); // eslint-disable-line @typescript-eslint/no-invalid-this
@@ -157,11 +162,14 @@ const optimistic = (schema: Schema<BuchDocument, Model<BuchDocument>>) => {
     });
 };
 
-buchSchema.plugin(optimistic);
+gemaeldeSchema.plugin(optimistic);
 
 /**
  * Ein Model ist ein übersetztes Schema und stellt die CRUD-Operationen für
  * die Dokumente bereit, d.h. das Pattern _Active Record_ wird realisiert.
  * Der Name des Models wird als Name für die Collection in MongoDB verwendet.
  */
-export const BuchModel = model<BuchDocument>('Buch', buchSchema); // eslint-disable-line @typescript-eslint/naming-convention
+export const GemaeldeModel = model<GemaeldeDocument>( // eslint-disable-line @typescript-eslint/naming-convention
+    'Gemaelde',
+    gemaeldeSchema,
+);

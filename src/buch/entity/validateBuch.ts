@@ -25,7 +25,7 @@
 
 // https://github.com/ajv-validator/ajv/blob/master/docs/validation.md
 import Ajv from 'ajv/dist/2019';
-import type { Buch } from './buch';
+import type { Buch } from './gemaelde';
 import addFormats from 'ajv-formats';
 import ajvErrors from 'ajv-errors';
 import { jsonSchema } from './jsonSchema';

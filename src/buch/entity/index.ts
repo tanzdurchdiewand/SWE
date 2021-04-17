@@ -21,7 +21,7 @@
  * @packageDocumentation
  */
 
-export { Buch, BuchArt, BuchData, Verlag } from './buch';
-export { BuchDocument, BuchModel, buchSchema } from './buch.model';
+export { Buch, BuchArt, BuchData, Verlag } from './gemaelde';
+export { BuchDocument, BuchModel, buchSchema } from './gemaelde.model';
 export { MAX_RATING } from './jsonSchema';
 export { ValidationErrorMsg, validateBuch } from './validateBuch';
