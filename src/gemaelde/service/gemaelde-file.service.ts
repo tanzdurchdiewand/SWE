@@ -140,9 +140,9 @@ export class GemaeldeFileService {
 
         // Gibt es ein Gemaelde mit dem gegebenen "filename" als ID?
         // eslint-disable-next-line line-comment-position, spaced-comment
-        const buch = await GemaeldeModel.findById(filename); //NOSONAR
+        const gemaelde = await GemaeldeModel.findById(filename); //NOSONAR
         // eslint-disable-next-line no-null/no-null
-        if (buch === null) {
+        if (gemaelde === null) {
             const result = new GemaeldeNotExists(filename);
             logger.debug(
                 'GemaeldeFileService.checkFilename(): GemaeldeNotExists=%o',
@@ -151,7 +151,7 @@ export class GemaeldeFileService {
             return result;
         }
 
-        logger.debug('GemaeldeFileService.checkFilename(): buch=%o', buch);
+        logger.debug('GemaeldeFileService.checkFilename(): buch=%o', gemaelde);
 
         return undefined;
     }

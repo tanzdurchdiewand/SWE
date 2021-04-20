@@ -30,7 +30,7 @@ import {
     TitelExists,
     VersionInvalid,
     VersionOutdated,
-    ZertifzierungExists,
+    ZertifizierungExists,
 } from './errors';
 import { GemaeldeModel, validateGemaelde } from '../entity';
 import { cloud, logger, mailConfig } from '../../shared';
@@ -164,12 +164,12 @@ export class GemaeldeService {
      * @param gemaelde Das neu abzulegende Gemaelde
      * @returns Die ID des neu angelegten Gemaeldees oder im Fehlerfall
      * - {@linkcode GemaeldeInvalid} falls die Gemaeldedaten gegen Constraints verstoßen
-     * - {@linkcode IsbnExists} falls die ISBN-Nr bereits existiert
+     * - {@linkcode ZertifizierungExists} falls die ISBN-Nr bereits existiert
      * - {@linkcode TitelExists} falls der Titel bereits existiert
      */
     async create(
         gemaelde: Gemaelde,
-    ): Promise<GemaeldeInvalid | TitelExists | ZertifzierungExists | string> {
+    ): Promise<GemaeldeInvalid | TitelExists | ZertifizierungExists | string> {
         logger.debug('GemaeldeService.create(): gemaelde=%o', gemaelde);
         const validateResult = await this.validateCreate(gemaelde);
         if (validateResult instanceof GemaeldeServiceError) {
@@ -282,7 +282,7 @@ export class GemaeldeService {
         const { zertifizierung } = gemaelde;
         // eslint-disable-next-line security/detect-non-literal-fs-filename
         if (await GemaeldeModel.exists({ zertifizierung })) {
-            return new ZertifzierungExists(zertifizierung);
+            return new ZertifizierungExists(zertifizierung);
         }
 
         logger.debug('GemaeldeService.validateCreate(): ok');
