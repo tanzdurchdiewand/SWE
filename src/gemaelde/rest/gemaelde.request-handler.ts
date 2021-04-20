@@ -31,10 +31,10 @@ import {
     GemaeldeNotExists,
     GemaeldeService,
     GemaeldeServiceError,
-    IsbnExists,
     TitelExists,
     VersionInvalid,
     VersionOutdated,
+    ZertifizierungExists,
 } from '../service';
 import { HttpStatus, getBaseUri, logger, mimeConfig } from '../../shared';
 import type { Request, Response } from 'express';
@@ -182,9 +182,7 @@ export class GemaeldeRequestHandler {
             // HATEOAS: Atom Links je Gemaelde
             const gemaeldeHAL: GemaeldeHAL = gemaelde;
             // eslint-disable-next-line no-underscore-dangle
-            gemaeldeHAL._links = {
-                self: { href: `${baseUri}/${gemaelde._id}` },
-            };
+            gemaeldeHAL._links = {self: { href: `${baseUri}/${gemaelde._id}` },};
 
             delete gemaelde._id;
             delete gemaelde.__v;
@@ -347,7 +345,7 @@ export class GemaeldeRequestHandler {
             return;
         }
 
-        if (err instanceof IsbnExists) {
+        if (err instanceof ZertifizierungExists) {
             this.handleIsbnExists(err.isbn, err.id, res);
         }
     }
