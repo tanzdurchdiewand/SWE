@@ -20,7 +20,7 @@ import { HttpStatus, nodeConfig } from '../../../src/shared';
 import { afterAll, beforeAll, describe, test } from '@jest/globals';
 import fetch, { Headers, Request } from 'node-fetch';
 import type { AddressInfo } from 'net';
-import type { Buch } from '../../../src/buch/entity';
+import type { Gemaelde } from '../../../src/gemaelde/entity';
 import { PATHS } from '../../../src/app';
 import RE2 from 're2';
 import type { Server } from 'http';
@@ -40,46 +40,43 @@ const { expect } = chai;
 // -----------------------------------------------------------------------------
 // T e s t d a t e n
 // -----------------------------------------------------------------------------
-const neuesBuch: Buch = {
+const neuesGemaelde: Gemaelde = {
     titel: 'Neu',
-    rating: 1,
-    art: 'DRUCKAUSGABE',
-    verlag: 'FOO_VERLAG',
-    preis: 99.99,
-    rabatt: 0.099,
-    lieferbar: true,
+    beschreibung: 'Schönes Bild',
+    art: 'SIEBDRUCK',
+    haendler: 'BAR_HAENDLER',
+    bewertung: 'AAA',
+    wert: 99.99,
+    ausgestellt: true,
     datum: '2016-02-28',
-    isbn: '0-0070-0644-6',
-    homepage: 'https://test.de/',
-    schlagwoerter: ['JAVASCRIPT', 'TYPESCRIPT'],
-    autoren: [{ nachname: 'Test', vorname: 'Theo' }],
+    zertifizierung: '0-0070-0644-6',
+    kategorien: ['Antik'],
+    kuenstler: [{ nachname: 'Test', vorname: 'Theo' }],
 };
-const neuesBuchInvalid: object = {
+const neuesGemaeldeInvalid: object = {
     titel: 'Blabla',
-    rating: -1,
+    beschreibung: true,
     art: 'UNSICHTBAR',
-    verlag: 'NO_VERLAG',
-    preis: 0,
-    rabatt: 0,
-    lieferbar: true,
+    haendler: 'NO_VERLAG',
+    wert: -5,
+    ausgestellt: true,
     datum: '12345-123-123',
-    isbn: 'falsche-ISBN',
-    autoren: [{ nachname: 'Test', vorname: 'Theo' }],
-    schlagwoerter: [],
+    zertifizierung: 'falsche-ISGN',
+    kuenstler: [{ nachname: 'Test', vorname: 'Theo' }],
+    kategorien: [],
 };
-const neuesBuchTitelExistiert: Buch = {
-    titel: 'Alpha',
-    rating: 1,
-    art: 'DRUCKAUSGABE',
-    verlag: 'FOO_VERLAG',
-    preis: 99.99,
-    rabatt: 0.099,
-    lieferbar: true,
+const neuesGemaeldeTitelExistiert: Gemaelde = {
+    titel: 'DerSchrei',
+    beschreibung: "Schön",
+    art: 'OElGEMAELEDE',
+    haendler: 'BAR_HAENDLER',
+    bewertung: 'AAA',
+    wert: 99.99,
+    ausgestellt: true,
     datum: '2016-02-28',
-    isbn: '0-0070-9732-8',
-    homepage: 'https://test.de/',
-    autoren: [{ nachname: 'Test', vorname: 'Theo' }],
-    schlagwoerter: ['JAVASCRIPT', 'TYPESCRIPT'],
+    zertifizierung: '3897225831',
+    kuenstler: [{ nachname: 'Munch', vorname: 'Edvard' }],
+    kategorien: ['Expressionismus'],
 };
 
 // -----------------------------------------------------------------------------
@@ -106,7 +103,7 @@ describe('POST /api/buecher', () => {
     // close(callback?: (err?: Error) => void): this
     afterAll(() => { server.close() });
 
-    test('Neues Buch', async () => {
+    test('Neues Gemaelde', async () => {
         // given
         const token = await login(loginUri);
 
@@ -114,7 +111,7 @@ describe('POST /api/buecher', () => {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
         });
-        const body = JSON.stringify(neuesBuch);
+        const body = JSON.stringify(neuesGemaelde);
         const request = new Request(buecherUri, {
             method: HttpMethod.POST,
             headers,
@@ -148,14 +145,14 @@ describe('POST /api/buecher', () => {
         expect(responseBody).to.be.empty;
     });
 
-    test('Neues Buch mit ungueltigen Daten', async () => {
+    test('Neues Gemaelde mit ungueltigen Daten', async () => {
         // given
         const token = await login(loginUri);
         const headers = new Headers({
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
         });
-        const body = JSON.stringify(neuesBuchInvalid);
+        const body = JSON.stringify(neuesGemaeldeInvalid);
         const request = new Request(buecherUri, {
             method: HttpMethod.POST,
             headers,
@@ -171,24 +168,24 @@ describe('POST /api/buecher', () => {
         const { art, rating, verlag, datum, isbn } = await response.json();
 
         expect(art).to.be.equal(
-            'Die Art eines Buches muss KINDLE oder DRUCKAUSGABE sein.',
+            'Die Art eines Gemaeldes muss KINDLE oder DRUCKAUSGABE sein.',
         );
         expect(rating).to.be.equal('Eine Bewertung muss zwischen 0 und 5 liegen.');
         expect(verlag).to.be.equal(
-            'Der Verlag eines Buches muss FOO_VERLAG oder BAR_VERLAG sein.',
+            'Der Verlag eines Gemaeldes muss FOO_VERLAG oder BAR_VERLAG sein.',
         );
         expect(datum).to.be.equal('Das Datum muss im Format yyyy-MM-dd sein.');
         expect(isbn).to.be.equal('Die ISBN-Nummer ist nicht korrekt.');
     });
 
-    test('Neues Buch, aber der Titel existiert bereits', async () => {
+    test('Neues Gemaelde, aber der Titel existiert bereits', async () => {
         // given
         const token = await login(loginUri);
         const headers = new Headers({
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
         });
-        const body = JSON.stringify(neuesBuchTitelExistiert);
+        const body = JSON.stringify(neuesGemaeldeTitelExistiert);
         const request = new Request(buecherUri, {
             method: HttpMethod.POST,
             headers,
@@ -205,10 +202,10 @@ describe('POST /api/buecher', () => {
         expect(responseBody).has.string('Titel');
     });
 
-    test('Neues Buch, aber ohne Token', async () => {
+    test('Neues Gemaelde, aber ohne Token', async () => {
         // given
         const headers = new Headers({ 'Content-Type': 'application/json' });
-        const body = JSON.stringify(neuesBuchTitelExistiert);
+        const body = JSON.stringify(neuesGemaeldeTitelExistiert);
         const request = new Request(buecherUri, {
             method: HttpMethod.POST,
             headers,
@@ -225,14 +222,14 @@ describe('POST /api/buecher', () => {
         expect(responseBody).to.be.equalIgnoreCase('unauthorized');
     });
 
-    test('Neues Buch, aber mit falschem Token', async () => {
+    test('Neues Gemaelde, aber mit falschem Token', async () => {
         // given
         const token = 'FALSCH';
         const headers = new Headers({
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
         });
-        const body = JSON.stringify(neuesBuch);
+        const body = JSON.stringify(neuesGemaelde);
         const request = new Request(buecherUri, {
             method: HttpMethod.POST,
             headers,

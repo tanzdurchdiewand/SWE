@@ -89,9 +89,9 @@ export class GemaeldeService {
     }
 
     /**
-     * Bücher asynchron suchen.
+     * Gemälde asynchron suchen.
      * @param query Die DB-Query als JSON-Objekt
-     * @returns Ein JSON-Array mit den gefundenen Büchern. Ggf. ist das Array leer.
+     * @returns Ein JSON-Array mit den gefundenen Gemälde. Ggf. ist das Array leer.
      */
     // eslint-disable-next-line max-lines-per-function
     async find(query?: any | undefined) {
