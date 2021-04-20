@@ -35,5 +35,5 @@ const gemaeldeService = new GemaeldeService();
 export const suche = async (req: Request, res: Response) => {
     logger.error('suche(): %s', req.url);
     const gemaelden = await gemaeldeService.find();
-    res.render('suche', { title: 'Suche', buecher: gemaelden });
+    res.render('suche', { title: 'Suche', gemaelden });
 };

@@ -44,7 +44,7 @@ import {
     validateContentType,
     validateUUID,
 } from './shared';
-import { index, neuesBuch, suche } from './gemaelde/html';
+import { index, neuesGemaelde, suche } from './gemaelde/html';
 import { isAdmin, isAdminMitarbeiter, login, validateJwt } from './auth';
 // Einlesen von application/json im Request-Rumpf
 // Fuer multimediale Daten (Videos, Bilder, Audios): raw-body
@@ -76,8 +76,8 @@ const apiPath = '/api';
  * werden in einem JSON-Objekt gebündelt.
  */
 export const PATHS = {
-    buecher: `${apiPath}/buecher`,
-    verlage: `${apiPath}/verlage`,
+    gemaelden: `${apiPath}/gemaelden`,
+    haendler: `${apiPath}/haendler`,
     login: `${apiPath}/login`,
     graphql: '/graphql',
     html: '/html',
@@ -150,17 +150,17 @@ class App {
     }
 
     private routes() {
-        this.buecherRoutes();
-        this.verlagRoutes();
+        this.gemaeldenRoutes();
+        this.haendlerRoutes();
         this.loginRoutes();
-        this.buchGraphqlRoutes();
+        this.gemaeldeGraphqlRoutes();
         this.htmlRoutes();
 
         this.app.get('*', notFound);
         this.app.use(internalError);
     }
 
-    private buecherRoutes() {
+    private gemaeldenRoutes() {
         // vgl: Spring WebFlux.fn
         // https://expressjs.com/en/api.html#router
         // Beispiele fuer "Middleware" bei Express:
@@ -206,13 +206,13 @@ class App {
             .put(`/:${idParam}/file`, validateJwt, isAdminMitarbeiter, upload)
             .get(`/:${idParam}/file`, download);
 
-        this.app.use(PATHS.buecher, router);
+        this.app.use(PATHS.gemaelden, router);
     }
 
-    private verlagRoutes() {
+    private haendlerRoutes() {
         const router = Router(); // eslint-disable-line new-cap
         router.get('/', notYetImplemented);
-        this.app.use(PATHS.verlage, router);
+        this.app.use(PATHS.haendler, router);
     }
 
     private loginRoutes() {
@@ -227,7 +227,7 @@ class App {
         this.app.use(PATHS.login, router);
     }
 
-    private buchGraphqlRoutes() {
+    private gemaeldeGraphqlRoutes() {
         // https://www.apollographql.com/docs/apollo-server/data/resolvers/#passing-resolvers-to-apollo-server
         const config: ApolloServerExpressConfig = {
             typeDefs,
@@ -244,7 +244,7 @@ class App {
         const router = Router(); // eslint-disable-line new-cap
         router.route('/').get(index);
         router.route('/suche').get(suche);
-        router.route('/neues-buch').get(neuesBuch);
+        router.route('/neues-gemaelde').get(neuesGemaelde);
         this.app.use(PATHS.html, router);
 
         // Alternativen zu Pug: EJS, Handlebars, ...
