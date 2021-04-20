@@ -1,0 +1,13 @@
+{
+  "titel": "?!",
+  "beschreibung": "Beispiel Beschreibung",
+  "bewertung": "ZZ",
+  "art": "Gibts Nicht",
+  "haendler": "Haendler",
+  "wert": 234,
+  "ausgestellt": true,
+  "datum": "12345-123-123",
+  "zertifizierung": "falsches-zertifikat",
+  "kategorien": ["blau", "grün"],
+  "künstler": "unknown"
+}
