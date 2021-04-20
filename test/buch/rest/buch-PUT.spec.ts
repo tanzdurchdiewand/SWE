@@ -20,8 +20,7 @@ import { HttpStatus, logger, nodeConfig } from '../../../src/shared';
 import { afterAll, beforeAll, describe, test } from '@jest/globals';
 import fetch, { Headers, Request } from 'node-fetch';
 import type { AddressInfo } from 'net';
-import type { Buch } from '../../../src/buch/entity';
-import { MAX_RATING } from '../../../src/buch/entity';
+import type { Gemaelde } from '../../../src/gemaelde/entity';
 import { PATHS } from '../../../src/app';
 import type { Server } from 'http';
 import chai from 'chai';
@@ -40,7 +39,7 @@ const { expect } = chai;
 // -----------------------------------------------------------------------------
 // T e s t d a t e n
 // -----------------------------------------------------------------------------
-const geaendertesBuch: Omit<Buch, 'isbn'> = {
+const geaendertesGemaelde: Omit<Gemaelde, 'isbn'> = {
     // isbn wird nicht geaendet
     titel: 'Geaendert',
     rating: 1,
@@ -56,7 +55,7 @@ const geaendertesBuch: Omit<Buch, 'isbn'> = {
 };
 const idVorhanden = '00000000-0000-0000-0000-000000000003';
 
-const geaendertesBuchIdNichtVorhanden: Omit<Buch, 'isbn' | 'homepage'> = {
+const geaendertesGemaeldeIdNichtVorhanden: Omit<Gemaelde, 'isbn' | 'homepage'> = {
     titel: 'Nichtvorhanden',
     rating: 1,
     art: 'DRUCKAUSGABE',
@@ -70,7 +69,7 @@ const geaendertesBuchIdNichtVorhanden: Omit<Buch, 'isbn' | 'homepage'> = {
 };
 const idNichtVorhanden = '00000000-0000-0000-0000-000000000999';
 
-const geaendertesBuchInvalid: object = {
+const geaendertesGemaeldeInvalid: object = {
     titel: 'Alpha',
     rating: -1,
     art: 'UNSICHTBAR',
@@ -84,7 +83,7 @@ const geaendertesBuchInvalid: object = {
     schlagwoerter: [],
 };
 
-const veraltesBuch: object = {
+const veraltesGemaelde: object = {
     // isbn wird nicht geaendet
     titel: 'Veraltet',
     rating: 1,
@@ -102,27 +101,27 @@ const veraltesBuch: object = {
 // -----------------------------------------------------------------------------
 // T e s t s
 // -----------------------------------------------------------------------------
-const path = PATHS.buecher;
+const path = PATHS.gemaelden;
 let server: Server;
-let buecherUri: string;
+let gemaeldenUri: string;
 let loginUri: string;
 
 // Test-Suite
-describe('PUT /api/buecher/:id', () => {
+describe('PUT /api/gemaelden/:id', () => {
     // Testserver starten und dabei mit der DB verbinden
     beforeAll(async () => {
         server = await createTestserver();
 
         const address = server.address() as AddressInfo;
         const baseUri = `https://${nodeConfig.host}:${address.port}`;
-        buecherUri = `${baseUri}${path}`;
-        logger.info(`buecherUri = ${buecherUri}`);
+        gemaeldenUri = `${baseUri}${path}`;
+        logger.info(`gemaeldenUri = ${gemaeldenUri}`);
         loginUri = `${baseUri}${PATHS.login}`;
     });
 
     afterAll(() => { server.close() });
 
-    test('Vorhandenes Buch aendern', async () => {
+    test('Vorhandenes Gemaelde aendern', async () => {
         // given
         const token = await login(loginUri);
         const headers = new Headers({
@@ -130,8 +129,8 @@ describe('PUT /api/buecher/:id', () => {
             'Content-Type': 'application/json',
             'If-Match': '"0"',
         });
-        const body = JSON.stringify(geaendertesBuch);
-        const request = new Request(`${buecherUri}/${idVorhanden}`, {
+        const body = JSON.stringify(geaendertesGemaelde);
+        const request = new Request(`${gemaeldenUri}/${idVorhanden}`, {
             method: HttpMethod.PUT,
             headers,
             body,
@@ -147,7 +146,7 @@ describe('PUT /api/buecher/:id', () => {
         expect(responseBody).to.be.empty;
     });
 
-    test('Nicht-vorhandenes Buch aendern', async () => {
+    test('Nicht-vorhandenes Gemaelde aendern', async () => {
         // given
         const token = await login(loginUri);
         const headers = new Headers({
@@ -155,8 +154,8 @@ describe('PUT /api/buecher/:id', () => {
             'Content-Type': 'application/json',
             'If-Match': '"0"',
         });
-        const body = JSON.stringify(geaendertesBuchIdNichtVorhanden);
-        const request = new Request(`${buecherUri}/${idNichtVorhanden}`, {
+        const body = JSON.stringify(geaendertesGemaeldeIdNichtVorhanden);
+        const request = new Request(`${gemaeldenUri}/${idNichtVorhanden}`, {
             method: HttpMethod.PUT,
             headers,
             body,
@@ -170,11 +169,11 @@ describe('PUT /api/buecher/:id', () => {
         expect(response.status).to.be.equal(HttpStatus.PRECONDITION_FAILED);
         const responseBody = await response.text();
         expect(responseBody).to.be.equal(
-            `Es gibt kein Buch mit der ID "${idNichtVorhanden}".`,
+            `Es gibt kein Gemaelde mit der ID "${idNichtVorhanden}".`,
         );
     });
 
-    test('Vorhandenes Buch aendern, aber mit ungueltigen Daten', async () => {
+    test('Vorhandenes Gemaelde aendern, aber mit ungueltigen Daten', async () => {
         // given
         const token = await login(loginUri);
         const headers = new Headers({
@@ -182,8 +181,8 @@ describe('PUT /api/buecher/:id', () => {
             'Content-Type': 'application/json',
             'If-Match': '"0"',
         });
-        const body = JSON.stringify(geaendertesBuchInvalid);
-        const request = new Request(`${buecherUri}/${idVorhanden}`, {
+        const body = JSON.stringify(geaendertesGemaeldeInvalid);
+        const request = new Request(`${gemaeldenUri}/${idVorhanden}`, {
             method: HttpMethod.PUT,
             headers,
             body,
@@ -197,25 +196,25 @@ describe('PUT /api/buecher/:id', () => {
         expect(response.status).to.be.equal(HttpStatus.BAD_REQUEST);
         const { art, rating, verlag, datum, isbn } = await response.json();
         expect(art).to.be.equal(
-            'Die Art eines Buches muss KINDLE oder DRUCKAUSGABE sein.',
+            'Die Art eines Gemaeldees muss KINDLE oder DRUCKAUSGABE sein.',
         );
         expect(rating).to.be.equal(`Eine Bewertung muss zwischen 0 und ${MAX_RATING} liegen.`);
         expect(verlag).to.be.equal(
-            'Der Verlag eines Buches muss FOO_VERLAG oder BAR_VERLAG sein.',
+            'Der Verlag eines Gemaeldees muss FOO_VERLAG oder BAR_VERLAG sein.',
         );
         expect(datum).to.be.equal('Das Datum muss im Format yyyy-MM-dd sein.');
         expect(isbn).to.be.equal('Die ISBN-Nummer ist nicht korrekt.');
     });
 
-    test('Vorhandenes Buch aendern, aber ohne Versionsnummer', async () => {
+    test('Vorhandenes Gemaelde aendern, aber ohne Versionsnummer', async () => {
         // given
         const token = await login(loginUri);
         const headers = new Headers({
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
         });
-        const body = JSON.stringify(geaendertesBuch);
-        const request = new Request(`${buecherUri}/${idVorhanden}`, {
+        const body = JSON.stringify(geaendertesGemaelde);
+        const request = new Request(`${gemaeldenUri}/${idVorhanden}`, {
             method: HttpMethod.PUT,
             headers,
             body,
@@ -231,7 +230,7 @@ describe('PUT /api/buecher/:id', () => {
         expect(responseBody).to.be.equal('Versionsnummer fehlt');
     });
 
-    test('Vorhandenes Buch aendern, aber mit alter Versionsnummer', async () => {
+    test('Vorhandenes Gemaelde aendern, aber mit alter Versionsnummer', async () => {
         // given
         const token = await login(loginUri);
         const headers = new Headers({
@@ -239,8 +238,8 @@ describe('PUT /api/buecher/:id', () => {
             'Content-Type': 'application/json',
             'If-Match': '"-1"',
         });
-        const body = JSON.stringify(veraltesBuch);
-        const request = new Request(`${buecherUri}/${idVorhanden}`, {
+        const body = JSON.stringify(veraltesGemaelde);
+        const request = new Request(`${gemaeldenUri}/${idVorhanden}`, {
             method: HttpMethod.PUT,
             headers,
             body,
@@ -256,14 +255,14 @@ describe('PUT /api/buecher/:id', () => {
         expect(responseBody).to.have.string('Die Versionsnummer');
     });
 
-    test('Vorhandenes Buch aendern, aber ohne Token', async () => {
+    test('Vorhandenes Gemaelde aendern, aber ohne Token', async () => {
         // given
         const headers = new Headers({
             'Content-Type': 'application/json',
             'If-Match': '"0"',
         });
-        const body = JSON.stringify(geaendertesBuch);
-        const request = new Request(`${buecherUri}/${idVorhanden}`, {
+        const body = JSON.stringify(geaendertesGemaelde);
+        const request = new Request(`${gemaeldenUri}/${idVorhanden}`, {
             method: HttpMethod.PUT,
             headers,
             body,
@@ -279,7 +278,7 @@ describe('PUT /api/buecher/:id', () => {
         expect(responseBody).to.be.equalIgnoreCase('unauthorized');
     });
 
-    test('Vorhandenes Buch aendern, aber mit falschem Token', async () => {
+    test('Vorhandenes Gemaelde aendern, aber mit falschem Token', async () => {
         // given
         const token = 'FALSCH';
         const headers = new Headers({
@@ -287,8 +286,8 @@ describe('PUT /api/buecher/:id', () => {
             'Content-Type': 'application/json',
             'If-Match': '"0"',
         });
-        const body = JSON.stringify(geaendertesBuch);
-        const request = new Request(`${buecherUri}/${idVorhanden}`, {
+        const body = JSON.stringify(geaendertesGemaelde);
+        const request = new Request(`${gemaeldenUri}/${idVorhanden}`, {
             method: HttpMethod.PUT,
             headers,
             body,

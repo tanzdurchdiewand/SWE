@@ -183,7 +183,6 @@ export class GemaeldeRequestHandler {
             const gemaeldeHAL: GemaeldeHAL = gemaelde;
             // eslint-disable-next-line no-underscore-dangle, prettier/prettier, @typescript-eslint/comma-dangle
             gemaeldeHAL._links = { self: { href: `${baseUri}/${gemaelde._id}` }, };
-
             delete gemaelde._id;
             delete gemaelde.__v;
         }
