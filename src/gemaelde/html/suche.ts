@@ -22,7 +22,7 @@
 
 import type { Request, Response } from 'express';
 import { GemaeldeService } from '../service/gemaelde.service';
-import { logger } from './../../shared/logger';
+import { logger } from '../../shared/logger';
 
 const gemaeldeService = new GemaeldeService();
 

@@ -20,58 +20,55 @@
 @url = https://localhost:3000/graphql
 #@url = https://gener-iert-12345.herokuapp.com/graphql
 
-### Neues Buch anlegen
+### Neues Gemaelde anlegen
 POST {{url}}
 Content-Type: application/json
 X-REQUEST-TYPE: GraphQL
 
 mutation {
-  createBuch(
-    titel: "Test"
-    rating: 1
-    art: "KINDLE"
-    verlag: "FOO_VERLAG"
-    preis: 11.1
-    rabatt: 0.011
-    lieferbar: true
-    datum: null
-    isbn: "3-89722-583-2"
-    homepage: "http://acme.com"
-    schlagwoerter: ["JAVASCRIPT"]
+  createGemaelde(
+    titel: "Der Schrei",
+    beschreibung: "Beispiel Beschreibung",
+    bewertung: "AA",
+    art: "OELGEMAELDE",
+    haendler: "BAR_HAENDLER",
+    wert: 234,
+    ausgestellt: true,
+    datum: "2018-12-12",
+    zertifizierung: "1234",
+    kategorien: ["blau", "grün"],
+    künstler: "unknown"
   )
 }
 
-### Vorhandenes Buch aktualisieren
+### Vorhandenes Gemaelde aktualisieren
 POST {{url}}
 Content-Type: application/json
 X-REQUEST-TYPE: GraphQL
 
 mutation {
-  updateBuch(
+  updateGemaelde(
     _id: "00000000-0000-0000-0000-000000000003",
-    titel: "Geaendert",
-    rating: 5,
-    art: "DRUCKAUSGABE",
-    verlag: "FOO_VERLAG",
-    preis: 99.99,
-    rabatt: 0.099,
-    lieferbar: false,
-    datum: "2018-01-31",
-    isbn: "3-8273-1552-2",
-    homepage: "https://acme.com",
-    schlagwoerter: [
-      "JAVASCRIPT",
-      "TYPESCRIPT"
-    ],
+    titel: "Der Schrei",
+    beschreibung: "Beispiel Beschreibung",
+    bewertung: "AA",
+    art: "OELGEMAELDE",
+    haendler: "BAR_HAENDLER",
+    wert: 234,
+    ausgestellt: true,
+    datum: "2018-12-12",
+    zertifizierung: "1234",
+    kategorien: ["blau", "grün"],
+    künstler: "unknown"
     version: 1
   )
 }
 
-### Vorhandenes Buch loeschen
+### Vorhandenes Gemaelde loeschen
 POST {{url}}
 Content-Type: application/json
 X-REQUEST-TYPE: GraphQL
 
 mutation {
-  deleteBuch(id: "00000000-0000-0000-0000-000000000004")
+  deleteGemaelde(id: "00000000-0000-0000-0000-000000000004")
 }

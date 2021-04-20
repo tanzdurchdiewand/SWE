@@ -55,7 +55,7 @@ export interface Gemaelde {
     readonly art: GemaeldeArt | '' | null | undefined;
     readonly haendler: Haendler | '' | null | undefined;
     readonly wert: number | undefined;
-    readonly ausgestaelt: boolean | undefined;
+    readonly ausgestellt: boolean | undefined;
 
     // string bei REST und Date bei GraphQL sowie Mongoose
     datum: Date | string | undefined;

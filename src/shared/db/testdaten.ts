@@ -21,29 +21,55 @@
  * @packageDocumentation
  */
 
-import type { BuchData } from '../../gemaelde/entity';
+import type { GemaeldeData } from '../../gemaelde/entity';
 
 /* eslint-disable @typescript-eslint/naming-convention */
 
 /**
  * Die Testdaten, um die Test-DB neu zu laden, als JSON-Array.
  */
-export const testdaten: BuchData[] = [
+export const testdaten: GemaeldeData[] = [
     {
         _id: '00000000-0000-0000-0000-000000000001',
         titel: 'Alpha',
-        rating: 4,
-        art: 'DRUCKAUSGABE',
-        verlag: 'FOO_VERLAG',
-        preis: 11.1,
-        rabatt: 0.011,
-        lieferbar: true,
+        art: 'OElGEMAELEDE',
+        haendler: 'BAR_HAENDLER',
+        bewertung : 'AAA',
+        wert: 11.1,
+        ausgestellt: true,
+        beschreibung:"Schön",
         // https://docs.mongodb.com/manual/reference/method/Date
         datum: new Date('2020-02-01'),
-        isbn: '978-3897225831',
-        homepage: 'https://acme.at/',
-        schlagwoerter: ['JAVASCRIPT'],
-        autoren: [
+        zertifizierung: '978-3897225831',
+        //kategorie: ['OELGEMAELDE'],
+        kuenstler: [
+            {
+                nachname: 'Beta',
+                vorname: 'Bert',
+            },
+            {
+                nachname: 'Alpha',
+                vorname: 'Alfred',
+            },
+        ],
+        __v: 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    },
+    {
+        _id: '00000000-0000-0000-0000-000000000002',
+        titel: 'Alpha',
+        art: 'OElGEMAELEDE',
+        haendler: 'BAR_HAENDLER',
+        bewertung : 'AAA',
+        wert: 11.1,
+        ausgestellt: true,
+        beschreibung:"Schön",
+        // https://docs.mongodb.com/manual/reference/method/Date
+        datum: new Date('2020-02-01'),
+        zertifizierung: '978-3897225831',
+        //kategorie: ['OELGEMAELDE'], 
+        kuenstler: [
             {
                 nachname: 'Alpha',
                 vorname: 'Adriana',
@@ -58,45 +84,22 @@ export const testdaten: BuchData[] = [
         updatedAt: new Date(),
     },
     {
-        _id: '00000000-0000-0000-0000-000000000002',
-        titel: 'Beta',
-        rating: 2,
-        art: 'KINDLE',
-        verlag: 'BAR_VERLAG',
-        preis: 22.2,
-        rabatt: 0.022,
-        lieferbar: true,
-        datum: new Date('2020-02-02'),
-        isbn: '978-3827315526',
-        homepage: 'https://acme.biz/',
-        schlagwoerter: ['TYPESCRIPT'],
-        autoren: [
+        _id: '00000000-0000-0000-0000-00000000003',
+        titel: 'DerSchrei',
+        art: 'OElGEMAELEDE',
+        haendler: 'BAR_HAENDLER',
+        bewertung : 'AAA',
+        wert: 99.9,
+        ausgestellt: true,
+        beschreibung:"Schön",
+        // https://docs.mongodb.com/manual/reference/method/Date
+        datum: new Date('2020-02-01'),
+        zertifizierung: '978-3897225831',
+        kategorien: [' Expressionismus'],
+        kuenstler: [
             {
-                nachname: 'Beta',
-                vorname: 'Brunhilde',
-            },
-        ],
-        __v: 0,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-    },
-    {
-        _id: '00000000-0000-0000-0000-000000000003',
-        titel: 'Gamma',
-        rating: 1,
-        art: 'DRUCKAUSGABE',
-        verlag: 'FOO_VERLAG',
-        preis: 33.3,
-        rabatt: 0.033,
-        lieferbar: true,
-        datum: new Date('2020-02-03'),
-        isbn: '978-0201633610',
-        homepage: 'https://acme.com/',
-        schlagwoerter: ['JAVASCRIPT', 'TYPESCRIPT'],
-        autoren: [
-            {
-                nachname: 'Gamma',
-                vorname: 'Claus',
+                nachname: 'Edvard',
+                vorname: 'Munch',
             },
         ],
         __v: 0,
@@ -105,21 +108,25 @@ export const testdaten: BuchData[] = [
     },
     {
         _id: '00000000-0000-0000-0000-000000000004',
-        titel: 'Delta',
-        rating: 3,
-        art: 'DRUCKAUSGABE',
-        verlag: 'BAR_VERLAG',
-        preis: 44.4,
-        rabatt: 0.044,
-        lieferbar: true,
-        datum: new Date('2020-02-04'),
-        isbn: '978-0387534046',
-        homepage: 'https://acme.de/',
-        schlagwoerter: [],
-        autoren: [
+        titel: 'Alpha',
+        art: 'OElGEMAELEDE',
+        haendler: 'BAR_HAENDLER',
+        bewertung : 'AAA',
+        wert: 11.1,
+        ausgestellt: true,
+        beschreibung:"Schön",
+        // https://docs.mongodb.com/manual/reference/method/Date
+        datum: new Date('2020-02-01'),
+        zertifizierung: '978-3897225831',
+        kategorien: ['Modern'],
+        kuenstler: [
             {
-                nachname: 'Delta',
-                vorname: 'Dieter',
+                nachname: 'Alpha',
+                vorname: 'Adriana',
+            },
+            {
+                nachname: 'Alpha',
+                vorname: 'Alfred',
             },
         ],
         __v: 0,
@@ -128,21 +135,25 @@ export const testdaten: BuchData[] = [
     },
     {
         _id: '00000000-0000-0000-0000-000000000005',
-        titel: 'Epsilon',
-        rating: 2,
-        art: 'KINDLE',
-        verlag: 'FOO_VERLAG',
-        preis: 55.5,
-        rabatt: 0.055,
-        lieferbar: true,
-        datum: new Date('2020-02-05'),
-        isbn: '978-3824404810',
-        homepage: 'https://acme.es/',
-        schlagwoerter: ['TYPESCRIPT'],
-        autoren: [
+        titel: 'Alpha',
+        art: 'OElGEMAELEDE',
+        haendler: 'BAR_HAENDLER',
+        bewertung : 'AAA',
+        wert: 11.1,
+        ausgestellt: true,
+        beschreibung:"Schön",
+        // https://docs.mongodb.com/manual/reference/method/Date
+        datum: new Date('2020-02-01'),
+        zertifizierung: '978-3897225831',
+        kategorien: ['Abstrakt', 'Bunt'],
+        kuenstler: [
             {
-                nachname: 'Epsilon',
-                vorname: 'Elfriede',
+                nachname: 'Alpha',
+                vorname: 'Adriana',
+            },
+            {
+                nachname: 'Alpha',
+                vorname: 'Alfred',
             },
         ],
         __v: 0,

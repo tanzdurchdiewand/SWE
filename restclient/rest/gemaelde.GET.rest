@@ -17,27 +17,27 @@
 ### N e t z w e r k   -  V e r b i n d u n g   n o t w e n d i g
 ###
 
-@host = localhost:3000/api/buecher
+@host = localhost:3000/api/gemaelde
 #@host = gener-iert-12345.herokuapp.com/api/buecher
 
-### Suche alle Buecher
+### Suche alle Gemaelde
 https://{{host}}
 
-### Suche mit vorhandener Buch-ID
+### Suche mit vorhandener Gemaelde-ID
 https://{{host}}/00000000-0000-0000-0000-000000000001
 
-### Suche mit vorhandener Buch-ID und Versionsnummer
+### Suche mit vorhandener Gemaelde-ID und Versionsnummer
 https://{{host}}/00000000-0000-0000-0000-000000000001
 If-None-Match: "0"
 
-### Suche mit vorhandener Buch-ID und falscher Versionsnummer
+### Suche mit vorhandener Gemaelde-ID und falscher Versionsnummer
 https://{{host}}/00000000-0000-0000-0000-000000000001
 If-None-Match: 0
 
-### Suche mit ungueltiger Buch-ID
+### Suche mit ungueltiger Gemaelde-ID
 https://{{host}}/YYYYYYYY-YYYY-YYYY-YYYY-YYYYYYYYYYYY
 
-### Suche mit nicht-vorhandener Buch-ID
+### Suche mit nicht-vorhandener Gemaelde-ID
 https://{{host}}/99999999-9999-9999-9999-999999999999
 
 ### Suche mit vorhandenem Titel
@@ -46,26 +46,23 @@ https://{{host}}?titel=a
 ### Suche mit nicht-vorhandenem Titel
 https://{{host}}?titel=xxx
 
-### Suche mit vorhandener ISBN
-https://{{host}}?isbn=978-3897225831
+### Suche mit vorhandener Zertifizierung
+https://{{host}}?zertifizierung=978-3897-225831
 
-### Suche mit vorhandenen Schlagwoertern
-https://{{host}}?javascript=true&typescript=true
+### Suche mit vorhandenen kategorien
+https://{{host}}?blau=true&gruen=true
 
-### Suche mit vorhandenem Schlagwort "JAVASCRIPT"
-https://{{host}}?javascript=true
+### Suche mit vorhandenem Schlagwort "Gruen"
+https://{{host}}?gruen=true
 
-### Suche mit vorhandenem Schlagwort "TYPESCRIPT"
-https://{{host}}?typescript=true
+### Suche mit vorhandenem Schlagwort "balu"
+https://{{host}}?blau=true
 
-### Suche mit gueltiger Buchart
+### Suche mit gueltiger Gemaeldeart
 https://{{host}}?art=KINDLE
 
-### Suche mit gueltigem Rating
-https://{{host}}?rating=1
+### Suche mit gueltiger Bewertun
+https://{{host}}?bewertung=AA
 
-### Suche lieferbare Buecher
-https://{{host}}?lieferbar=true
-
-### Optionen zu Buch-ID
+### Optionen zu Gemaelde-ID
 OPTIONS https://{{host}}/00000000-0000-0000-0000-000000000001
