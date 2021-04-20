@@ -26,15 +26,15 @@
 import type { ValidationErrorMsg } from './../entity';
 
 /**
- * Allgemeine Basisklasse für {@linkcode BuchService}
+ * Allgemeine Basisklasse für {@linkcode GemaeldeService}
  */
-export class BuchServiceError {} // eslint-disable-line @typescript-eslint/no-extraneous-class
+export class GemaeldeServiceError {} // eslint-disable-line @typescript-eslint/no-extraneous-class
 
 /**
- * Klasse für fehlerhafte Buchdaten. Die Meldungstexte sind in der Property
+ * Klasse für fehlerhafte Gemaeldedaten. Die Meldungstexte sind in der Property
  * `msg` gekapselt.
  */
-export class BuchInvalid extends BuchServiceError {
+export class GemaeldeInvalid extends GemaeldeServiceError {
     constructor(readonly msg: ValidationErrorMsg) {
         super();
     }
@@ -43,7 +43,7 @@ export class BuchInvalid extends BuchServiceError {
 /**
  * Klasse für einen bereits existierenden Titel.
  */
-export class TitelExists extends BuchServiceError {
+export class TitelExists extends GemaeldeServiceError {
     constructor(
         readonly titel: string | null | undefined,
         readonly id?: string,
@@ -55,7 +55,7 @@ export class TitelExists extends BuchServiceError {
 /**
  * Klasse für eine bereits existierende ISBN-Nummer.
  */
-export class IsbnExists extends BuchServiceError {
+export class ZertifizierungExists extends GemaeldeServiceError {
     constructor(
         readonly isbn: string | null | undefined,
         readonly id?: string,
@@ -65,14 +65,14 @@ export class IsbnExists extends BuchServiceError {
 }
 
 /**
- * Union-Type für Fehler beim Neuanlegen eines Buches.
+ * Union-Type für Fehler beim Neuanlegen eines Gemaeldees.
  */
-export type CreateError = BuchInvalid | IsbnExists | TitelExists;
+export type CreateError = GemaeldeInvalid | TitelExists | ZertifizierungExists;
 
 /**
  * Klasse für eine ungültige Versionsnummer beim Ändern.
  */
-export class VersionInvalid extends BuchServiceError {
+export class VersionInvalid extends GemaeldeServiceError {
     constructor(readonly version: string | undefined) {
         super();
     }
@@ -81,57 +81,57 @@ export class VersionInvalid extends BuchServiceError {
 /**
  * Klasse für eine veraltete Versionsnummer beim Ändern.
  */
-export class VersionOutdated extends BuchServiceError {
+export class VersionOutdated extends GemaeldeServiceError {
     constructor(readonly id: string, readonly version: number) {
         super();
     }
 }
 
 /**
- * Klasse für ein nicht-vorhandenes Buch beim Ändern.
+ * Klasse für ein nicht-vorhandenes Gemaelde beim Ändern.
  */
-export class BuchNotExists extends BuchServiceError {
+export class GemaeldeNotExists extends GemaeldeServiceError {
     constructor(readonly id: string | undefined) {
         super();
     }
 }
 
 /**
- * Union-Type für Fehler beim Ändern eines Buches.
+ * Union-Type für Fehler beim Ändern eines Gemaeldees.
  */
 export type UpdateError =
-    | BuchInvalid
-    | BuchNotExists
+    | GemaeldeInvalid
+    | GemaeldeNotExists
     | TitelExists
     | VersionInvalid
     | VersionOutdated;
 
 /**
- * Allgemeine Basisklasse für {@linkcode BuchFileService}
+ * Allgemeine Basisklasse für {@linkcode GemaeldeFileService}
  */
-export class BuchFileServiceError {} // eslint-disable-line @typescript-eslint/no-extraneous-class
+export class GemaeldeFileServiceError {} // eslint-disable-line @typescript-eslint/no-extraneous-class
 
 /**
  * Klasse für eine nicht-vorhandenes Binärdatei.
  */
-export class FileNotFound extends BuchFileServiceError {
+export class FileNotFound extends GemaeldeFileServiceError {
     constructor(readonly filename: string) {
         super();
     }
 }
 
 /**
- * Klasse, falls es mehrere Binärdateien zu einem Buch gibt.
+ * Klasse, falls es mehrere Binärdateien zu einem Gemaelde gibt.
  */
-export class MultipleFiles extends BuchFileServiceError {
+export class MultipleFiles extends GemaeldeFileServiceError {
     constructor(readonly filename: string) {
         super();
     }
 }
 
 /**
- * Union-Type für Fehler beim Lesen eines Buches.
+ * Union-Type für Fehler beim Lesen eines Gemaeldees.
  */
-export type DownloadError = BuchNotExists | FileNotFound | MultipleFiles;
+export type DownloadError = FileNotFound | GemaeldeNotExists | MultipleFiles;
 
 /* eslint-enable max-classes-per-file */
