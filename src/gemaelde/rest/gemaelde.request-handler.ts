@@ -18,29 +18,29 @@
  */
 
 /**
- * Das Modul besteht aus der Klasse {@linkcode BuchRequestHandler}, um die
+ * Das Modul besteht aus der Klasse {@linkcode GemaeldeRequestHandler}, um die
  * Handler-Funktionen für die REST-Schnittstelle auf der Basis von Express
  * gebündelt bereitzustellen.
  * @packageDocumentation
  */
 
-import type { Buch, BuchData, ValidationErrorMsg } from '../entity';
+import type { CreateError, UpdateError } from '../service';
+import type { Gemaelde, GemaeldeData, ValidationErrorMsg } from '../entity';
 import {
-    BuchInvalid,
-    BuchNotExists,
-    BuchService,
-    BuchServiceError,
-    IsbnExists,
+    GemaeldeInvalid,
+    GemaeldeNotExists,
+    GemaeldeService,
+    GemaeldeServiceError,
     TitelExists,
     VersionInvalid,
     VersionOutdated,
+    ZertifizierungExists,
 } from '../service';
-import type { CreateError, UpdateError } from '../service';
 import { HttpStatus, getBaseUri, logger, mimeConfig } from '../../shared';
 import type { Request, Response } from 'express';
 
 // Interface fuer die REST-Schnittstelle
-interface BuchHAL extends Buch {
+interface GemaeldeHAL extends Gemaelde {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     _links?: {
         self?: { href: string };
@@ -55,25 +55,25 @@ interface BuchHAL extends Buch {
  * Die Handler-Klasse fasst die Handler-Funktionen für Bücher zusammen, um die
  * REST-Schnittstelle auf Basis von Express zu realisieren.
  */
-export class BuchRequestHandler {
+export class GemaeldeRequestHandler {
     // Dependency Injection ggf. durch
     // * Awilix https://github.com/jeffijoe/awilix
     // * InversifyJS https://github.com/inversify/InversifyJS
     // * Node Dependency Injection https://github.com/zazoomauro/node-dependency-injection
     // * BottleJS https://github.com/young-steveo/bottlejs
-    private readonly service = new BuchService();
+    private readonly service = new GemaeldeService();
 
     /**
-     * Ein Buch wird asynchron anhand seiner ID als Pfadparameter gesucht.
+     * Ein Gemaelde wird asynchron anhand seiner ID als Pfadparameter gesucht.
      *
-     * Falls es ein solches Buch gibt und `If-None-Match` im Request-Header
-     * auf die aktuelle Version des Buches gesetzt war, wird der Statuscode
+     * Falls es ein solches Gemaelde gibt und `If-None-Match` im Request-Header
+     * auf die aktuelle Version des Gemaeldees gesetzt war, wird der Statuscode
      * `304` (`Not Modified`) zurückgeliefert. Falls `If-None-Match` nicht
      * gesetzt ist oder eine veraltete Version enthält, wird das gefundene
-     * Buch im Rumpf des Response als JSON-Datensatz mit Atom-Links für HATEOAS
+     * Gemaelde im Rumpf des Response als JSON-Datensatz mit Atom-Links für HATEOAS
      * und dem Statuscode `200` (`OK`) zurückgeliefert.
      *
-     * Falls es kein Buch zur angegebenen ID gibt, wird der Statuscode `404`
+     * Falls es kein Gemaelde zur angegebenen ID gibt, wird der Statuscode `404`
      * (`Not Found`) zurückgeliefert.
      *
      * @param req Request-Objekt von Express.
@@ -85,57 +85,63 @@ export class BuchRequestHandler {
     async findById(req: Request, res: Response) {
         const versionHeader = req.header('If-None-Match');
         logger.debug(
-            'BuchRequestHandler.findById(): versionHeader=%s',
+            'GemaeldeRequestHandler.findById(): versionHeader=%s',
             versionHeader,
         );
         const { id } = req.params;
-        logger.debug('BuchRequestHandler.findById(): id=%s', id);
+        logger.debug('GemaeldeRequestHandler.findById(): id=%s', id);
 
         if (id === undefined) {
             res.sendStatus(HttpStatus.INTERNAL_ERROR);
             return;
         }
 
-        let buch: BuchData | undefined;
+        let gemaelde: GemaeldeData | undefined;
         try {
             // vgl. Kotlin: Aufruf einer suspend-Function
-            buch = await this.service.findById(id);
+            gemaelde = await this.service.findById(id);
         } catch (err: unknown) {
             // Exception einer export async function bei der Ausfuehrung fangen:
             // https://strongloop.com/strongblog/comparing-node-js-promises-trycatch-zone-js-angular
-            logger.error('BuchRequestHandler.findById(): error=%o', err);
+            logger.error('GemaeldeRequestHandler.findById(): error=%o', err);
             res.sendStatus(HttpStatus.INTERNAL_ERROR);
             return;
         }
 
-        if (buch === undefined) {
-            logger.debug('BuchRequestHandler.findById(): status=NOT_FOUND');
+        if (gemaelde === undefined) {
+            logger.debug('GemaeldeRequestHandler.findById(): status=NOT_FOUND');
             res.sendStatus(HttpStatus.NOT_FOUND);
             return;
         }
-        logger.debug('BuchRequestHandler.findById(): buch=%o', buch);
+        logger.debug(
+            'GemaeldeRequestHandler.findById(): gemaelde=%o',
+            gemaelde,
+        );
 
         // ETags
-        const versionDb = buch.__v;
+        const versionDb = gemaelde.__v;
         if (versionHeader === `"${versionDb}"`) {
             res.sendStatus(HttpStatus.NOT_MODIFIED);
             return;
         }
-        logger.debug('BuchRequestHandler.findById(): VersionDb=%d', versionDb);
+        logger.debug(
+            'GemaeldeRequestHandler.findById(): VersionDb=%d',
+            versionDb,
+        );
         res.header('ETag', `"${versionDb}"`);
 
         // HATEOAS mit Atom Links und HAL (= Hypertext Application Language)
-        const buchHAL = this.toHAL(buch, req, id);
-        res.json(buchHAL);
+        const gemaeldeHAL = this.toHAL(gemaelde, req, id);
+        res.json(gemaeldeHAL);
     }
 
     /**
      * Bücher werden mit Query-Parametern asynchron gesucht. Falls es mindestens
-     * ein solches Buch gibt, wird der Statuscode `200` (`OK`) gesetzt. Im Rumpf
+     * ein solches Gemaelde gibt, wird der Statuscode `200` (`OK`) gesetzt. Im Rumpf
      * des Response ist das JSON-Array mit den gefundenen Büchern, die jeweils
      * um Atom-Links für HATEOAS ergänzt sind.
      *
-     * Falls es kein Buch zu den Suchkriterien gibt, wird der Statuscode `404`
+     * Falls es kein Gemaelde zu den Suchkriterien gibt, wird der Statuscode `404`
      * (`Not Found`) gesetzt.
      *
      * Falls es keine Query-Parameter gibt, werden alle Bücher ermittelt.
@@ -145,54 +151,54 @@ export class BuchRequestHandler {
      * @returns Leeres Promise-Objekt.
      */
     async find(req: Request, res: Response) {
-        // z.B. https://.../buecher?titel=a
+        // z.B. https://.../gemaelden?titel=a
         // => req.query = { titel: 'a' }
         const { query } = req;
-        logger.debug('BuchRequestHandler.find(): queryParams=%o', query);
+        logger.debug('GemaeldeRequestHandler.find(): queryParams=%o', query);
 
-        let buecher: BuchData[];
+        let gemaelden: GemaeldeData[];
         try {
-            buecher = await this.service.find(query);
+            gemaelden = await this.service.find(query);
         } catch (err: unknown) {
-            logger.error('BuchRequestHandler.find(): error=%o', err);
+            logger.error('GemaeldeRequestHandler.find(): error=%o', err);
             res.sendStatus(HttpStatus.INTERNAL_ERROR);
             return;
         }
 
-        logger.debug('BuchRequestHandler.find(): buecher=%o', buecher);
-        if (buecher.length === 0) {
+        logger.debug('GemaeldeRequestHandler.find(): gemaelden=%o', gemaelden);
+        if (gemaelden.length === 0) {
             // Alternative: https://www.npmjs.com/package/http-errors
             // Damit wird aber auch der Stacktrace zum Client
             // uebertragen, weil das resultierende Fehlerobjekt
             // von Error abgeleitet ist.
-            logger.debug('BuchRequestHandler.find(): status = NOT_FOUND');
+            logger.debug('GemaeldeRequestHandler.find(): status = NOT_FOUND');
             res.sendStatus(HttpStatus.NOT_FOUND);
             return;
         }
 
         const baseUri = getBaseUri(req);
-        // asynchrone for-of Schleife statt synchrones buecher.forEach()
-        for await (const buch of buecher) {
-            // HATEOAS: Atom Links je Buch
-            const buchHAL: BuchHAL = buch;
+        // asynchrone for-of Schleife statt synchrones gemaelden.forEach()
+        for await (const gemaelde of gemaelden) {
+            // HATEOAS: Atom Links je Gemaelde
+            const gemaeldeHAL: GemaeldeHAL = gemaelde;
             // eslint-disable-next-line no-underscore-dangle
-            buchHAL._links = { self: { href: `${baseUri}/${buch._id}` } };
+            gemaeldeHAL._links = {self: { href: `${baseUri}/${gemaelde._id}` },};
 
-            delete buch._id;
-            delete buch.__v;
+            delete gemaelde._id;
+            delete gemaelde.__v;
         }
-        logger.debug('BuchRequestHandler.find(): buecher=%o', buecher);
+        logger.debug('GemaeldeRequestHandler.find(): gemaelden=%o', gemaelden);
 
-        res.json(buecher);
+        res.json(gemaelden);
     }
 
     /**
-     * Ein neues Buch wird asynchron angelegt. Das neu anzulegende Buch ist als
+     * Ein neues Gemaelde wird asynchron angelegt. Das neu anzulegende Gemaelde ist als
      * JSON-Datensatz im Request-Objekt enthalten und im Request-Header muss
      * `Content-Type` auf `application\json` gesetzt sein. Wenn es keine
      * Verletzungen von Constraints gibt, wird der Statuscode `201` (`Created`)
      * gesetzt und im Response-Header wird `Location` auf die URI so gesetzt,
-     * dass damit das neu angelegte Buch abgerufen werden kann.
+     * dass damit das neu angelegte Gemaelde abgerufen werden kann.
      *
      * Falls Constraints verletzt sind, wird der Statuscode `400` (`Bad Request`)
      * gesetzt und genauso auch wenn der Titel oder die ISBN-Nummer bereits
@@ -208,31 +214,33 @@ export class BuchRequestHandler {
             // Optional Chaining
             contentType?.toLowerCase() !== mimeConfig.json
         ) {
-            logger.debug('BuchRequestHandler.create() status=NOT_ACCEPTABLE');
+            logger.debug(
+                'GemaeldeRequestHandler.create() status=NOT_ACCEPTABLE',
+            );
             res.sendStatus(HttpStatus.NOT_ACCEPTABLE);
             return;
         }
 
-        const buch = req.body as Buch;
-        logger.debug('BuchRequestHandler.create(): buch=%o', buch);
+        const gemaelde = req.body as Gemaelde;
+        logger.debug('GemaeldeRequestHandler.create(): gemaelde=%o', gemaelde);
 
-        const result = await this.service.create(buch);
-        if (result instanceof BuchServiceError) {
+        const result = await this.service.create(gemaelde);
+        if (result instanceof GemaeldeServiceError) {
             this.handleCreateError(result, res);
             return;
         }
 
         const location = `${getBaseUri(req)}/${result}`;
-        logger.debug('BuchRequestHandler.create(): location=%s', location);
+        logger.debug('GemaeldeRequestHandler.create(): location=%s', location);
         res.location(location).sendStatus(HttpStatus.CREATED);
     }
 
     /**
-     * Ein vorhandenes Buch wird asynchron aktualisiert.
+     * Ein vorhandenes Gemaelde wird asynchron aktualisiert.
      *
-     * Im Request-Objekt von Express muss die ID des zu aktualisierenden Buches
+     * Im Request-Objekt von Express muss die ID des zu aktualisierenden Gemaeldees
      * als Pfad-Parameter enthalten sein. Außerdem muss im Rumpf das zu
-     * aktualisierende Buch als JSON-Datensatz enthalten sein. Damit die
+     * aktualisierende Gemaelde als JSON-Datensatz enthalten sein. Damit die
      * Aktualisierung überhaupt durchgeführt werden kann, muss im Header
      * `If-Match` auf die korrekte Version für optimistische Synchronisation
      * gesetzt sein.
@@ -252,7 +260,7 @@ export class BuchRequestHandler {
      */
     async update(req: Request, res: Response) {
         const { id } = req.params;
-        logger.debug('BuchRequestHandler.update(): id=%s', id);
+        logger.debug('GemaeldeRequestHandler.update(): id=%s', id);
 
         const contentType = req.header(mimeConfig.contentType);
         // Optional Chaining
@@ -265,22 +273,22 @@ export class BuchRequestHandler {
             return;
         }
 
-        const buch = req.body as Buch;
-        buch._id = id;
-        logger.debug('BuchRequestHandler.update(): buch=%o', buch);
+        const gemaelde = req.body as Gemaelde;
+        gemaelde._id = id;
+        logger.debug('GemaeldeRequestHandler.update(): gemaelde=%o', gemaelde);
 
-        const result = await this.service.update(buch, version);
-        if (result instanceof BuchServiceError) {
+        const result = await this.service.update(gemaelde, version);
+        if (result instanceof GemaeldeServiceError) {
             this.handleUpdateError(result, res);
             return;
         }
 
-        logger.debug('BuchRequestHandler.update(): version=%d', result);
+        logger.debug('GemaeldeRequestHandler.update(): version=%d', result);
         res.set('ETag', result.toString()).sendStatus(HttpStatus.NO_CONTENT);
     }
 
     /**
-     * Ein Buch wird anhand seiner ID-gelöscht, die als Pfad-Parameter angegeben
+     * Ein Gemaelde wird anhand seiner ID-gelöscht, die als Pfad-Parameter angegeben
      * ist. Der zurückgelieferte Statuscode ist `204` (`No Content`).
      *
      * @param req Request-Objekt von Express.
@@ -289,7 +297,7 @@ export class BuchRequestHandler {
      */
     async delete(req: Request, res: Response) {
         const { id } = req.params;
-        logger.debug('BuchRequestHandler.delete(): id=%s', id);
+        logger.debug('GemaeldeRequestHandler.delete(): id=%s', id);
 
         if (id === undefined) {
             res.sendStatus(HttpStatus.INTERNAL_ERROR);
@@ -299,23 +307,23 @@ export class BuchRequestHandler {
         try {
             await this.service.delete(id);
         } catch (err: unknown) {
-            logger.error('BuchRequestHandler.delete(): error=%o', err);
+            logger.error('GemaeldeRequestHandler.delete(): error=%o', err);
             res.sendStatus(HttpStatus.INTERNAL_ERROR);
             return;
         }
 
-        logger.debug('BuchRequestHandler.delete(): NO_CONTENT');
+        logger.debug('GemaeldeRequestHandler.delete(): NO_CONTENT');
         res.sendStatus(HttpStatus.NO_CONTENT);
     }
 
-    private toHAL(buch: BuchData, req: Request, id: string) {
-        delete buch._id;
-        delete buch.__v;
-        const buchHAL: BuchHAL = buch;
+    private toHAL(gemaelde: GemaeldeData, req: Request, id: string) {
+        delete gemaelde._id;
+        delete gemaelde.__v;
+        const gemaeldeHAL: GemaeldeHAL = gemaelde;
 
         const baseUri = getBaseUri(req);
         // eslint-disable-next-line no-underscore-dangle
-        buchHAL._links = {
+        gemaeldeHAL._links = {
             self: { href: `${baseUri}/${id}` },
             list: { href: `${baseUri}` },
             add: { href: `${baseUri}` },
@@ -323,11 +331,11 @@ export class BuchRequestHandler {
             remove: { href: `${baseUri}/${id}` },
         };
 
-        return buchHAL;
+        return gemaeldeHAL;
     }
 
     private handleCreateError(err: CreateError, res: Response) {
-        if (err instanceof BuchInvalid) {
+        if (err instanceof GemaeldeInvalid) {
             this.handleValidationError(err.msg, res);
             return;
         }
@@ -337,7 +345,7 @@ export class BuchRequestHandler {
             return;
         }
 
-        if (err instanceof IsbnExists) {
+        if (err instanceof ZertifizierungExists) {
             this.handleIsbnExists(err.isbn, err.id, res);
         }
     }
@@ -348,14 +356,17 @@ export class BuchRequestHandler {
         res: Response,
     ) {
         const msg = `Die ISBN-Nummer "${isbn}" existiert bereits bei ${id}.`;
-        logger.debug('BuchRequestHandler.handleIsbnExists(): msg=%s', msg);
+        logger.debug('GemaeldeRequestHandler.handleIsbnExists(): msg=%s', msg);
         res.status(HttpStatus.BAD_REQUEST)
             .set('Content-Type', 'text/plain')
             .send(msg);
     }
 
     private handleValidationError(msg: ValidationErrorMsg, res: Response) {
-        logger.debug('BuchRequestHandler.handleValidationError(): msg=%o', msg);
+        logger.debug(
+            'GemaeldeRequestHandler.handleValidationError(): msg=%o',
+            msg,
+        );
         res.status(HttpStatus.BAD_REQUEST).send(msg);
     }
 
@@ -365,7 +376,7 @@ export class BuchRequestHandler {
         res: Response,
     ) {
         const msg = `Der Titel "${titel}" existiert bereits bei ${id}.`;
-        logger.debug('BuchRequestHandler.handleTitelExists(): msg=%s', msg);
+        logger.debug('GemaeldeRequestHandler.handleTitelExists(): msg=%s', msg);
         res.status(HttpStatus.BAD_REQUEST)
             .set('Content-Type', 'text/plain')
             .send(msg);
@@ -374,14 +385,14 @@ export class BuchRequestHandler {
     private getVersionHeader(req: Request, res: Response) {
         const versionHeader = req.header('If-Match');
         logger.debug(
-            'BuchRequestHandler.getVersionHeader() versionHeader=%s',
+            'GemaeldeRequestHandler.getVersionHeader() versionHeader=%s',
             versionHeader,
         );
 
         if (versionHeader === undefined) {
             const msg = 'Versionsnummer fehlt';
             logger.debug(
-                'BuchRequestHandler.getVersionHeader(): status=428, message=',
+                'GemaeldeRequestHandler.getVersionHeader(): status=428, message=',
                 msg,
             );
             res.status(HttpStatus.PRECONDITION_REQUIRED)
@@ -395,7 +406,7 @@ export class BuchRequestHandler {
         if (length < 3) {
             const msg = `Ungueltige Versionsnummer: ${versionHeader}`;
             logger.debug(
-                'BuchRequestHandler.getVersionHeader(): status=412, message=',
+                'GemaeldeRequestHandler.getVersionHeader(): status=412, message=',
                 msg,
             );
             res.status(HttpStatus.PRECONDITION_FAILED)
@@ -407,22 +418,25 @@ export class BuchRequestHandler {
         // slice: einschl. Start, ausschl. Ende
         const version = versionHeader.slice(1, -1);
         logger.debug(
-            'BuchRequestHandler.getVersionHeader(): version=%s',
+            'GemaeldeRequestHandler.getVersionHeader(): version=%s',
             version,
         );
         return version;
     }
 
     private handleUpdateError(err: UpdateError, res: Response) {
-        if (err instanceof BuchInvalid) {
+        if (err instanceof GemaeldeInvalid) {
             this.handleValidationError(err.msg, res);
             return;
         }
 
-        if (err instanceof BuchNotExists) {
+        if (err instanceof GemaeldeNotExists) {
             const { id } = err;
-            const msg = `Es gibt kein Buch mit der ID "${id}".`;
-            logger.debug('BuchRequestHandler.handleUpdateError(): msg=%s', msg);
+            const msg = `Es gibt kein Gemaelde mit der ID "${id}".`;
+            logger.debug(
+                'GemaeldeRequestHandler.handleUpdateError(): msg=%s',
+                msg,
+            );
             res.status(HttpStatus.PRECONDITION_FAILED)
                 .set('Content-Type', 'text/plain')
                 .send(msg);
@@ -437,7 +451,10 @@ export class BuchRequestHandler {
         if (err instanceof VersionInvalid) {
             const { version } = err;
             const msg = `Die Versionsnummer "${version}" ist ungueltig.`;
-            logger.debug('BuchRequestHandler.handleUpdateError(): msg=%s', msg);
+            logger.debug(
+                'GemaeldeRequestHandler.handleUpdateError(): msg=%s',
+                msg,
+            );
             res.status(HttpStatus.PRECONDITION_REQUIRED)
                 .set('Content-Type', 'text/plain')
                 .send(msg);
@@ -447,7 +464,10 @@ export class BuchRequestHandler {
         if (err instanceof VersionOutdated) {
             const { version } = err;
             const msg = `Die Versionsnummer "${version}" ist nicht aktuell.`;
-            logger.debug('BuchRequestHandler.handleUpdateError(): msg=%s', msg);
+            logger.debug(
+                'GemaeldeRequestHandler.handleUpdateError(): msg=%s',
+                msg,
+            );
             res.status(HttpStatus.PRECONDITION_FAILED)
                 .set('Content-Type', 'text/plain')
                 .send(msg);

@@ -16,21 +16,17 @@
  */
 
 /**
- * Das Modul enthält die Funktionen für EJS einschließlich für die Startseite.
+ * Das Modul besteht aus der Funktion für EJS, um ein neues Gemaelde anzulegen.
  * @packageDocumentation
  */
 
 import type { Request, Response } from 'express';
 
 /**
- * Funktion für EJS für die Startseite ("index").
- *
- * @param req Request-Objekt von Express mit der URL für EJS
+ * Funktion für EJS, um ein neues Gemaelde anzulegen
+ * @param _ nicht-benutztes Request-Objekt von Express
  * @param res Response-Objekt von Express
  */
-export const index = (_: Request, res: Response) => {
-    res.render('index', { title: 'Beispiel' });
+export const neuesGemaelde = (_: Request, res: Response) => {
+    res.render('neues-Gemaelde', { title: 'Neues Gemaelde' });
 };
-
-export * from './neues-buch';
-export * from './suche';

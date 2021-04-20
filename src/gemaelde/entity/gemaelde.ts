@@ -31,7 +31,7 @@ export type Haendler = 'BAR_HAENDLER' | 'FOO_HAENDLER';
 /**
  * Alias-Typ für gültige Strings bei Verlagen.
  */
-export type Bewertung = 'AAA' | 'AA' | 'A' | 'B' | 'C';
+export type Bewertung = 'A' | 'AA' | 'AAA' | 'B' | 'C';
 
 /**
  * Alias-Typ für gültige Strings bei der Art eines Gemaelde.

@@ -30,7 +30,7 @@ import {
     findById,
     update,
     upload,
-} from './buch/rest';
+} from './gemaelde/rest';
 import {
     devMode,
     enablePlayground,
@@ -44,12 +44,12 @@ import {
     validateContentType,
     validateUUID,
 } from './shared';
-import { index, neuesBuch, suche } from './buch/html';
+import { index, neuesBuch, suche } from './gemaelde/html';
 import { isAdmin, isAdminMitarbeiter, login, validateJwt } from './auth';
 // Einlesen von application/json im Request-Rumpf
 // Fuer multimediale Daten (Videos, Bilder, Audios): raw-body
 import { json, urlencoded } from 'body-parser';
-import { resolvers, typeDefs } from './buch/graphql';
+import { resolvers, typeDefs } from './gemaelde/graphql';
 import { ApolloServer } from 'apollo-server-express';
 import type { ApolloServerExpressConfig } from 'apollo-server-express';
 import bearerToken from 'express-bearer-token';
