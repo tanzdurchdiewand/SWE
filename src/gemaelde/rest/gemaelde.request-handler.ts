@@ -24,6 +24,7 @@
  * @packageDocumentation
  */
 
+import type { CreateError, UpdateError } from '../service';
 import type { Gemaelde, GemaeldeData, ValidationErrorMsg } from '../entity';
 import {
     GemaeldeInvalid,
@@ -35,8 +36,6 @@ import {
     VersionOutdated,
     ZertifizierungExists,
 } from '../service';
-// eslint-disable-next-line sort-imports
-import type { CreateError, UpdateError } from '../service';
 import { HttpStatus, getBaseUri, logger, mimeConfig } from '../../shared';
 import type { Request, Response } from 'express';
 
@@ -114,8 +113,10 @@ export class GemaeldeRequestHandler {
             res.sendStatus(HttpStatus.NOT_FOUND);
             return;
         }
-        // eslint-disable-next-line prettier/prettier
-        logger.debug('GemaeldeRequestHandler.findById(): gemaelde=%o', gemaelde);
+        logger.debug(
+            'GemaeldeRequestHandler.findById(): gemaelde=%o',
+            gemaelde,
+        );
 
         // ETags
         const versionDb = gemaelde.__v;
@@ -150,7 +151,7 @@ export class GemaeldeRequestHandler {
      * @returns Leeres Promise-Objekt.
      */
     async find(req: Request, res: Response) {
-        // z.B. https://.../buecher?titel=a
+        // z.B. https://.../gemaelden?titel=a
         // => req.query = { titel: 'a' }
         const { query } = req;
         logger.debug('GemaeldeRequestHandler.find(): queryParams=%o', query);
@@ -164,7 +165,7 @@ export class GemaeldeRequestHandler {
             return;
         }
 
-        logger.debug('GemaeldeRequestHandler.find(): buecher=%o', gemaelden);
+        logger.debug('GemaeldeRequestHandler.find(): gemaelden=%o', gemaelden);
         if (gemaelden.length === 0) {
             // Alternative: https://www.npmjs.com/package/http-errors
             // Damit wird aber auch der Stacktrace zum Client
@@ -176,16 +177,16 @@ export class GemaeldeRequestHandler {
         }
 
         const baseUri = getBaseUri(req);
-        // asynchrone for-of Schleife statt synchrones buecher.forEach()
+        // asynchrone for-of Schleife statt synchrones gemaelden.forEach()
         for await (const gemaelde of gemaelden) {
             // HATEOAS: Atom Links je Gemaelde
             const gemaeldeHAL: GemaeldeHAL = gemaelde;
-            // eslint-disable-next-line no-underscore-dangle
-            gemaeldeHAL._links = { self: { href: `${baseUri}/${gemaelde._id}` } };
+            // eslint-disable-next-line no-underscore-dangle, prettier/prettier, @typescript-eslint/comma-dangle
+            gemaeldeHAL._links = { self: { href: `${baseUri}/${gemaelde._id}` }, };
             delete gemaelde._id;
             delete gemaelde.__v;
         }
-        logger.debug('GemaeldeRequestHandler.find(): buecher=%o', gemaelden);
+        logger.debug('GemaeldeRequestHandler.find(): gemaelden=%o', gemaelden);
 
         res.json(gemaelden);
     }

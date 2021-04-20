@@ -24,17 +24,17 @@
  */
 
 import {
-    BuchInvalid,
-    BuchNotExists,
+    GemaeldeInvalid,
+    GemaeldeNotExists,
     TitelExists,
     VersionInvalid,
     VersionOutdated,
-} from './../service/errors';
-import { BuchService, BuchServiceError } from '../service';
-import type { Buch } from './../entity';
+} from '../service/errors';
+import { GemaeldeService, GemaeldeServiceError } from '../service';
+import type { Gemaelde } from '../entity';
 import { logger } from '../../shared';
 
-const buchService = new BuchService();
+const gemaeldeService = new GemaeldeService();
 
 // https://www.apollographql.com/docs/apollo-server/data/resolvers
 // Zugriff auf Header-Daten, z.B. Token
@@ -43,25 +43,25 @@ const buchService = new BuchService();
 
 // Resultat mit id (statt _id) und version (statt __v)
 // __ ist bei GraphQL fuer interne Zwecke reserviert
-const withIdAndVersion = (buch: Buch) => {
-    const result: any = buch;
-    result.id = buch._id;
-    result.version = buch.__v;
-    return buch;
+const withIdAndVersion = (gemaelde: Gemaelde) => {
+    const result: any = gemaelde;
+    result.id = gemaelde._id;
+    result.version = gemaelde.__v;
+    return gemaelde;
 };
 
-const findBuchById = async (id: string) => {
-    const buch = await buchService.findById(id);
-    if (buch === undefined) {
+const findGemaeldeById = async (id: string) => {
+    const gemaelde = await gemaeldeService.findById(id);
+    if (gemaelde === undefined) {
         return;
     }
-    return withIdAndVersion(buch);
+    return withIdAndVersion(gemaelde);
 };
 
-const findBuecher = async (titel: string | undefined) => {
+const findGemaelden = async (titel: string | undefined) => {
     const suchkriterium = titel === undefined ? {} : { titel };
-    const buecher = await buchService.find(suchkriterium);
-    return buecher.map((buch: Buch) => withIdAndVersion(buch));
+    const gemaelden = await gemaeldeService.find(suchkriterium);
+    return gemaelden.map((gemaelde: Gemaelde) => withIdAndVersion(gemaelde));
 };
 
 interface TitelCriteria {
@@ -72,11 +72,11 @@ interface IdCriteria {
     id: string;
 }
 
-const createBuch = async (buch: Buch) => {
-    buch.datum = new Date(buch.datum as string);
-    const result = await buchService.create(buch);
-    logger.debug('resolvers createBuch(): result=%o', result);
-    if (result instanceof BuchServiceError) {
+const createGemaelde = async (gemaelde: Gemaelde) => {
+    gemaelde.datum = new Date(gemaelde.datum as string);
+    const result = await gemaeldeService.create(gemaelde);
+    logger.debug('resolvers createGemaelde(): result=%o', result);
+    if (result instanceof GemaeldeServiceError) {
         return;
     }
     return result;
@@ -84,58 +84,61 @@ const createBuch = async (buch: Buch) => {
 
 const logUpdateResult = (
     result:
-        | BuchInvalid
-        | BuchNotExists
+        | GemaeldeInvalid
+        | GemaeldeNotExists
         | TitelExists
         | VersionInvalid
         | VersionOutdated
         | number,
 ) => {
-    if (result instanceof BuchInvalid) {
-        logger.debug('resolvers updateBuch(): validation msg = %o', result.msg);
+    if (result instanceof GemaeldeInvalid) {
+        logger.debug(
+            'resolvers updateGemaelde(): validation msg = %o',
+            result.msg,
+        );
     } else if (result instanceof TitelExists) {
         logger.debug(
-            'resolvers updateBuch(): vorhandener titel = %s',
+            'resolvers updateGemaelde(): vorhandener titel = %s',
             result.titel,
         );
-    } else if (result instanceof BuchNotExists) {
+    } else if (result instanceof GemaeldeNotExists) {
         logger.debug(
-            'resolvers updateBuch(): nicht-vorhandene id = %s',
+            'resolvers updateGemaelde(): nicht-vorhandene id = %s',
             result.id,
         );
     } else if (result instanceof VersionInvalid) {
         logger.debug(
-            'resolvers updateBuch(): ungueltige version = %d',
+            'resolvers updateGemaelde(): ungueltige version = %d',
             result.version,
         );
     } else if (result instanceof VersionOutdated) {
         logger.debug(
-            'resolvers updateBuch(): alte version = %d',
+            'resolvers updateGemaelde(): alte version = %d',
             result.version,
         );
     } else {
         logger.debug(
-            'resolvers updateBuch(): aktualisierte Version= %d',
+            'resolvers updateGemaelde(): aktualisierte Version= %d',
             result,
         );
     }
 };
 
-const updateBuch = async (buch: Buch) => {
+const updateGemaelde = async (gemaelde: Gemaelde) => {
     logger.debug(
-        'resolvers updateBuch(): zu aktualisieren = %s',
-        JSON.stringify(buch),
+        'resolvers updateGemaelde(): zu aktualisieren = %s',
+        JSON.stringify(gemaelde),
     );
-    const version = buch.__v ?? 0;
-    buch.datum = new Date(buch.datum as string);
-    const result = await buchService.update(buch, version.toString());
+    const version = gemaelde.__v ?? 0;
+    gemaelde.datum = new Date(gemaelde.datum as string);
+    const result = await gemaeldeService.update(gemaelde, version.toString());
     logUpdateResult(result);
     return result;
 };
 
-const deleteBuch = async (id: string) => {
-    const result = await buchService.delete(id);
-    logger.debug('resolvers deleteBuch(): result = %s', result);
+const deleteGemaelde = async (id: string) => {
+    const result = await gemaeldeService.delete(id);
+    logger.debug('resolvers deleteGemaelde(): result = %s', result);
     return result;
 };
 
@@ -147,48 +150,50 @@ const query = {
      * @param __namedParameters JSON-Objekt mit `titel` als Suchkriterium
      * @returns Promise mit einem JSON-Array der gefundenen Bücher
      */
-    buecher: (_: unknown, { titel }: TitelCriteria) => findBuecher(titel),
+    gemaelden: (_: unknown, { titel }: TitelCriteria) => findGemaelden(titel),
 
     /**
-     * Buch suchen
+     * Gemaelde suchen
      * @param _ nicht benutzt
      * @param __namedParameters JSON-Objekt mit `id` als Suchkriterium
-     * @returns Promise mit dem gefundenen {@linkcode Buch} oder `undefined`
+     * @returns Promise mit dem gefundenen {@linkcode Gemaelde} oder `undefined`
      */
-    buch: (_: unknown, { id }: IdCriteria) => findBuchById(id),
+    gemaelde: (_: unknown, { id }: IdCriteria) => findGemaeldeById(id),
 };
 
 const mutation = {
     /**
-     * Neues Buch anlegen
+     * Neues Gemaelde anlegen
      * @param _ nicht benutzt
-     * @param buch JSON-Objekt mit dem neuen {@linkcode Buch}
+     * @param gemaelde JSON-Objekt mit dem neuen {@linkcode Gemaelde}
      * @returns Promise mit der generierten ID
      */
-    createBuch: (_: unknown, buch: Buch) => createBuch(buch),
+    createGemaelde: (_: unknown, gemaelde: Gemaelde) =>
+        createGemaelde(gemaelde),
 
     /**
-     * Vorhandenes {@linkcode Buch} aktualisieren
+     * Vorhandenes {@linkcode Gemaelde} aktualisieren
      * @param _ nicht benutzt
-     * @param buch JSON-Objekt mit dem zu aktualisierenden Buch
-     * @returns Das aktualisierte Buch als {@linkcode BuchData} in einem Promise,
+     * @param gemaelde JSON-Objekt mit dem zu aktualisierenden Gemaelde
+     * @returns Das aktualisierte Gemaelde als {@linkcode GemaeldeData} in einem Promise,
      * falls kein Fehler aufgetreten ist. Ansonsten ein Promise mit einem Fehler
      * durch:
-     * - {@linkcode BuchInvalid}
-     * - {@linkcode BuchNotExists}
+     * - {@linkcode GemaeldeInvalid}
+     * - {@linkcode GemaeldeNotExists}
      * - {@linkcode TitelExists}
      * - {@linkcode VersionInvalid}
      * - {@linkcode VersionOutdated}
      */
-    updateBuch: (_: unknown, buch: Buch) => updateBuch(buch),
+    updateGemaelde: (_: unknown, gemaelde: Gemaelde) =>
+        updateGemaelde(gemaelde),
 
     /**
-     * Buch löschen
+     * Gemaelde löschen
      * @param _ nicht benutzt
      * @param __namedParameters JSON-Objekt mit `id` zur Identifikation
-     * @returns true, falls das Buch gelöscht wurde. Sonst false.
+     * @returns true, falls das Gemaelde gelöscht wurde. Sonst false.
      */
-    deleteBuch: (_: unknown, { id }: IdCriteria) => deleteBuch(id),
+    deleteGemaelde: (_: unknown, { id }: IdCriteria) => deleteGemaelde(id),
 };
 
 /**

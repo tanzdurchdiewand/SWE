@@ -2,7 +2,7 @@ import type { GenericJsonSchema } from './GenericJsonSchema';
 
 export const jsonSchema: GenericJsonSchema = {
     $schema: 'https://json-schema.org/draft/2019-09/schema',
-    $id: 'http://acme.com/gemaelde.json#',
+    $id: 'https://acme.com/gemaelde.json#',
     title: 'Gemaelde',
     description: 'Eigenschaften eines Gemaeldes: Typen und Einschraenkungen',
     type: 'object',
@@ -22,7 +22,6 @@ export const jsonSchema: GenericJsonSchema = {
             type: 'string',
             pattern: '^\\w.*',
         },
-                
         gemaeldeart: {
             type: 'string',
             enum: ['OELGEMAELDE', 'SIEBDRUCK', 'WASSERFARBENGEMAELDE'],
@@ -37,9 +36,9 @@ export const jsonSchema: GenericJsonSchema = {
         },
         bewertung: {
             type: 'string',
-            enum: ['AAA', 'AA','A','BBB','BB', 'B' ,'C']
+            enum: ['AAA', 'AA', 'A', 'BBB', 'BB', 'B', 'C'],
         },
-      
+
         ausgestellt: { type: 'boolean' },
         // https://github.com/ajv-validator/ajv-formats
         datum: { type: 'string', format: 'date' },
@@ -72,7 +71,7 @@ export const jsonSchema: GenericJsonSchema = {
             titel:
                 'Ein Gemaeldetitel muss mit einem Buchstaben, einer Ziffer oder _ beginnen.',
             beschreibung:
-                 'Die Beschreibung muss vorhanden sein und darf maximal 99 Zeichen lang sein',
+                'Die Beschreibung muss vorhanden sein und darf maximal 99 Zeichen lang sein',
             art: 'Die Art eines Gemaelde muss KINDLE oder DRUCKAUSGABE sein.',
             verlag:
                 'Der Haendler eines Gemaeldes muss ein OELGEMAELDE, SIEBDRUCK oder WASSERFARBENGEMAELDE sein.',

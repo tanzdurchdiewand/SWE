@@ -16,17 +16,17 @@
  */
 
 /**
- * Das Modul besteht aus der Funktion für EJS, um ein neues Buch anzulegen.
+ * Das Modul besteht aus der Funktion für EJS, um ein neues Gemaelde anzulegen.
  * @packageDocumentation
  */
 
 import type { Request, Response } from 'express';
 
 /**
- * Funktion für EJS, um ein neues Buch anzulegen
+ * Funktion für EJS, um ein neues Gemaelde anzulegen
  * @param _ nicht-benutztes Request-Objekt von Express
  * @param res Response-Objekt von Express
  */
 export const neuesGemaelde = (_: Request, res: Response) => {
-    res.render('neues-gemaelde', { title: 'Neues Gemaelde' });
+    res.render('neues-Gemaelde', { title: 'Neues Gemaelde' });
 };

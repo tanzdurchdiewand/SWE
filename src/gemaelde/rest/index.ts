@@ -87,7 +87,11 @@ export const create = (req: Request, res: Response) => handler.create(req, res);
 /**
  * Ein vorhandenes Gemaelde wird asynchron aktualisiert.
  *
+<<<<<<< HEAD
  * Im Request-Objekt von Express muss die ID des zu aktualisierenden Gemaeldes
+=======
+ * Im Request-Objekt von Express muss die ID des zu aktualisierenden Gemaeldees
+>>>>>>> 5239079930894c1297d8eaed69b10318c8eede12
  * als Pfad-Parameter enthalten sein. Außerdem muss im Rumpf das zu
  * aktualisierende Gemaelde als JSON-Datensatz enthalten sein. Damit die
  * Aktualisierung überhaupt durchgeführt werden kann, muss im Header
