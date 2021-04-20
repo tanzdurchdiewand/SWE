@@ -181,8 +181,8 @@ export class GemaeldeRequestHandler {
         for await (const gemaelde of gemaelden) {
             // HATEOAS: Atom Links je Gemaelde
             const gemaeldeHAL: GemaeldeHAL = gemaelde;
-            // eslint-disable-next-line no-underscore-dangle
-            gemaeldeHAL._links = {self: { href: `${baseUri}/${gemaelde._id}` },};
+            // eslint-disable-next-line no-underscore-dangle, prettier/prettier, @typescript-eslint/comma-dangle
+            gemaeldeHAL._links = { self: { href: `${baseUri}/${gemaelde._id}` }, };
 
             delete gemaelde._id;
             delete gemaelde.__v;
