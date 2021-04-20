@@ -27,6 +27,6 @@ import type { Request, Response } from 'express';
  * @param _ nicht-benutztes Request-Objekt von Express
  * @param res Response-Objekt von Express
  */
-export const neuesBuch = (_: Request, res: Response) => {
-    res.render('neues-buch', { title: 'Neues Buch' });
+export const neuesGemaelde = (_: Request, res: Response) => {
+    res.render('neues-gemaelde', { title: 'Neues Gemaelde' });
 };
