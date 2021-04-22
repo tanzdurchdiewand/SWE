@@ -38,14 +38,14 @@ class App <<boudary>> {
 App ..> Express
 App ..> express
 
-package buch {
+package gemaelde {
   package entity {
-    interface BuchData <<entity>> {
+    interface GemaeldeData <<entity>> {
     }
   }
 
   package service {
-    class BuchService << control >> {
+    class GemaeldeService << control >> {
     }
   }
 
@@ -53,13 +53,13 @@ package buch {
     "Handler Functions" .right.> Request
     "Handler Functions" ..> Response
     "Handler Functions" ..> Promise
-    "Handler Functions" ..> BuchHandler
+    "Handler Functions" ..> GemaeldeHandler
 
-    BuchHandler o--> "1" BuchService : service
-    BuchHandler .right.> Request
-    BuchHandler ..> Response
-    BuchHandler ..> BuchData
-    BuchHandler ..> Promise
+    GemaeldeHandler o--> "1" GemaeldeService : service
+    GemaeldeHandler .right.> Request
+    GemaeldeHandler ..> Response
+    GemaeldeHandler ..> GemaeldeData
+    GemaeldeHandler ..> Promise
 
     class "Handler Functions" << boundary >> {
       + async findById(req: Request, res: Response): Promise<void>
@@ -70,7 +70,7 @@ package buch {
     }
     hide "Handler Functions" << boundary >> circle
 
-    class BuchHandler << control >> {
+    class GemaeldeHandler << control >> {
       + async findById(req: Request, res: Response): Promise<void>
       + async find(req: Request, res: Response): Promise<void>
       + async create(req: Request, res: Response): Promise<void>
@@ -84,6 +84,6 @@ App ..> "Handler Functions"
 
 hide empty members
 
-footer (c) Juergen Zimmermann
+footer (c) Kevin Schwab
 
 @enduml

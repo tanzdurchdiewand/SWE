@@ -39,46 +39,43 @@ const { expect } = chai;
 // -----------------------------------------------------------------------------
 // T e s t d a t e n
 // -----------------------------------------------------------------------------
-const geaendertesGemaelde: Omit<Gemaelde, 'isbn'> = {
-    // isbn wird nicht geaendet
+const geaendertesGemaelde: Omit<Gemaelde, 'zertifizierung'> = {
+    // zertifizierung wird nicht geaendet
     titel: 'Geaendert',
-    rating: 1,
-    art: 'DRUCKAUSGABE',
-    verlag: 'FOO_VERLAG',
-    preis: 33.33,
-    rabatt: 0.033,
-    lieferbar: true,
+    art: 'OElGEMAELEDE',
+    bewertung: 'B',
+    haendler: 'BAR_HAENDLER',
+    beschreibung: 'Nicht vorhanden',
+    wert: 33.33,
+    ausgestellt: true,
     datum: '2016-02-03',
-    homepage: 'https://test.te',
-    autoren: [{ nachname: 'Gamma', vorname: 'Claus' }],
-    schlagwoerter: ['JAVASCRIPT', 'TYPESCRIPT'],
+    kuenstler: [{ nachname: 'Gamma', vorname: 'Claus' }],
+    kategorien: [],
 };
 const idVorhanden = '00000000-0000-0000-0000-000000000003';
 
-const geaendertesGemaeldeIdNichtVorhanden: Omit<Gemaelde, 'isbn' | 'homepage'> = {
+const geaendertesGemaeldeIdNichtVorhanden: Omit<Gemaelde, 'zertifizierung' > = {
     titel: 'Nichtvorhanden',
-    rating: 1,
-    art: 'DRUCKAUSGABE',
-    verlag: 'FOO_VERLAG',
-    preis: 33.33,
-    rabatt: 0.033,
-    lieferbar: true,
+    art: 'OElGEMAELEDE',
+    haendler: 'BAR_HAENDLER',
+    bewertung: 'AAA',
+    beschreibung: 'Nicht vorhanden',
+    wert: 33.33,
+    ausgestellt: true,
     datum: '2016-02-03',
-    autoren: [{ nachname: 'Gamma', vorname: 'Claus' }],
-    schlagwoerter: ['JAVASCRIPT', 'TYPESCRIPT'],
+    kuenstler: [{ nachname: 'Gamma', vorname: 'Claus' }],
+    kategorien: [],
 };
 const idNichtVorhanden = '00000000-0000-0000-0000-000000000999';
 
 const geaendertesGemaeldeInvalid: object = {
     titel: 'Alpha',
-    rating: -1,
     art: 'UNSICHTBAR',
-    verlag: 'NO_VERLAG',
-    preis: 0.01,
-    rabatt: 0,
-    lieferbar: true,
+    haendler: 'NO_VERLAG',
+    wert: 0.01,
+    ausgestellt: true,
     datum: '12345-123-123',
-    isbn: 'falsche-ISBN',
+    zertifizierung: 'falsche-ISBN',
     autoren: [{ nachname: 'Test', vorname: 'Theo' }],
     schlagwoerter: [],
 };
@@ -86,8 +83,7 @@ const geaendertesGemaeldeInvalid: object = {
 const veraltesGemaelde: object = {
     // isbn wird nicht geaendet
     titel: 'Veraltet',
-    rating: 1,
-    art: 'DRUCKAUSGABE',
+        art: 'DRUCKAUSGABE',
     verlag: 'FOO_VERLAG',
     preis: 33.33,
     rabatt: 0.033,
