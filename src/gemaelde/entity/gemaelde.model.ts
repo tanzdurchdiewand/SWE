@@ -54,7 +54,7 @@ export class GemaeldeDocument extends Document<string> implements Gemaelde {
 
     readonly wert: number | undefined;
 
-    readonly ausgestaelt: boolean | undefined;
+    readonly ausgestellt: boolean | undefined;
 
     readonly datum: Date | string | undefined;
 
