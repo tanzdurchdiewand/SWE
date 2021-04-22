@@ -18,34 +18,34 @@ apiVersion: apps/v1
 # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#deployment-v1-apps
 kind: Deployment
 metadata:
-  name: buch
+  name: gemaelde
   labels:
-    app: buch
+    app: gemaelde
 spec:
   # https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#selector
   selector:
     matchLabels:
-      app: buch
+      app: gemaelde
   # Anzahl laufender Pods fuer das template
   replicas: 1
   # https://kubernetes.io/docs/concepts/workloads/pods/#pod-templates
   template:
     metadata:
       labels:
-        app: buch
+        app: gemaelde
     # Spezifikation des Pod
     spec:
-      serviceAccountName: acme-buch
+      serviceAccountName: acme-gemaelde
       containers:
         # https://kubernetes.io/docs/concepts/containers/images
-        - image: docker.io/juergenzimmermann/buch:1.0.0
-          name: buch
+        - image: docker.io/juergenzimmermann/gemaelde:1.0.0
+          name: gemaelde
           # https://kubernetes.io/docs/tasks/inject-data-application/define-interdependent-environment-variables
           # https://opensource.com/article/19/6/introduction-kubernetes-secrets-and-configmaps
           envFrom:
             # https://kubernetes.io/docs/concepts/configuration/configmap
             - configMapRef:
-                name: buch-env
+                name: gemaelde-env
           env:
             - name: DB_PASS
               valueFrom:
@@ -73,10 +73,10 @@ spec:
             readOnlyRootFilesystem: true
           volumeMounts:
             - mountPath: /var/log/node
-              name: log-buch
+              name: log-gemaelde
       volumes:
-        - name: log-buch
+        - name: log-gemaelde
           # https://kubernetes.io/docs/concepts/storage/volumes/#hostpath
           hostPath:
-            path: /run/desktop/mnt/host/c/Zimmermann/volumes/buch
+            path: /run/desktop/mnt/host/c/Zimmermann/volumes/gemaelde
             type: Directory
