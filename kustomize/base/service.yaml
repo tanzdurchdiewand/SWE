@@ -19,11 +19,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: buch
+  name: gemaelde
   labels:
-    app: buch
+    app: gemaelde
 spec:
   selector:
-    app: buch
+    app: gemaelde
   ports:
     - port: 3000
