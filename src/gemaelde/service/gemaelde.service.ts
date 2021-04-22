@@ -137,9 +137,9 @@ export class GemaeldeService {
             kategorien.push('TYPESCRIPT');
         }
         if (kategorien.length === 0) {
-            delete dbQuery.schlagwoerter;
+            delete dbQuery.kategorien;
         } else {
-            dbQuery.schlagwoerter = kategorien;
+            dbQuery.kategorien = kategorien;
         }
 
         logger.debug('GemaeldeService.find(): dbQuery=%o', dbQuery);
@@ -149,14 +149,14 @@ export class GemaeldeService {
         // GemaeldeModel.findOne(query), falls das Suchkriterium eindeutig ist
         // bei findOne(query) wird null zurueckgeliefert, falls nichts gefunden
         // lean() liefert ein "Plain JavaScript Object" statt ein Mongoose Document
-        const buecher = await GemaeldeModel.find(dbQuery).lean<
+        const gemaelden = await GemaeldeModel.find(dbQuery).lean<
             GemaeldeData[]
         >();
-        for await (const gemaelde of buecher) {
+        for await (const gemaelde of gemaelden) {
             this.deleteTimestamps(gemaelde);
         }
 
-        return buecher;
+        return gemaelden;
     }
 
     /**
