@@ -25,52 +25,63 @@ package mongoose {
   hide model circle
 }
 
-package buch.entity {
-  class "validateBuch()" as validateBuch
-  hide validateBuch circle
+package gemaelde.entity {
+  class "validateBuch()" as validateGemaelde
+  hide validateGemaelde circle
 
-  class BuchModel
-  hide BuchModel circle
+  class GemaeldeModel
+  hide GemaeldeModel circle
 
-  BuchModel ..> Schema
-  BuchModel ..> model
-  BuchModel ..> validateBuch
+  GemaeldeModel ..> Schema
+  GemaeldeModel ..> model
+  GemaeldeModel ..> validateGemaelde
 
-  BuchData ..> BuchArt
-  BuchData ..> Verlag
+  GemaeldeData ..> Gemaeldeart
+  GemaeldeData ..> Haendler
+  GemaeldeData ..> Bewertung
 
-  enum BuchArt {
-    KINDLE
-    DRUCKAUSGABE
+  enum Gemaeldeart {
+    OELGEMAELDE
+    SIEBDRUCK
+    WASSERFAREBENGEMAELDE
   }
 
-  enum Verlag {
-    FOO_VERLAG
-    BAR_VERLAG
+  enum Haendler {
+    BAR_HAENDLER
+    FOO_HAENDLER
   }
 
-  interface BuchData <<entity>> {
+  enum Bewertung {
+    AAA
+    AA
+    A
+    BBB
+    BB
+    B
+    C
+  }
+
+  interface GemaeldeData <<entity>> {
     + _id?: string
     + __v?: number
     + createdAt?: number
     + updatedAt?: number
     + titel: string
-    + rating?: number
-    + art?: BuchArt
-    + verlag: Verlag
-    + preis: number
-    + rabatt?: number
-    + lieferbar?: boolean
-    + datum?: Date
-    + isbn: string
-    + homepage?: string
-    + schlagwoerter?: Array<string>
-    + autoren: any
+    + beschreibung: string
+    + bewertung: Bewertung
+    + art: Gemaeldeart
+    + haendler: Haendler
+    + wert: number
+    + ausgestellt: boolean
+    + datum: Date
+    + zertifizierung: string
+    + kategorie?: Array<string>
+    + kuenstler: unknown
   }
 }
 
 hide empty members
 
-footer (c) Jürgen Zimmermann
+footer (c) Kevin Schwab
 
 @enduml

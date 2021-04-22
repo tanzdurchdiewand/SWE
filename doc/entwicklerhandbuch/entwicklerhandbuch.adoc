@@ -60,9 +60,9 @@ include::komponenten.puml[]
 bla bla
 
 .Handler für die REST-Schnittstelle
-[plantuml,BuchHandler,svg]
+[plantuml,GemaeldeHandler,svg]
 ----
-include::BuchHandler.puml[]
+include::GemaeldeHandler.puml[]
 ----
 
 === Der Anwendungskern
@@ -70,9 +70,9 @@ include::BuchHandler.puml[]
 bla bla
 
 .Anwendungskern mit Mongoose
-[plantuml,BuchService,svg]
+[plantuml,GemaeldeService,svg]
 ----
-include::BuchService.puml[]
+include::GemaeldeService.puml[]
 ----
 
 === Interface für Entities und das Mongoose-Model
@@ -80,9 +80,9 @@ include::BuchService.puml[]
 bla bla
 
 .Entity, Model und Schema
-[plantuml,Buch,svg]
+[plantuml,Gemaelde,svg]
 ----
-include::Buch.puml[]
+include::Gemaelde.puml[]
 ----
 
 == Programmierrichtlinien für TypeScript und JavaScript

@@ -25,29 +25,29 @@ package shared {
   hide sendMail circle
 }
 
-package buch {
+package geamaelde {
   package entity {
-    class BuchModel
-    hide BuchModel circle
+    class GemaeldeModel
+    hide GemaeldeModel circle
 
-    class "validateBuch()" as validateBuch
-    hide validateBuch circle
+    class "validateGemaelde()" as validateGemaelde
+    hide validateGemaelde circle
 
-    interface BuchData <<entity>>
+    interface GemaeldeData <<entity>>
   }
 
   package service #DDDDDD {
-    BuchService ..> Promise
-    BuchService ..> BuchModel
-    BuchService ..> BuchData
-    BuchService ..> validateBuch
-    BuchService ..> sendMail
+    GemaeldeService ..> Promise
+    GemaeldeService ..> GemaeldeModel
+    GemaeldeService ..> GemaeldeData
+    GemaeldeService ..> validateGemaelde
+    GemaeldeService ..> sendMail
 
-    class BuchService << control >> {
-      + async findById(id: string): Promise<BuchData | undefined>
-      + async find(query?: any): Promise<Array<BuchData>>
-      + async create(buch: BuchData): Promise<BuchData>
-      + async update(buch: BuchData, version: string): Promise<BuchData>
+    class GemaeldeService << control >> {
+      + async findById(id: string): Promise<GemaeldeData | undefined>
+      + async find(query?: any): Promise<Array<GemaeldeData>>
+      + async create(gemaelde: GemaeldeData): Promise<GemaeldeData>
+      + async update(gemaelde: GemaeldeData, version: string): Promise<GemaeldeData>
       + async delete(id: string): Promise<boolean>
     }
   }
@@ -55,6 +55,6 @@ package buch {
 
 hide empty members
 
-footer (c) Jürgen Zimmermann
+footer (c) Kevin Schwab
 
 @enduml
