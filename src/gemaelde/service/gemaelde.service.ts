@@ -131,10 +131,10 @@ export class GemaeldeService {
         // z.B. {javascript: true, typescript: true}
         const kategorien = [];
         if (javascript === 'true') {
-            kategorien.push('JAVASCRIPT');
+            kategorien.push('OElGEMAELEDE');
         }
         if (typescript === 'true') {
-            kategorien.push('TYPESCRIPT');
+            kategorien.push('SIEBDRUCK');
         }
         if (kategorien.length === 0) {
             delete dbQuery.schlagwoerter;
