@@ -22,16 +22,16 @@ actor Gast
 actor Admin
 
 rectangle kunde {
-    Gast --> (Buch suchen)
+    Gast --> (Gemaelde suchen)
     Gast --> (Datei herunterladen)
-    Admin --> (Buch suchen)
-    Admin --> (Buch anlegen)
-    Admin --> (Buch ändern)
-    Admin --> (Buch löschen)
+    Admin --> (Gemaelde suchen)
+    Admin --> (Gemaelde anlegen)
+    Admin --> (Gemaelde ändern)
+    Admin --> (Gemaelde löschen)
     Admin --> (Datei hochladen)
     Admin --> (Datei herunterladen)
 }
 
-footer (c) Jürgen Zimmermann
+footer (c) Kevin Schwab
 
 @enduml
