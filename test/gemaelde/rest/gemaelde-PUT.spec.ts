@@ -44,7 +44,7 @@ const geaendertesGemaelde: Omit<Gemaelde, 'zertifizierung'> = {
     titel: 'Geaendert',
     art: 'OElGEMAELEDE',
     bewertung: 'B',
-    haendler: 'BAR_HAENDLER',
+    haendler: 'HAENDLER1',
     beschreibung: 'Nicht vorhanden',
     wert: 33.33,
     ausgestellt: true,
@@ -57,7 +57,7 @@ const idVorhanden = '00000000-0000-0000-0000-000000000003';
 const geaendertesGemaeldeIdNichtVorhanden: Omit<Gemaelde, 'zertifizierung' > = {
     titel: 'Nichtvorhanden',
     art: 'OElGEMAELEDE',
-    haendler: 'BAR_HAENDLER',
+    haendler: 'HAENDLER1',
     bewertung: 'AAA',
     beschreibung: 'Nicht vorhanden',
     wert: 33.33,
@@ -81,17 +81,15 @@ const geaendertesGemaeldeInvalid: object = {
 };
 
 const veraltesGemaelde: object = {
-    // isbn wird nicht geaendet
+    // isgn wird nicht geaendet
     titel: 'Veraltet',
-        art: 'DRUCKAUSGABE',
-    verlag: 'FOO_VERLAG',
+        art: 'OElGEMAELEDE',
+    verlag: 'HAENDLER1',
     preis: 33.33,
-    rabatt: 0.033,
     lieferbar: true,
     datum: '2016-02-03',
-    homepage: 'https://test.te',
-    autoren: [{ nachname: 'Gamma', vorname: 'Claus' }],
-    schlagwoerter: ['JAVASCRIPT', 'TYPESCRIPT'],
+    kuenstler: [{ nachname: 'Gamma', vorname: 'Claus' }],
+    kategorien: ['Modern'],
 };
 
 // -----------------------------------------------------------------------------
@@ -190,16 +188,16 @@ describe('PUT /api/gemaelden/:id', () => {
 
         // then
         expect(response.status).to.be.equal(HttpStatus.BAD_REQUEST);
-        const { art, rating, verlag, datum, isbn } = await response.json();
+        const { art, bewertung, haendler, datum, zertifizierung } = await response.json();
         expect(art).to.be.equal(
             'Die Art eines Gemaeldees muss KINDLE oder DRUCKAUSGABE sein.',
         );
-        expect(rating).to.be.equal(`Eine Bewertung muss zwischen 0 und ${MAX_RATING} liegen.`);
-        expect(verlag).to.be.equal(
-            'Der Verlag eines Gemaeldees muss FOO_VERLAG oder BAR_VERLAG sein.',
+        expect(bewertung).to.be.equal(`Eine Bewertung muss zwischen AAA und C liegen.`);
+        expect(haendler).to.be.equal(
+            'Der Haendler eines Gemaeldes muss ein HAENDLER1 oder HAENDLER2 sein.',
         );
         expect(datum).to.be.equal('Das Datum muss im Format yyyy-MM-dd sein.');
-        expect(isbn).to.be.equal('Die ISBN-Nummer ist nicht korrekt.');
+        expect(zertifizierung).to.be.equal('Die Zertifizierungsnummer ist nicht korrekt.');
     });
 
     test('Vorhandenes Gemaelde aendern, aber ohne Versionsnummer', async () => {

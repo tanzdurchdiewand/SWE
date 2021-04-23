@@ -83,19 +83,19 @@ const neuesGemaeldeTitelExistiert: Gemaelde = {
 // T e s t s
 // -----------------------------------------------------------------------------
 let server: Server;
-const path = PATHS.buecher;
-let buecherUri: string;
+const path = PATHS.gemaelden;
+let gemaeldenUri: string;
 let loginUri: string;
 
 // Test-Suite
-describe('POST /api/buecher', () => {
+describe('POST /api/gemaelden', () => {
     // Testserver starten und dabei mit der DB verbinden
     beforeAll(async () => {
         server = await createTestserver();
 
         const address = server.address() as AddressInfo;
         const baseUri = `https://${nodeConfig.host}:${address.port}`;
-        buecherUri = `${baseUri}${path}`;
+        gemaeldenUri = `${baseUri}${path}`;
         loginUri = `${baseUri}${PATHS.login}`;
     });
 
@@ -112,7 +112,7 @@ describe('POST /api/buecher', () => {
             'Content-Type': 'application/json',
         });
         const body = JSON.stringify(neuesGemaelde);
-        const request = new Request(buecherUri, {
+        const request = new Request(gemaeldenUri, {
             method: HttpMethod.POST,
             headers,
             body,
@@ -153,7 +153,7 @@ describe('POST /api/buecher', () => {
             'Content-Type': 'application/json',
         });
         const body = JSON.stringify(neuesGemaeldeInvalid);
-        const request = new Request(buecherUri, {
+        const request = new Request(gemaeldenUri, {
             method: HttpMethod.POST,
             headers,
             body,
@@ -186,7 +186,7 @@ describe('POST /api/buecher', () => {
             'Content-Type': 'application/json',
         });
         const body = JSON.stringify(neuesGemaeldeTitelExistiert);
-        const request = new Request(buecherUri, {
+        const request = new Request(gemaeldenUri, {
             method: HttpMethod.POST,
             headers,
             body,
@@ -206,7 +206,7 @@ describe('POST /api/buecher', () => {
         // given
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const body = JSON.stringify(neuesGemaeldeTitelExistiert);
-        const request = new Request(buecherUri, {
+        const request = new Request(gemaeldenUri, {
             method: HttpMethod.POST,
             headers,
             body,
@@ -230,7 +230,7 @@ describe('POST /api/buecher', () => {
             'Content-Type': 'application/json',
         });
         const body = JSON.stringify(neuesGemaelde);
-        const request = new Request(buecherUri, {
+        const request = new Request(gemaeldenUri, {
             method: HttpMethod.POST,
             headers,
             body,
