@@ -50,7 +50,7 @@ const neuesGemaelde: Gemaelde = {
     ausgestellt: true,
     datum: '2016-02-28',
     zertifizierung: '0-0070-0644-6',
-    kategorien: ['Antik'],
+    kategorien: ['Modern'],
     kuenstler: [{ nachname: 'Test', vorname: 'Theo' }],
 };
 const neuesGemaeldeInvalid: object = {
