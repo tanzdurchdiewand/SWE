@@ -63,7 +63,7 @@ const neuesGemaeldeInvalid: object = {
     datum: '12345-123-123',
     zertifizierung: 'falsche-ISGN',
     kuenstler: [{ nachname: 'Test', vorname: 'Theo' }],
-    kategorien: [],
+    kategorien: ['XYZ'],
 };
 const neuesGemaeldeTitelExistiert: Gemaelde = {
     titel: 'DerSchrei',
@@ -79,7 +79,7 @@ const neuesGemaeldeTitelExistiert: Gemaelde = {
     kategorien: ['Expressionismus'],
 };
 
-// -----------------------------------------------------------------------------
+// --------------------------------------------------------------SS---------------
 // T e s t s
 // -----------------------------------------------------------------------------
 let server: Server;

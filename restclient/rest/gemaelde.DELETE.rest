@@ -28,9 +28,9 @@ Content-Type: application/x-www-form-urlencoded
 username=admin&password=p
 
 ### Loeschen eines vorhandenen Gemaelde
-DELETE https://{{host}}/gemaelde/00000000-0000-0000-0000-000000000005
+DELETE https://{{host}}/gemaelden/00000000-0000-0000-0000-000000000001
 Authorization: Bearer {{login.response.body.$.token}}
 
 ### Loeschen eines nicht-vorhandenen Gemaelde
-DELETE https://{{host}}/gemaelde/00000000-0000-0000-0000-000000000099
+DELETE https://{{host}}/gemaelden/00000000-0000-0000-0000-000000000099
 Authorization: Bearer {{login.response.body.$.token}}

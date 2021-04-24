@@ -190,7 +190,7 @@ describe('PUT /api/gemaelden/:id', () => {
         expect(response.status).to.be.equal(HttpStatus.BAD_REQUEST);
         const { art, bewertung, haendler, datum, zertifizierung } = await response.json();
         expect(art).to.be.equal(
-            'Die Art eines Gemaeldees muss KINDLE oder DRUCKAUSGABE sein.',
+            'Die Art eines Gemaelde muss ein OELGEMAELDE, SIEBDRUCK oder WASSERFARBENGEMAELDE sein.',
         );
         expect(bewertung).to.be.equal(`Eine Bewertung muss zwischen AAA und C liegen.`);
         expect(haendler).to.be.equal(
