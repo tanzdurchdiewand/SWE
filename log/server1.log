@@ -1,0 +1,120 @@
+{"level":"debug","message":"Response time: 260.2083 ms","timestamp":"2021-04-23T18:19:39.047Z"}
+{"level":"debug","message":"Request: headers={\n  'user-agent': 'vscode-restclient',\n  'accept-encoding': 'gzip, deflate',\n  host: 'localhost:3000',\n  connection: 'close'\n}","timestamp":"2021-04-23T18:41:47.912Z"}
+{"level":"debug","message":"Request: protocol=https","timestamp":"2021-04-23T18:41:47.913Z"}
+{"level":"debug","message":"Request: hostname=localhost","timestamp":"2021-04-23T18:41:47.913Z"}
+{"level":"debug","message":"Request: body=undefined","timestamp":"2021-04-23T18:41:47.913Z"}
+{"message":"SharedRequestHandler.validateUUID(): isUUID","level":"debug","timestamp":"2021-04-23T18:41:47.914Z"}
+{"level":"debug","message":"GemaeldeRequestHandler.findById(): versionHeader=undefined","timestamp":"2021-04-23T18:41:47.915Z"}
+{"level":"debug","message":"GemaeldeRequestHandler.findById(): id=00000000-0000-0000-0000-000000000001","timestamp":"2021-04-23T18:41:47.915Z"}
+{"level":"debug","message":"GemaeldeService.findById(): id=00000000-0000-0000-0000-000000000001","timestamp":"2021-04-23T18:41:47.915Z"}
+{"level":"debug","message":"GemaeldeService.findById(): gemaelde={\n  _id: '00000000-0000-0000-0000-000000000001',\n  titel: 'Alpha',\n  art: 'OElGEMAELEDE',\n  haendler: 'HAENDLER1',\n  bewertung: 'AAA',\n  wert: 11.1,\n  ausgestellt: true,\n  beschreibung: 'Schön',\n  datum: 2020-02-01T00:00:00.000Z,\n  zertifizierung: '978-3897225831',\n  kategorien: [ 'Expressionismus', [length]: 1 ],\n  kuenstler: [\n    { nachname: 'Beta', vorname: 'Bert' },\n    { nachname: 'Alpha', vorname: 'Alfred' },\n    [length]: 2\n  ],\n  __v: 0,\n  createdAt: 2021-04-23T18:18:58.330Z,\n  updatedAt: 2021-04-23T18:18:58.330Z\n}","timestamp":"2021-04-23T18:41:47.933Z"}
+{"level":"debug","message":"GemaeldeRequestHandler.findById(): gemaelde={\n  _id: '00000000-0000-0000-0000-000000000001',\n  titel: 'Alpha',\n  art: 'OElGEMAELEDE',\n  haendler: 'HAENDLER1',\n  bewertung: 'AAA',\n  wert: 11.1,\n  ausgestellt: true,\n  beschreibung: 'Schön',\n  datum: 2020-02-01T00:00:00.000Z,\n  zertifizierung: '978-3897225831',\n  kategorien: [ 'Expressionismus', [length]: 1 ],\n  kuenstler: [\n    { nachname: 'Beta', vorname: 'Bert' },\n    { nachname: 'Alpha', vorname: 'Alfred' },\n    [length]: 2\n  ],\n  __v: 0\n}","timestamp":"2021-04-23T18:41:47.933Z"}
+{"level":"debug","message":"GemaeldeRequestHandler.findById(): VersionDb=0","timestamp":"2021-04-23T18:41:47.933Z"}
+{"level":"debug","message":"Response time: 20.4516 ms","timestamp":"2021-04-23T18:41:47.934Z"}
+{"level":"debug","message":"Request: headers={\n  'user-agent': 'vscode-restclient',\n  authorization: 'Bearer {{login.response.body.$.token}}',\n  'accept-encoding': 'gzip, deflate',\n  host: 'localhost:3000',\n  connection: 'close'\n}","timestamp":"2021-04-23T18:43:23.950Z"}
+{"level":"debug","message":"Request: protocol=https","timestamp":"2021-04-23T18:43:23.950Z"}
+{"level":"debug","message":"Request: hostname=localhost","timestamp":"2021-04-23T18:43:23.950Z"}
+{"level":"debug","message":"Request: body=undefined","timestamp":"2021-04-23T18:43:23.950Z"}
+{"message":"SharedRequestHandler.validateUUID(): isUUID","level":"debug","timestamp":"2021-04-23T18:43:23.951Z"}
+{"level":"debug","message":"AuthRequestHandler.validateJwt(): 401: JsonWebTokenError, jwt malformed","timestamp":"2021-04-23T18:43:23.952Z"}
+{"level":"debug","message":"Response time: 1.5878999999999999 ms","timestamp":"2021-04-23T18:43:23.952Z"}
+{"level":"debug","message":"Request: headers={\n  'user-agent': 'vscode-restclient',\n  'content-type': 'application/x-www-form-urlencoded',\n  'accept-encoding': 'gzip, deflate',\n  'content-length': '25',\n  host: 'localhost:3000',\n  connection: 'close'\n}","timestamp":"2021-04-23T18:43:35.845Z"}
+{"level":"debug","message":"Request: protocol=https","timestamp":"2021-04-23T18:43:35.845Z"}
+{"level":"debug","message":"Request: hostname=localhost","timestamp":"2021-04-23T18:43:35.845Z"}
+{"level":"debug","message":"Request: body=undefined","timestamp":"2021-04-23T18:43:35.845Z"}
+{"level":"debug","message":"user: {\n  id: '20000000-0000-0000-0000-000000000001',\n  username: 'admin',\n  password: '$2b$10$YTg4.iW.FPRqHExVLRf05Ob/z/BQqjUxJgncct2TgxGBjl4cCUNGS',\n  email: 'admin@acme.com',\n  roles: [ 'admin', 'mitarbeiter', 'abteilungsleiter', 'kunde', [length]: 4 ]\n}","timestamp":"2021-04-23T18:43:35.847Z"}
+{"level":"debug","message":"AuthService.checkPassword(): true","timestamp":"2021-04-23T18:43:35.921Z"}
+{"level":"debug","message":"AuthService.login(): result={\n  token: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTkyMDM0MTUsImV4cCI6MTYxOTI4OTgxNSwiaXNzIjoiaHR0cHM6Ly9hY21lLmNvbS9zaG9wL0p1ZXJnZW5aaW1tZXJtYW5uIiwic3ViIjoiMjAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxIiwianRpIjoiOWFhZThhYjItNGUwNC00ODlmLTlhNmUtMTkxZDAwYmJlZDVhIn0.S3j89nlInrfuVfK3QsBbaihGLTnSYMju3IZMySe2mDnwApl8lztiOVfhpUfecSSRRJWgt6lx_Y68hAysaVXE0x9tx-fjQOkvivvQ69Hm43Qim6fivsr9lNqw5vpJSIqwgsXaVjDCoKYpfzjUP1-EShojm4ZTOCegCAC-8e2djaXP-0sPknFQMhDfRoQ_DZKaPgk70TxBN33IM_Zb8KGuaUHX1hZ5QpYc7POw-d-4vzqHnyOoFGFIFXzfwSCIqRVLQ3-3tzqEKKzoWAT_aXFmoaV0EWQZhuz3jz6zeCABbLnACtwv2vIqgWvqjxdOL22o06Gb2WDE9jEdevFillk9yg',\n  expiresIn: '1d',\n  roles: [ 'admin', 'mitarbeiter', 'abteilungsleiter', 'kunde', [length]: 4 ]\n}","timestamp":"2021-04-23T18:43:35.923Z"}
+{"level":"debug","message":"AuthRequestHandler.login(): {\n  token: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTkyMDM0MTUsImV4cCI6MTYxOTI4OTgxNSwiaXNzIjoiaHR0cHM6Ly9hY21lLmNvbS9zaG9wL0p1ZXJnZW5aaW1tZXJtYW5uIiwic3ViIjoiMjAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxIiwianRpIjoiOWFhZThhYjItNGUwNC00ODlmLTlhNmUtMTkxZDAwYmJlZDVhIn0.S3j89nlInrfuVfK3QsBbaihGLTnSYMju3IZMySe2mDnwApl8lztiOVfhpUfecSSRRJWgt6lx_Y68hAysaVXE0x9tx-fjQOkvivvQ69Hm43Qim6fivsr9lNqw5vpJSIqwgsXaVjDCoKYpfzjUP1-EShojm4ZTOCegCAC-8e2djaXP-0sPknFQMhDfRoQ_DZKaPgk70TxBN33IM_Zb8KGuaUHX1hZ5QpYc7POw-d-4vzqHnyOoFGFIFXzfwSCIqRVLQ3-3tzqEKKzoWAT_aXFmoaV0EWQZhuz3jz6zeCABbLnACtwv2vIqgWvqjxdOL22o06Gb2WDE9jEdevFillk9yg',\n  expiresIn: '1d',\n  roles: [ 'admin', 'mitarbeiter', 'abteilungsleiter', 'kunde', [length]: 4 ]\n}","timestamp":"2021-04-23T18:43:35.924Z"}
+{"level":"debug","message":"Response time: 77.8239 ms","timestamp":"2021-04-23T18:43:35.924Z"}
+{"level":"debug","message":"Request: headers={\n  'user-agent': 'vscode-restclient',\n  authorization: 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTkyMDM0MTUsImV4cCI6MTYxOTI4OTgxNSwiaXNzIjoiaHR0cHM6Ly9hY21lLmNvbS9zaG9wL0p1ZXJnZW5aaW1tZXJtYW5uIiwic3ViIjoiMjAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxIiwianRpIjoiOWFhZThhYjItNGUwNC00ODlmLTlhNmUtMTkxZDAwYmJlZDVhIn0.S3j89nlInrfuVfK3QsBbaihGLTnSYMju3IZMySe2mDnwApl8lztiOVfhpUfecSSRRJWgt6lx_Y68hAysaVXE0x9tx-fjQOkvivvQ69Hm43Qim6fivsr9lNqw5vpJSIqwgsXaVjDCoKYpfzjUP1-EShojm4ZTOCegCAC-8e2djaXP-0sPknFQMhDfRoQ_DZKaPgk70TxBN33IM_Zb8KGuaUHX1hZ5QpYc7POw-d-4vzqHnyOoFGFIFXzfwSCIqRVLQ3-3tzqEKKzoWAT_aXFmoaV0EWQZhuz3jz6zeCABbLnACtwv2vIqgWvqjxdOL22o06Gb2WDE9jEdevFillk9yg',\n  'accept-encoding': 'gzip, deflate',\n  host: 'localhost:3000',\n  connection: 'close'\n}","timestamp":"2021-04-23T18:43:38.104Z"}
+{"level":"debug","message":"Request: protocol=https","timestamp":"2021-04-23T18:43:38.104Z"}
+{"level":"debug","message":"Request: hostname=localhost","timestamp":"2021-04-23T18:43:38.105Z"}
+{"level":"debug","message":"Request: body=undefined","timestamp":"2021-04-23T18:43:38.105Z"}
+{"message":"SharedRequestHandler.validateUUID(): isUUID","level":"debug","timestamp":"2021-04-23T18:43:38.106Z"}
+{"level":"debug","message":"AuthService.validateJwt(): Der JWT-Token wurde decodiert: {\n  iat: 1619203415,\n  exp: 1619289815,\n  iss: 'https://acme.com/shop/JuergenZimmermann',\n  sub: '20000000-0000-0000-0000-000000000001',\n  jti: '9aae8ab2-4e04-489f-9a6e-191d00bbed5a'\n}","timestamp":"2021-04-23T18:43:38.108Z"}
+{"level":"debug","message":"AuthService.validateJwt(): sub=20000000-0000-0000-0000-000000000001","timestamp":"2021-04-23T18:43:38.108Z"}
+{"message":"AuthRequestHandler.validateJwt(): ok","level":"debug","timestamp":"2021-04-23T18:43:38.108Z"}
+{"level":"debug","message":"Rollen = [ 'admin', [length]: 1 ]","timestamp":"2021-04-23T18:43:38.109Z"}
+{"level":"debug","message":"RolesService.getNormalizedRoles(): [ 'admin', [length]: 1 ]","timestamp":"2021-04-23T18:43:38.109Z"}
+{"level":"debug","message":"AuthService.hasAnyRole(): true","timestamp":"2021-04-23T18:43:38.109Z"}
+{"message":"AuthRequestHandler.hasRolle(): ok","level":"debug","timestamp":"2021-04-23T18:43:38.109Z"}
+{"message":"AuthRequestHandler.isAdmin(): true","level":"debug","timestamp":"2021-04-23T18:43:38.109Z"}
+{"level":"debug","message":"GemaeldeRequestHandler.delete(): id=00000000-0000-0000-0000-000000000005","timestamp":"2021-04-23T18:43:38.109Z"}
+{"level":"debug","message":"GemaeldeService.delete(): id=00000000-0000-0000-0000-000000000005","timestamp":"2021-04-23T18:43:38.109Z"}
+{"level":"debug","message":"GemaeldeService.delete(): deleted={\n  _id: '00000000-0000-0000-0000-000000000005',\n  titel: 'Charlie',\n  art: 'OElGEMAELEDE',\n  haendler: 'HAENDLER1',\n  bewertung: 'AAA',\n  wert: 11.1,\n  ausgestellt: true,\n  beschreibung: 'Schön',\n  datum: 2020-02-01T00:00:00.000Z,\n  zertifizierung: '978-3897225831',\n  kategorien: [ 'Abstrakt', [length]: 1 ],\n  kuenstler: [\n    { nachname: 'Alpha', vorname: 'Adriana' },\n    { nachname: 'Alpha', vorname: 'Alfred' },\n    [length]: 2\n  ],\n  __v: 0,\n  createdAt: 2021-04-23T18:18:58.330Z,\n  updatedAt: 2021-04-23T18:18:58.330Z\n}","timestamp":"2021-04-23T18:43:38.128Z"}
+{"message":"GemaeldeRequestHandler.delete(): NO_CONTENT","level":"debug","timestamp":"2021-04-23T18:43:38.128Z"}
+{"level":"debug","message":"Response time: 23.0769 ms","timestamp":"2021-04-23T18:43:38.128Z"}
+{"level":"debug","message":"Request: headers={\n  'user-agent': 'vscode-restclient',\n  authorization: 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTkyMDM0MTUsImV4cCI6MTYxOTI4OTgxNSwiaXNzIjoiaHR0cHM6Ly9hY21lLmNvbS9zaG9wL0p1ZXJnZW5aaW1tZXJtYW5uIiwic3ViIjoiMjAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxIiwianRpIjoiOWFhZThhYjItNGUwNC00ODlmLTlhNmUtMTkxZDAwYmJlZDVhIn0.S3j89nlInrfuVfK3QsBbaihGLTnSYMju3IZMySe2mDnwApl8lztiOVfhpUfecSSRRJWgt6lx_Y68hAysaVXE0x9tx-fjQOkvivvQ69Hm43Qim6fivsr9lNqw5vpJSIqwgsXaVjDCoKYpfzjUP1-EShojm4ZTOCegCAC-8e2djaXP-0sPknFQMhDfRoQ_DZKaPgk70TxBN33IM_Zb8KGuaUHX1hZ5QpYc7POw-d-4vzqHnyOoFGFIFXzfwSCIqRVLQ3-3tzqEKKzoWAT_aXFmoaV0EWQZhuz3jz6zeCABbLnACtwv2vIqgWvqjxdOL22o06Gb2WDE9jEdevFillk9yg',\n  'accept-encoding': 'gzip, deflate',\n  host: 'localhost:3000',\n  connection: 'close'\n}","timestamp":"2021-04-23T18:43:40.999Z"}
+{"level":"debug","message":"Request: protocol=https","timestamp":"2021-04-23T18:43:40.999Z"}
+{"level":"debug","message":"Request: hostname=localhost","timestamp":"2021-04-23T18:43:40.999Z"}
+{"level":"debug","message":"Request: body=undefined","timestamp":"2021-04-23T18:43:40.999Z"}
+{"message":"SharedRequestHandler.validateUUID(): isUUID","level":"debug","timestamp":"2021-04-23T18:43:41.001Z"}
+{"level":"debug","message":"AuthService.validateJwt(): Der JWT-Token wurde decodiert: {\n  iat: 1619203415,\n  exp: 1619289815,\n  iss: 'https://acme.com/shop/JuergenZimmermann',\n  sub: '20000000-0000-0000-0000-000000000001',\n  jti: '9aae8ab2-4e04-489f-9a6e-191d00bbed5a'\n}","timestamp":"2021-04-23T18:43:41.001Z"}
+{"level":"debug","message":"AuthService.validateJwt(): sub=20000000-0000-0000-0000-000000000001","timestamp":"2021-04-23T18:43:41.002Z"}
+{"message":"AuthRequestHandler.validateJwt(): ok","level":"debug","timestamp":"2021-04-23T18:43:41.002Z"}
+{"level":"debug","message":"Rollen = [ 'admin', [length]: 1 ]","timestamp":"2021-04-23T18:43:41.002Z"}
+{"level":"debug","message":"RolesService.getNormalizedRoles(): [ 'admin', [length]: 1 ]","timestamp":"2021-04-23T18:43:41.002Z"}
+{"level":"debug","message":"AuthService.hasAnyRole(): true","timestamp":"2021-04-23T18:43:41.002Z"}
+{"message":"AuthRequestHandler.hasRolle(): ok","level":"debug","timestamp":"2021-04-23T18:43:41.002Z"}
+{"message":"AuthRequestHandler.isAdmin(): true","level":"debug","timestamp":"2021-04-23T18:43:41.002Z"}
+{"level":"debug","message":"GemaeldeRequestHandler.delete(): id=00000000-0000-0000-0000-000000000099","timestamp":"2021-04-23T18:43:41.002Z"}
+{"level":"debug","message":"GemaeldeService.delete(): id=00000000-0000-0000-0000-000000000099","timestamp":"2021-04-23T18:43:41.003Z"}
+{"level":"debug","message":"GemaeldeService.delete(): deleted=null","timestamp":"2021-04-23T18:43:41.011Z"}
+{"message":"GemaeldeRequestHandler.delete(): NO_CONTENT","level":"debug","timestamp":"2021-04-23T18:43:41.012Z"}
+{"level":"debug","message":"Response time: 11.7953 ms","timestamp":"2021-04-23T18:43:41.012Z"}
+{"level":"debug","message":"Request: headers={\n  'user-agent': 'vscode-restclient',\n  authorization: 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTkyMDM0MTUsImV4cCI6MTYxOTI4OTgxNSwiaXNzIjoiaHR0cHM6Ly9hY21lLmNvbS9zaG9wL0p1ZXJnZW5aaW1tZXJtYW5uIiwic3ViIjoiMjAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxIiwianRpIjoiOWFhZThhYjItNGUwNC00ODlmLTlhNmUtMTkxZDAwYmJlZDVhIn0.S3j89nlInrfuVfK3QsBbaihGLTnSYMju3IZMySe2mDnwApl8lztiOVfhpUfecSSRRJWgt6lx_Y68hAysaVXE0x9tx-fjQOkvivvQ69Hm43Qim6fivsr9lNqw5vpJSIqwgsXaVjDCoKYpfzjUP1-EShojm4ZTOCegCAC-8e2djaXP-0sPknFQMhDfRoQ_DZKaPgk70TxBN33IM_Zb8KGuaUHX1hZ5QpYc7POw-d-4vzqHnyOoFGFIFXzfwSCIqRVLQ3-3tzqEKKzoWAT_aXFmoaV0EWQZhuz3jz6zeCABbLnACtwv2vIqgWvqjxdOL22o06Gb2WDE9jEdevFillk9yg',\n  'accept-encoding': 'gzip, deflate',\n  host: 'localhost:3000',\n  connection: 'close'\n}","timestamp":"2021-04-23T18:43:43.152Z"}
+{"level":"debug","message":"Request: protocol=https","timestamp":"2021-04-23T18:43:43.152Z"}
+{"level":"debug","message":"Request: hostname=localhost","timestamp":"2021-04-23T18:43:43.152Z"}
+{"level":"debug","message":"Request: body=undefined","timestamp":"2021-04-23T18:43:43.152Z"}
+{"message":"SharedRequestHandler.validateUUID(): isUUID","level":"debug","timestamp":"2021-04-23T18:43:43.154Z"}
+{"level":"debug","message":"AuthService.validateJwt(): Der JWT-Token wurde decodiert: {\n  iat: 1619203415,\n  exp: 1619289815,\n  iss: 'https://acme.com/shop/JuergenZimmermann',\n  sub: '20000000-0000-0000-0000-000000000001',\n  jti: '9aae8ab2-4e04-489f-9a6e-191d00bbed5a'\n}","timestamp":"2021-04-23T18:43:43.154Z"}
+{"level":"debug","message":"AuthService.validateJwt(): sub=20000000-0000-0000-0000-000000000001","timestamp":"2021-04-23T18:43:43.154Z"}
+{"message":"AuthRequestHandler.validateJwt(): ok","level":"debug","timestamp":"2021-04-23T18:43:43.154Z"}
+{"level":"debug","message":"Rollen = [ 'admin', [length]: 1 ]","timestamp":"2021-04-23T18:43:43.154Z"}
+{"level":"debug","message":"RolesService.getNormalizedRoles(): [ 'admin', [length]: 1 ]","timestamp":"2021-04-23T18:43:43.154Z"}
+{"level":"debug","message":"AuthService.hasAnyRole(): true","timestamp":"2021-04-23T18:43:43.154Z"}
+{"message":"AuthRequestHandler.hasRolle(): ok","level":"debug","timestamp":"2021-04-23T18:43:43.154Z"}
+{"message":"AuthRequestHandler.isAdmin(): true","level":"debug","timestamp":"2021-04-23T18:43:43.155Z"}
+{"level":"debug","message":"GemaeldeRequestHandler.delete(): id=00000000-0000-0000-0000-000000000099","timestamp":"2021-04-23T18:43:43.155Z"}
+{"level":"debug","message":"GemaeldeService.delete(): id=00000000-0000-0000-0000-000000000099","timestamp":"2021-04-23T18:43:43.155Z"}
+{"level":"debug","message":"GemaeldeService.delete(): deleted=null","timestamp":"2021-04-23T18:43:43.158Z"}
+{"message":"GemaeldeRequestHandler.delete(): NO_CONTENT","level":"debug","timestamp":"2021-04-23T18:43:43.159Z"}
+{"level":"debug","message":"Response time: 5.5459 ms","timestamp":"2021-04-23T18:43:43.159Z"}
+{"level":"debug","message":"Request: headers={\n  'user-agent': 'vscode-restclient',\n  authorization: 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTkyMDM0MTUsImV4cCI6MTYxOTI4OTgxNSwiaXNzIjoiaHR0cHM6Ly9hY21lLmNvbS9zaG9wL0p1ZXJnZW5aaW1tZXJtYW5uIiwic3ViIjoiMjAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxIiwianRpIjoiOWFhZThhYjItNGUwNC00ODlmLTlhNmUtMTkxZDAwYmJlZDVhIn0.S3j89nlInrfuVfK3QsBbaihGLTnSYMju3IZMySe2mDnwApl8lztiOVfhpUfecSSRRJWgt6lx_Y68hAysaVXE0x9tx-fjQOkvivvQ69Hm43Qim6fivsr9lNqw5vpJSIqwgsXaVjDCoKYpfzjUP1-EShojm4ZTOCegCAC-8e2djaXP-0sPknFQMhDfRoQ_DZKaPgk70TxBN33IM_Zb8KGuaUHX1hZ5QpYc7POw-d-4vzqHnyOoFGFIFXzfwSCIqRVLQ3-3tzqEKKzoWAT_aXFmoaV0EWQZhuz3jz6zeCABbLnACtwv2vIqgWvqjxdOL22o06Gb2WDE9jEdevFillk9yg',\n  'accept-encoding': 'gzip, deflate',\n  host: 'localhost:3000',\n  connection: 'close'\n}","timestamp":"2021-04-23T18:43:44.759Z"}
+{"level":"debug","message":"Request: protocol=https","timestamp":"2021-04-23T18:43:44.759Z"}
+{"level":"debug","message":"Request: hostname=localhost","timestamp":"2021-04-23T18:43:44.760Z"}
+{"level":"debug","message":"Request: body=undefined","timestamp":"2021-04-23T18:43:44.760Z"}
+{"message":"SharedRequestHandler.validateUUID(): isUUID","level":"debug","timestamp":"2021-04-23T18:43:44.761Z"}
+{"level":"debug","message":"AuthService.validateJwt(): Der JWT-Token wurde decodiert: {\n  iat: 1619203415,\n  exp: 1619289815,\n  iss: 'https://acme.com/shop/JuergenZimmermann',\n  sub: '20000000-0000-0000-0000-000000000001',\n  jti: '9aae8ab2-4e04-489f-9a6e-191d00bbed5a'\n}","timestamp":"2021-04-23T18:43:44.761Z"}
+{"level":"debug","message":"AuthService.validateJwt(): sub=20000000-0000-0000-0000-000000000001","timestamp":"2021-04-23T18:43:44.761Z"}
+{"message":"AuthRequestHandler.validateJwt(): ok","level":"debug","timestamp":"2021-04-23T18:43:44.761Z"}
+{"level":"debug","message":"Rollen = [ 'admin', [length]: 1 ]","timestamp":"2021-04-23T18:43:44.761Z"}
+{"level":"debug","message":"RolesService.getNormalizedRoles(): [ 'admin', [length]: 1 ]","timestamp":"2021-04-23T18:43:44.761Z"}
+{"level":"debug","message":"AuthService.hasAnyRole(): true","timestamp":"2021-04-23T18:43:44.761Z"}
+{"message":"AuthRequestHandler.hasRolle(): ok","level":"debug","timestamp":"2021-04-23T18:43:44.762Z"}
+{"message":"AuthRequestHandler.isAdmin(): true","level":"debug","timestamp":"2021-04-23T18:43:44.762Z"}
+{"level":"debug","message":"GemaeldeRequestHandler.delete(): id=00000000-0000-0000-0000-000000000005","timestamp":"2021-04-23T18:43:44.762Z"}
+{"level":"debug","message":"GemaeldeService.delete(): id=00000000-0000-0000-0000-000000000005","timestamp":"2021-04-23T18:43:44.762Z"}
+{"level":"debug","message":"GemaeldeService.delete(): deleted=null","timestamp":"2021-04-23T18:43:44.767Z"}
+{"message":"GemaeldeRequestHandler.delete(): NO_CONTENT","level":"debug","timestamp":"2021-04-23T18:43:44.768Z"}
+{"level":"debug","message":"Response time: 7.879499999999999 ms","timestamp":"2021-04-23T18:43:44.768Z"}
+{"level":"debug","message":"Request: headers={\n  'user-agent': 'vscode-restclient',\n  authorization: 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTkyMDM0MTUsImV4cCI6MTYxOTI4OTgxNSwiaXNzIjoiaHR0cHM6Ly9hY21lLmNvbS9zaG9wL0p1ZXJnZW5aaW1tZXJtYW5uIiwic3ViIjoiMjAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxIiwianRpIjoiOWFhZThhYjItNGUwNC00ODlmLTlhNmUtMTkxZDAwYmJlZDVhIn0.S3j89nlInrfuVfK3QsBbaihGLTnSYMju3IZMySe2mDnwApl8lztiOVfhpUfecSSRRJWgt6lx_Y68hAysaVXE0x9tx-fjQOkvivvQ69Hm43Qim6fivsr9lNqw5vpJSIqwgsXaVjDCoKYpfzjUP1-EShojm4ZTOCegCAC-8e2djaXP-0sPknFQMhDfRoQ_DZKaPgk70TxBN33IM_Zb8KGuaUHX1hZ5QpYc7POw-d-4vzqHnyOoFGFIFXzfwSCIqRVLQ3-3tzqEKKzoWAT_aXFmoaV0EWQZhuz3jz6zeCABbLnACtwv2vIqgWvqjxdOL22o06Gb2WDE9jEdevFillk9yg',\n  'accept-encoding': 'gzip, deflate',\n  host: 'localhost:3000',\n  connection: 'close'\n}","timestamp":"2021-04-23T18:43:45.254Z"}
+{"level":"debug","message":"Request: protocol=https","timestamp":"2021-04-23T18:43:45.254Z"}
+{"level":"debug","message":"Request: hostname=localhost","timestamp":"2021-04-23T18:43:45.254Z"}
+{"level":"debug","message":"Request: body=undefined","timestamp":"2021-04-23T18:43:45.254Z"}
+{"message":"SharedRequestHandler.validateUUID(): isUUID","level":"debug","timestamp":"2021-04-23T18:43:45.255Z"}
+{"level":"debug","message":"AuthService.validateJwt(): Der JWT-Token wurde decodiert: {\n  iat: 1619203415,\n  exp: 1619289815,\n  iss: 'https://acme.com/shop/JuergenZimmermann',\n  sub: '20000000-0000-0000-0000-000000000001',\n  jti: '9aae8ab2-4e04-489f-9a6e-191d00bbed5a'\n}","timestamp":"2021-04-23T18:43:45.255Z"}
+{"level":"debug","message":"AuthService.validateJwt(): sub=20000000-0000-0000-0000-000000000001","timestamp":"2021-04-23T18:43:45.255Z"}
+{"message":"AuthRequestHandler.validateJwt(): ok","level":"debug","timestamp":"2021-04-23T18:43:45.255Z"}
+{"level":"debug","message":"Rollen = [ 'admin', [length]: 1 ]","timestamp":"2021-04-23T18:43:45.255Z"}
+{"level":"debug","message":"RolesService.getNormalizedRoles(): [ 'admin', [length]: 1 ]","timestamp":"2021-04-23T18:43:45.255Z"}
+{"level":"debug","message":"AuthService.hasAnyRole(): true","timestamp":"2021-04-23T18:43:45.256Z"}
+{"message":"AuthRequestHandler.hasRolle(): ok","level":"debug","timestamp":"2021-04-23T18:43:45.256Z"}
+{"message":"AuthRequestHandler.isAdmin(): true","level":"debug","timestamp":"2021-04-23T18:43:45.256Z"}
+{"level":"debug","message":"GemaeldeRequestHandler.delete(): id=00000000-0000-0000-0000-000000000005","timestamp":"2021-04-23T18:43:45.256Z"}
+{"level":"debug","message":"GemaeldeService.delete(): id=00000000-0000-0000-0000-000000000005","timestamp":"2021-04-23T18:43:45.256Z"}
+{"level":"debug","message":"GemaeldeService.delete(): deleted=null","timestamp":"2021-04-23T18:43:45.259Z"}
+{"message":"GemaeldeRequestHandler.delete(): NO_CONTENT","level":"debug","timestamp":"2021-04-23T18:43:45.259Z"}
+{"level":"debug","message":"Response time: 5.0783 ms","timestamp":"2021-04-23T18:43:45.260Z"}
+{"message":"Server wird heruntergefahren...","level":"info","timestamp":"2021-04-23T18:44:12.642Z"}

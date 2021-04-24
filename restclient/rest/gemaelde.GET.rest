@@ -17,8 +17,8 @@
 ### N e t z w e r k   -  V e r b i n d u n g   n o t w e n d i g
 ###
 
-@host = localhost:3000/api/gemaelde
-#@host = gener-iert-12345.herokuapp.com/api/buecher
+@host = localhost:3000/api/gemaelden
+#@host = gener-iert-12345.herokuapp.com/api/gemaelde
 
 ### Suche alle Gemaelde
 https://{{host}}
