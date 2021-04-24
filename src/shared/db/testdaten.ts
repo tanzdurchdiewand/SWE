@@ -71,14 +71,10 @@ export const testdaten: GemaeldeData[] = [
         kategorien: ['Renaissance'],
         kuenstler: [
             {
-                nachname: 'Alpha',
-                vorname: 'Adriana',
+                nachname: 'Leonardo',
+                vorname: 'Vinci',
             },
-            {
-                nachname: 'Alpha',
-                vorname: 'Alfred',
-            },
-        ],
+                    ],
         __v: 0,
         createdAt: new Date(),
         updatedAt: new Date(),

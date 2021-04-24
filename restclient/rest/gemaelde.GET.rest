@@ -18,7 +18,7 @@
 ###
 
 @host = localhost:3000/api/gemaelden
-#@host = gener-iert-12345.herokuapp.com/api/gemaelde
+#@host = gener-iert-12345.herokuapp.com/api/gemaelden
 
 ### Suche alle Gemaelde
 https://{{host}}
@@ -41,16 +41,16 @@ https://{{host}}/YYYYYYYY-YYYY-YYYY-YYYY-YYYYYYYYYYYY
 https://{{host}}/99999999-9999-9999-9999-999999999999
 
 ### Suche mit vorhandenem Titel
-https://{{host}}?titel=a
+https://{{host}}?titel=Der
 
 ### Suche mit nicht-vorhandenem Titel
 https://{{host}}?titel=xxx
 
 ### Suche mit vorhandener Zertifizierung
-https://{{host}}?zertifizierung=978-3897-225831
+https://{{host}}?zertifizierung=978-3897225831
 
 ### Suche mit vorhandenen kategorien
-https://{{host}}?blau=true&gruen=true
+https://{{host}}?kategorien=Expressionismus
 
 ### Suche mit vorhandenem Schlagwort "Gruen"
 https://{{host}}?gruen=true
@@ -59,10 +59,10 @@ https://{{host}}?gruen=true
 https://{{host}}?blau=true
 
 ### Suche mit gueltiger Gemaeldeart
-https://{{host}}?art=KINDLE
+https://{{host}}?art=OElGEMAELEDE
 
 ### Suche mit gueltiger Bewertun
-https://{{host}}?bewertung=AA
+https://{{host}}?bewertung=AAA
 
 ### Optionen zu Gemaelde-ID
 OPTIONS https://{{host}}/00000000-0000-0000-0000-000000000001
