@@ -38,19 +38,16 @@ export const jsonSchema: GenericJsonSchema = {
             type: 'string',
             enum: ['AAA', 'AA', 'A', 'BBB', 'BB', 'B', 'C'],
         },
-
         ausgestellt: { type: 'boolean' },
         // https://github.com/ajv-validator/ajv-formats
-        datum: { type: 'string', format: 'date' },
+        datum: { 
+            type: 'string', 
+            format: 'date' 
+        },
         zertifizierung: {
             type: 'string',
-            // https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s13.html
-            // TODO https://github.com/ajv-validator/ajv-formats/issues/14
-            pattern:
-                '^(?:ISBN(?:-1[03])?:? )?(?=[0-9X]{10}$|' +
-                '(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|' +
-                '(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?' +
-                '[0-9]+[- ]?[0-9]+[- ]?[0-9X]*',
+            //TODO Da stimmt was mit dem pattern nicht
+            pattern: '[1-9][\d]{2}[-][\d]{10}',
         },
         // https://github.com/ajv-validator/ajv-formats
         kategorie: {

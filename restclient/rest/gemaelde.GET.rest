@@ -26,10 +26,12 @@ https://{{host}}
 ### Suche mit vorhandener Gemaelde-ID
 https://{{host}}/00000000-0000-0000-0000-000000000001
 
+#TODO Rsponse is 304 should be 200
 ### Suche mit vorhandener Gemaelde-ID und Versionsnummer
 https://{{host}}/00000000-0000-0000-0000-000000000001
 If-None-Match: "0"
 
+#TODO Rsponse is 200 should be 304
 ### Suche mit vorhandener Gemaelde-ID und falscher Versionsnummer
 https://{{host}}/00000000-0000-0000-0000-000000000001
 If-None-Match: 0
@@ -49,6 +51,7 @@ https://{{host}}?titel=xxx
 ### Suche mit vorhandener Zertifizierung
 https://{{host}}?zertifizierung=978-3897225831
 
+#TODO Gibt alle Gemaelde zurück egal welche Kategorie
 ### Suche mit vorhandenen kategorien
 https://{{host}}?kategorien=Expressionismus
 
