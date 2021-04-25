@@ -64,7 +64,7 @@ export const jsonSchema: GenericJsonSchema = {
     },
     // isgn ist NUR beim Neuanlegen ein Pflichtfeld
     // Mongoose bietet dazu die Funktion MyModel.findByIdAndUpdate()
-    required: ['titel', 'gemaeldeart', 'haendler'],
+    required: ['titel', 'art', 'haendler'],
     errorMessage: {
         properties: {
             titel:
