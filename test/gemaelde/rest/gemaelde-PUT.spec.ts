@@ -43,14 +43,24 @@ const geaendertesGemaelde: Omit<Gemaelde, 'zertifizierung'> = {
     // zertifizierung wird nicht geaendet
     titel: 'Geaendert',
     art: 'OElGEMAELEDE',
-    bewertung: 'B',
     haendler: 'HAENDLER1',
-    beschreibung: 'Nicht vorhanden',
-    wert: 33.33,
+    bewertung: 'AAA',
+    wert: 11.1,
     ausgestellt: true,
-    datum: '2016-02-03',
-    kuenstler: [{ nachname: 'Gamma', vorname: 'Claus' }],
-    kategorien: [],
+    beschreibung: 'Schön',
+    // https://docs.mongodb.com/manual/reference/method/Date
+    datum: new Date('2020-02-01'),
+    kategorien: ['Expressionismus'],
+    kuenstler: [
+        {
+            nachname: 'Beta',
+            vorname: 'Bert',
+        },
+        {
+            nachname: 'Alpha',
+            vorname: 'Alfred',
+        },
+    ]
 };
 const idVorhanden = '00000000-0000-0000-0000-000000000003';
 
@@ -71,13 +81,14 @@ const idNichtVorhanden = '00000000-0000-0000-0000-000000000999';
 const geaendertesGemaeldeInvalid: object = {
     titel: 'Alpha',
     art: 'UNSICHTBAR',
+    bewertung: 'D',
     haendler: 'NO_VERLAG',
     wert: 0.01,
     ausgestellt: true,
     datum: '12345-123-123',
     zertifizierung: 'falsche-ISBN',
     autoren: [{ nachname: 'Test', vorname: 'Theo' }],
-    schlagwoerter: [],
+    kategorien: [],
 };
 
 const veraltesGemaelde: object = {
