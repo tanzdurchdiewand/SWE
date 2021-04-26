@@ -22,13 +22,16 @@ export const jsonSchema: GenericJsonSchema = {
             type: 'string',
             pattern: '^\\w.*',
         },
-        gemaeldeart: {
+        art: {
             type: 'string',
             enum: ['OELGEMAELDE', 'SIEBDRUCK', 'WASSERFARBENGEMAELDE'],
         },
         haendler: {
             type: 'string',
-            enum: ['HAENDLER1', 'HAENDLER2', ''],
+            enum: ['HAENDLER1', 'HAENDLER2'],
+        },
+        beschreibung: {
+            type: 'string'
         },
         wert: {
             type: 'number',
@@ -46,11 +49,16 @@ export const jsonSchema: GenericJsonSchema = {
         },
         zertifizierung: {
             type: 'string',
-            //TODO Da stimmt was mit dem pattern nicht
-            pattern: '[1-9][\d]{2}[-][\d]{10}',
+            // https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s13.html
+            // TODO https://github.com/ajv-validator/ajv-formats/issues/14
+            pattern:
+                '^(?:ISGN(?:-1[03])?:? )?(?=[0-9X]{10}$|' +
+                '(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|' +
+                '(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?' +
+                '[0-9]+[- ]?[0-9]+[- ]?[0-9X]*',
         },
         // https://github.com/ajv-validator/ajv-formats
-        kategorie: {
+        kategorien: {
             type: 'array',
             items: { type: 'string' },
         },
@@ -61,7 +69,7 @@ export const jsonSchema: GenericJsonSchema = {
     },
     // isgn ist NUR beim Neuanlegen ein Pflichtfeld
     // Mongoose bietet dazu die Funktion MyModel.findByIdAndUpdate()
-    required: ['titel', 'gemaeldeart', 'haendler'],
+    required: ['titel', 'art', 'haendler'],
     errorMessage: {
         properties: {
             titel:

@@ -1,13 +1,20 @@
-{
-  "titel": "Der Schrei",
-  "beschreibung": "Beispiel Beschreibung",
-  "bewertung": "AA",
-  "art": "OELGEMAELDE",
-  "haendler": "BAR_HAENDLER",
-  "wert": 234,
-  "ausgestellt": true,
-  "datum": "1234-12-12",
-  "zertifizierung": "1234",
-  "kategorien": ["blau", "grün"],
-  "künstler": "unknown"
-}
+  {
+    "titel": "NeuesGemaelde",
+    "art": "SIEBDRUCK",
+    "haendler": "HAENDLER1",
+    "bewertung": "B",
+    "wert": 9.1,
+    "ausgestellt": true,
+    "beschreibung": "Beschaedigt",
+    "datum": "2020-02-01",
+    "zertifizierung": "0-0070-0644-6",
+    "kategorien": [
+      "Expressionismus"
+    ],
+    "kuenstler": [
+      {
+        "nachname": "Beta",
+        "vorname": "Bert"
+      }
+    ]
+  }
