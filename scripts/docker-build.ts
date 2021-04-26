@@ -17,7 +17,7 @@
 
 import { exec } from 'shelljs';
 
-const dockerAccount = 'juergenzimmermann';
+const dockerAccount = 'gruppe06';
 const imageName = 'gemaelde';
 const imageTag = '1.0.0';
 

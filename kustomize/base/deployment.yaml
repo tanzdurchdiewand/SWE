@@ -38,7 +38,7 @@ spec:
       serviceAccountName: acme-gemaelde
       containers:
         # https://kubernetes.io/docs/concepts/containers/images
-        - image: docker.io/juergenzimmermann/gemaelde:1.0.0
+        - image: docker.io/gruppe06/gemaelde:1.0.0
           name: gemaelde
           # https://kubernetes.io/docs/tasks/inject-data-application/define-interdependent-environment-variables
           # https://opensource.com/article/19/6/introduction-kubernetes-secrets-and-configmaps

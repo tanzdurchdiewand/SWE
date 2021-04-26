@@ -80,6 +80,7 @@ export const typeDefs = gql`
         datum: String
         zertifizierung: String
         kategorien: [String]
+        kuenstler: String
     }
 
     "Funktionen, um Buecher zu empfangen"
@@ -101,6 +102,7 @@ export const typeDefs = gql`
             datum: String
             zertifizierung: String
             kategorien: [String]
+            kuenstler: String
         ): String
         updateGemaelde(
             _id: ID
@@ -114,6 +116,7 @@ export const typeDefs = gql`
             datum: String
             zertifizierung: String
             kategorien: [String]
+            kuenstler: String
             version: Int
         ): Int
         deleteGemaelde(id: ID!): Boolean

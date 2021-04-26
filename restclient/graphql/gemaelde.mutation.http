@@ -31,13 +31,13 @@ mutation {
     beschreibung: "Beispiel Beschreibung",
     bewertung: "AA",
     art: "OELGEMAELDE",
-    haendler: "BAR_HAENDLER",
+    haendler: "HAENDLER1",
     wert: 234,
     ausgestellt: true,
     datum: "2018-12-12",
-    zertifizierung: "1234",
+    zertifizierung: "0-0070-0644-6",
     kategorien: ["blau", "grün"],
-    künstler: "unknown"
+    kuenstler: "unknown"
   )
 }
 
@@ -57,9 +57,9 @@ mutation {
     wert: 234,
     ausgestellt: true,
     datum: "2018-12-12",
-    zertifizierung: "1234",
+    zertifizierung: "0-0070-0644-6",
     kategorien: ["blau", "grün"],
-    künstler: "unknown"
+    kuenstler: "unknown"
     version: 1
   )
 }
