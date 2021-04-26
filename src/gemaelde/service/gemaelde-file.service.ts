@@ -151,7 +151,10 @@ export class GemaeldeFileService {
             return result;
         }
 
-        logger.debug('GemaeldeFileService.checkFilename(): buch=%o', gemaelde);
+        logger.debug(
+            'GemaeldeFileService.checkFilename(): gemaelde=%o',
+            gemaelde,
+        );
 
         return undefined;
     }
