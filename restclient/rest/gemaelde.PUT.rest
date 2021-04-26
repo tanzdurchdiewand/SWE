@@ -35,7 +35,7 @@ Content-Type: application/x-www-form-urlencoded
 username=admin&password=FALSCH
 
 ### Vorhandenes Gemaelde aktualisieren
-PUT https://{{host}}/gemaelde/00000000-0000-0000-0000-000000000003
+PUT https://{{host}}/gemaelden/00000000-0000-0000-0000-000000000002
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.$.token}}
 If-Match: "0"
@@ -43,22 +43,22 @@ If-Match: "0"
 < .\json\gemaelde-3-put.json
 
 ### NICHT-Vorhandenes Gemaelde aktualisieren
-PUT https://{{host}}/gemaelde/99999999-9999-9999-9999-999999999999
+PUT https://{{host}}/gemaelden/99999999-9999-9999-9999-999999999999
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.$.token}}
 If-Match: "0"
 
-< .\json\gemaelde-3-put.json
+< .\json\gemaelde-put-nicht-vorhanden
 
 ### Vorhandenes Gemaelde *OHNE* Versionsnummer aktualisieren
-PUT https://{{host}}/gemaelde/00000000-0000-0000-0000-000000000003
+PUT https://{{host}}/gemaelden/00000000-0000-0000-0000-000000000003
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.$.token}}
 
 < .\json\gemaelde-3-put.json
 
 ### Vorhandenes Gemaelde mit falscher Versionsnummer aktualisieren
-PUT https://{{host}}/gemaelde/00000000-0000-0000-0000-000000000003
+PUT https://{{host}}/gemaelden/00000000-0000-0000-0000-000000000003
 Content-Type: application/json
 If-Match: 0
 Authorization: Bearer {{login.response.body.$.token}}
@@ -66,7 +66,7 @@ Authorization: Bearer {{login.response.body.$.token}}
 < .\json\gemaelde-3-put.json
 
 ### Vorhandenes Gemaelde mit alter Versionsnummer aktualisieren
-PUT https://{{host}}/gemaelde/00000000-0000-0000-0000-000000000003
+PUT https://{{host}}/gemaelden/00000000-0000-0000-0000-000000000003
 Content-Type: application/json
 If-Match: "-1"
 Authorization: Bearer {{login.response.body.$.token}}
