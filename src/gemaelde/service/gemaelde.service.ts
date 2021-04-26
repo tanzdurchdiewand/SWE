@@ -114,7 +114,7 @@ export class GemaeldeService {
 
         // { titel: 'a', rating: 5, javascript: true }
         // Rest Properties
-        const { titel, javascript, typescript, ...dbQuery } = query;
+        const { titel, oelgemaelde, siebdruck, ...dbQuery } = query;
 
         // Gemaelde zur Query (= JSON-Objekt durch Express) asynchron suchen
         // Titel in der Query: Teilstring des Titels,
@@ -128,12 +128,12 @@ export class GemaeldeService {
             dbQuery.titel = new RegExp(titel, 'iu'); // eslint-disable-line security/detect-non-literal-regexp, security-node/non-literal-reg-expr
         }
 
-        // z.B. {javascript: true, typescript: true}
+        // z.B. {oelgemaelde: true, typescript: true}
         const kategorien = [];
-        if (javascript === 'true') {
+        if (oelgemaelde === 'true') {
             kategorien.push('OElGEMAELEDE');
         }
-        if (typescript === 'true') {
+        if (siebdruck === 'true') {
             kategorien.push('SIEBDRUCK');
         }
         if (kategorien.length === 0) {

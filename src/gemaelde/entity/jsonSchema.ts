@@ -30,9 +30,7 @@ export const jsonSchema: GenericJsonSchema = {
             type: 'string',
             enum: ['HAENDLER1', 'HAENDLER2'],
         },
-        beschreibung: {
-            type: 'string'
-        },
+        beschreibung: { type: 'string' },
         wert: {
             type: 'number',
             minimum: 0,
@@ -72,9 +70,17 @@ export const jsonSchema: GenericJsonSchema = {
         properties: {
             titel:
                 'Ein Gemaeldetitel muss mit einem Buchstaben oder einer Ziffer beginnen',
+<<<<<<< HEAD
             beschreibung: 'Die Beschreibung muss vorhanden sein und darf maximal 99 Zeichen lang sein',
             bewertung:'Eine Bewertung muss zwischen AAA und C liegen.',
             art: 'Die Art eines Gemaelde muss ein OELGEMAELDE, SIEBDRUCK oder WASSERFARBENGEMAELDE sein.',
+=======
+            beschreibung:
+                'Die Beschreibung muss vorhanden sein und darf maximal 99 Zeichen lang sein',
+            bewertung: 'Eine Bewertung muss zweischen AAA und C liegen',
+            art:
+                'Die Art eines Gemaelde muss ein OELGEMAELDE, SIEBDRUCK oder WASSERFARBENGEMAELDE sein.',
+>>>>>>> c6a7d3bdcb8e9633e9da11d960c64d955d1c9580
             haendler:
                 'Der Haendler eines Gemaeldes muss ein HAENDLER1 oder HAENDLER2 sein.',
             wert: 'Der Wert darf nicht negativ sein.',
