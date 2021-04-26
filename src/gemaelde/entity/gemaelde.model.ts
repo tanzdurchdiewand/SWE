@@ -99,7 +99,7 @@ export const gemaeldeSchema = new Schema<
         haendler: {
             type: String,
             required: true,
-            enum: ['FOO_HAENDLER', 'BAR_HAENDLER'],
+            enum: ['HAENDLER1', 'HAENDLER2'],
             // es gibt auch
             //  lowercase: true
             //  uppercase: true
@@ -107,7 +107,7 @@ export const gemaeldeSchema = new Schema<
         wert: { type: Number, required: true },
         ausgestellt: Boolean,
         datum: Date,
-        isbn: { type: String, required: true, unique: true, immutable: true },
+        zertifizierung: { type: String, required: true, unique: true, immutable: true },
         kategorien: { type: [String], sparse: true },
         // "anything goes"
         kuenstler: [{}],

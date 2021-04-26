@@ -42,7 +42,7 @@ Authorization: Bearer {{login.response.body.$.token}}
 < .\json\gemaelde-neu.json
 
 ### Neues Gemaelde mit ungueltigen Daten anlegen
-POST https://{{host}}/gemaelde
+POST https://{{host}}/gemaelden
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.$.token}}
 
