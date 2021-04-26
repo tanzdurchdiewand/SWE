@@ -33,7 +33,7 @@ export const testdaten: GemaeldeData[] = [
         _id: '00000000-0000-0000-0000-000000000001',
         titel: 'Alpha',
         art: 'OElGEMAELEDE',
-        haendler: 'BAR_HAENDLER',
+        haendler: 'HAENDLER1',
         bewertung: 'AAA',
         wert: 11.1,
         ausgestellt: true,
@@ -58,9 +58,9 @@ export const testdaten: GemaeldeData[] = [
     },
     {
         _id: '00000000-0000-0000-0000-000000000002',
-        titel: 'Alpha',
+        titel: 'MonaLisa',
         art: 'OElGEMAELEDE',
-        haendler: 'BAR_HAENDLER',
+        haendler: 'HAENDLER1',
         bewertung: 'AAA',
         wert: 11.1,
         ausgestellt: true,
@@ -68,17 +68,13 @@ export const testdaten: GemaeldeData[] = [
         // https://docs.mongodb.com/manual/reference/method/Date
         datum: new Date('2020-02-01'),
         zertifizierung: '978-3897225831',
-        kategorien: ['Expressionismus'],
+        kategorien: ['Renaissance'],
         kuenstler: [
             {
-                nachname: 'Alpha',
-                vorname: 'Adriana',
+                nachname: 'Leonardo',
+                vorname: 'Vinci',
             },
-            {
-                nachname: 'Alpha',
-                vorname: 'Alfred',
-            },
-        ],
+                    ],
         __v: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -87,7 +83,7 @@ export const testdaten: GemaeldeData[] = [
         _id: '00000000-0000-0000-0000-00000000003',
         titel: 'DerSchrei',
         art: 'OElGEMAELEDE',
-        haendler: 'BAR_HAENDLER',
+        haendler: 'HAENDLER1',
         bewertung: 'AAA',
         wert: 99.9,
         ausgestellt: true,
@@ -108,9 +104,9 @@ export const testdaten: GemaeldeData[] = [
     },
     {
         _id: '00000000-0000-0000-0000-000000000004',
-        titel: 'Alpha',
+        titel: 'Beta',
         art: 'OElGEMAELEDE',
-        haendler: 'BAR_HAENDLER',
+        haendler: 'HAENDLER1',
         bewertung: 'AAA',
         wert: 11.1,
         ausgestellt: true,
@@ -135,9 +131,9 @@ export const testdaten: GemaeldeData[] = [
     },
     {
         _id: '00000000-0000-0000-0000-000000000005',
-        titel: 'Alpha',
+        titel: 'Charlie',
         art: 'OElGEMAELEDE',
-        haendler: 'BAR_HAENDLER',
+        haendler: 'HAENDLER1',
         bewertung: 'AAA',
         wert: 11.1,
         ausgestellt: true,
@@ -145,7 +141,7 @@ export const testdaten: GemaeldeData[] = [
         // https://docs.mongodb.com/manual/reference/method/Date
         datum: new Date('2020-02-01'),
         zertifizierung: '978-3897225831',
-        kategorien: ['Abstrakt', 'Bunt'],
+        kategorien: ['Abstrakt'],
         kuenstler: [
             {
                 nachname: 'Alpha',
