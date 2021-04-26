@@ -1,0 +1,17 @@
+{
+    "titel": "ABC",
+    "art": "OELGEMAELDE",
+    "haendler": "HAENDLER1",
+    "bewertung": "AAA",
+    "wert": 56.1,
+    "ausgestellt": true,
+    "beschreibung": "Schön",
+    "kategorien": ["Renaissance"],
+    "kuenstler": [
+      {
+        "nachname": "Leonardo",
+        "vorname": "Vinci"
+      }
+     
+    ]
+  }
