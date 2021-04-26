@@ -1,13 +1,17 @@
 {
-  "titel": "Der Schrei",
-  "beschreibung": "Beispiel Beschreibung",
-  "bewertung": "AA",
-  "art": "OELGEMAELDE",
-  "haendler": "BAR_HAENDLER",
-  "wert": 234,
+  "titel": "MonaLisa",
+  "art": "OElGEMAELEDE",
+  "haendler": "HAENDLER1",
+  "bewertung": "AAA",
+  "wert": 56.1,
   "ausgestellt": true,
-  "datum": "1234-12-12",
-  "zertifizierung": "1234",
-  "kategorien": ["blau", "grün"],
-  "künstler": "unknown"
+  "beschreibung": "Schön",
+  "kategorien": ["Renaissance"],
+  "kuenstler": [
+    {
+      "nachname": "Leonardo",
+      "vorname": "Vinci"
+    }
+   
+  ]
 }

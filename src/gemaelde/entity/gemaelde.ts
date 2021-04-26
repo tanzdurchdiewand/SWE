@@ -26,7 +26,7 @@
 /**
  * Alias-Typ für gültige Strings bei Haendlern.
  */
-export type Haendler = 'BAR_HAENDLER' | 'FOO_HAENDLER';
+export type Haendler = 'HAENDLER1' | 'HAENDLER2';
 
 /**
  * Alias-Typ für gültige Strings bei Verlagen.

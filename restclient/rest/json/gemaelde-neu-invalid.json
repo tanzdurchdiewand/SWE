@@ -1,13 +1,20 @@
 {
-  "titel": "?!",
-  "beschreibung": "Beispiel Beschreibung",
-  "bewertung": "ZZ",
-  "art": "Gibts Nicht",
-  "haendler": "Haendler",
-  "wert": 234,
-  "ausgestellt": true,
-  "datum": "12345-123-123",
-  "zertifizierung": "falsches-zertifikat",
-  "kategorien": ["blau", "grün"],
-  "künstler": "unknown"
+  "titel": "!",
+  "art": "KEINEART",
+  "haendler": "HAENDLER/(",
+  "bewertung": "D",
+  "wert": -7,
+  "ausgestellt": "Ja",
+  "beschreibung": "Im Vordergrund der Bilder ist eine einzelne Person dem Betrachter frontal zugewandt. Sie hat die Hände an den Kopf gepresst, ihre Augen und ihr Mund sind weit aufgerissen, wodurch laut Reinhold Heller „ein extremer Schockzustand“ ausgedrückt wird.[7]",
+  "datum": "2020-02-01T00:00:00.000Z",
+  "zertifizierung": "FDSFF",
+  "kategorien": [
+    "Expressionismus"
+  ],
+  "kuenstler": [
+    {
+      "nachname": "Beta",
+      "vorname": "Bert"
+    }
+  ]
 }

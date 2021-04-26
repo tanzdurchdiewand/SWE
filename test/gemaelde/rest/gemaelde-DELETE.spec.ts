@@ -44,29 +44,29 @@ const id = '00000000-0000-0000-0000-000000000005';
 // T e s t s
 // -----------------------------------------------------------------------------
 let server: Server;
-const path = PATHS.buecher;
-let buecherUri: string;
+const path = PATHS.gemaelden;
+let gemaeldenUri: string;
 let loginUri: string;
 
 // Test-Suite
-describe('DELETE /api/buecher', () => {
+describe('DELETE /api/gemaelden', () => {
     // Testserver starten und dabei mit der DB verbinden
     beforeAll(async () => {
         server = await createTestserver();
 
         const address = server.address() as AddressInfo;
         const baseUri = `https://${nodeConfig.host}:${address.port}`;
-        buecherUri = `${baseUri}${path}`;
+        gemaeldenUri = `${baseUri}${path}`;
         loginUri = `${baseUri}${PATHS.login}`;
     });
 
     afterAll(() => { server.close() });
 
-    test('Vorhandenes Buch loeschen', async () => {
+    test('Vorhandenes Gemaelde loeschen', async () => {
         // given
         const token = await login(loginUri);
         const headers = new Headers({ Authorization: `Bearer ${token}` });
-        const request = new Request(`${buecherUri}/${id}`, {
+        const request = new Request(`${gemaeldenUri}/${id}`, {
             method: HttpMethod.DELETE,
             headers,
             agent,
@@ -81,9 +81,9 @@ describe('DELETE /api/buecher', () => {
         expect(responseBody).to.be.empty;
     });
 
-    test('Buch loeschen, aber ohne Token', async () => {
+    test('Gemaelde loeschen, aber ohne Token', async () => {
         // given
-        const request = new Request(`${buecherUri}/${id}`, {
+        const request = new Request(`${gemaeldenUri}/${id}`, {
             method: HttpMethod.DELETE,
             agent,
         });
@@ -97,11 +97,11 @@ describe('DELETE /api/buecher', () => {
         expect(responseBody).to.be.equalIgnoreCase('unauthorized');
     });
 
-    test('Buch loeschen, aber mit falschem Token', async () => {
+    test('Gemaelde loeschen, aber mit falschem Token', async () => {
         // given
         const token = 'FALSCH';
         const headers = new Headers({ Authorization: `Bearer ${token}` });
-        const request = new Request(`${buecherUri}/${id}`, {
+        const request = new Request(`${gemaeldenUri}/${id}`, {
             method: HttpMethod.DELETE,
             headers,
             agent,

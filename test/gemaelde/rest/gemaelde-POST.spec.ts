@@ -44,13 +44,13 @@ const neuesGemaelde: Gemaelde = {
     titel: 'Neu',
     beschreibung: 'Schönes Bild',
     art: 'SIEBDRUCK',
-    haendler: 'BAR_HAENDLER',
+    haendler: 'HAENDLER1',
     bewertung: 'AAA',
     wert: 99.99,
     ausgestellt: true,
     datum: '2016-02-28',
     zertifizierung: '0-0070-0644-6',
-    kategorien: ['Antik'],
+    kategorien: ['Modern'],
     kuenstler: [{ nachname: 'Test', vorname: 'Theo' }],
 };
 const neuesGemaeldeInvalid: object = {
@@ -63,13 +63,13 @@ const neuesGemaeldeInvalid: object = {
     datum: '12345-123-123',
     zertifizierung: 'falsche-ISGN',
     kuenstler: [{ nachname: 'Test', vorname: 'Theo' }],
-    kategorien: [],
+    kategorien: ['XYZ'],
 };
 const neuesGemaeldeTitelExistiert: Gemaelde = {
     titel: 'DerSchrei',
     beschreibung: "Schön",
     art: 'OElGEMAELEDE',
-    haendler: 'BAR_HAENDLER',
+    haendler: 'HAENDLER1',
     bewertung: 'AAA',
     wert: 99.99,
     ausgestellt: true,
@@ -79,23 +79,23 @@ const neuesGemaeldeTitelExistiert: Gemaelde = {
     kategorien: ['Expressionismus'],
 };
 
-// -----------------------------------------------------------------------------
+// --------------------------------------------------------------SS---------------
 // T e s t s
 // -----------------------------------------------------------------------------
 let server: Server;
-const path = PATHS.buecher;
-let buecherUri: string;
+const path = PATHS.gemaelden;
+let gemaeldenUri: string;
 let loginUri: string;
 
 // Test-Suite
-describe('POST /api/buecher', () => {
+describe('POST /api/gemaelden', () => {
     // Testserver starten und dabei mit der DB verbinden
     beforeAll(async () => {
         server = await createTestserver();
 
         const address = server.address() as AddressInfo;
         const baseUri = `https://${nodeConfig.host}:${address.port}`;
-        buecherUri = `${baseUri}${path}`;
+        gemaeldenUri = `${baseUri}${path}`;
         loginUri = `${baseUri}${PATHS.login}`;
     });
 
@@ -112,7 +112,7 @@ describe('POST /api/buecher', () => {
             'Content-Type': 'application/json',
         });
         const body = JSON.stringify(neuesGemaelde);
-        const request = new Request(buecherUri, {
+        const request = new Request(gemaeldenUri, {
             method: HttpMethod.POST,
             headers,
             body,
@@ -153,7 +153,7 @@ describe('POST /api/buecher', () => {
             'Content-Type': 'application/json',
         });
         const body = JSON.stringify(neuesGemaeldeInvalid);
-        const request = new Request(buecherUri, {
+        const request = new Request(gemaeldenUri, {
             method: HttpMethod.POST,
             headers,
             body,
@@ -186,7 +186,7 @@ describe('POST /api/buecher', () => {
             'Content-Type': 'application/json',
         });
         const body = JSON.stringify(neuesGemaeldeTitelExistiert);
-        const request = new Request(buecherUri, {
+        const request = new Request(gemaeldenUri, {
             method: HttpMethod.POST,
             headers,
             body,
@@ -206,7 +206,7 @@ describe('POST /api/buecher', () => {
         // given
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const body = JSON.stringify(neuesGemaeldeTitelExistiert);
-        const request = new Request(buecherUri, {
+        const request = new Request(gemaeldenUri, {
             method: HttpMethod.POST,
             headers,
             body,
@@ -230,7 +230,7 @@ describe('POST /api/buecher', () => {
             'Content-Type': 'application/json',
         });
         const body = JSON.stringify(neuesGemaelde);
-        const request = new Request(buecherUri, {
+        const request = new Request(gemaeldenUri, {
             method: HttpMethod.POST,
             headers,
             body,

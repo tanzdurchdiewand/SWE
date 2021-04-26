@@ -47,13 +47,12 @@ export const jsonSchema: GenericJsonSchema = {
             // https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s13.html
             // TODO https://github.com/ajv-validator/ajv-formats/issues/14
             pattern:
-                '^(?:ISGN(?:-1[03])?:? )?(?=[0-9X]{10}$|' +
+                '^(?:ISBN(?:-1[03])?:? )?(?=[0-9X]{10}$|' +
                 '(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|' +
                 '(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?' +
                 '[0-9]+[- ]?[0-9]+[- ]?[0-9X]*',
         },
         // https://github.com/ajv-validator/ajv-formats
-        homepage: { type: 'string', format: 'uri' },
         kategorie: {
             type: 'array',
             items: { type: 'string' },
@@ -65,16 +64,16 @@ export const jsonSchema: GenericJsonSchema = {
     },
     // isgn ist NUR beim Neuanlegen ein Pflichtfeld
     // Mongoose bietet dazu die Funktion MyModel.findByIdAndUpdate()
-    required: ['titel', 'gemaeldeart', 'haendler'],
+    required: ['titel', 'art', 'haendler'],
     errorMessage: {
         properties: {
             titel:
-                'Ein Gemaeldetitel muss mit einem Buchstaben, einer Ziffer oder _ beginnen.',
-            beschreibung:
-                'Die Beschreibung muss vorhanden sein und darf maximal 99 Zeichen lang sein',
-            art: 'Die Art eines Gemaelde muss KINDLE oder DRUCKAUSGABE sein.',
-            verlag:
-                'Der Haendler eines Gemaeldes muss ein OELGEMAELDE, SIEBDRUCK oder WASSERFARBENGEMAELDE sein.',
+                'Ein Gemaeldetitel muss mit einem Buchstaben oder einer Ziffer beginnen',
+            beschreibung: 'Die Beschreibung muss vorhanden sein und darf maximal 99 Zeichen lang sein',
+            bewertung:'Eine Bewertung muss zweischen AAA und C liegen',
+            art: 'Die Art eines Gemaelde muss ein OELGEMAELDE, SIEBDRUCK oder WASSERFARBENGEMAELDE sein.',
+            haendler:
+                'Der Haendler eines Gemaeldes muss ein HAENDLER1 oder HAENDLER2 sein.',
             wert: 'Der Wert darf nicht negativ sein.',
             ausgestellt: '"ausgestellt" muss auf true oder false gesetzt sein.',
             datum: 'Das Datum muss im Format yyyy-MM-dd sein.',

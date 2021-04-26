@@ -35,7 +35,7 @@ Content-Type: application/x-www-form-urlencoded
 username=admin&password=FALSCH
 
 ### Neues Gemaelde anlegen
-POST https://{{host}}/gemaelde
+POST https://{{host}}/gemaelden
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.$.token}}
 
@@ -49,21 +49,21 @@ Authorization: Bearer {{login.response.body.$.token}}
 < .\json\gemaelde-neu-invalid.json
 
 ### Neues Gemaelde anlegen, aber der Titel existiert bereits
-POST https://{{host}}/gemaelde
+POST https://{{host}}/gemaelden
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.$.token}}
 
 < .\json\gemaelde-neu.titel-exists.json
 
 ### Neues Gemaelde anlegen, aber die Zertifizierung existiert bereits
-POST https://{{host}}/gemaelde
+POST https://{{host}}/gemaelden
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.$.token}}
 
 < .\json\gemaelde-neu.zertifizierung-exists.json
 
 ### Neues Gemaelde ohne Login anlegen
-POST https://{{host}}/gemaelde
+POST https://{{host}}/gemaelden
 Content-Type: application/json
 
 < .\json\gemaelde-neu.json
