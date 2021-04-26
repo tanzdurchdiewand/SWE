@@ -74,7 +74,7 @@ export const testdaten: GemaeldeData[] = [
                 nachname: 'Leonardo',
                 vorname: 'Vinci',
             },
-                    ],
+        ],
         __v: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
