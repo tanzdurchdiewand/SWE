@@ -30,7 +30,7 @@ build:
     envTemplate:
       template: "{{.TAG}}"
   artifacts:
-  - image: docker.io/juergenzimmermann/buch
+  - image: docker.io/gruppe06/buch
     # https://skaffold.dev/docs/pipeline-stages/builders/docker
   local: {}
 deploy:
