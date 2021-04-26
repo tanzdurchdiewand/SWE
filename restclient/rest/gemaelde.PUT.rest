@@ -48,17 +48,17 @@ Content-Type: application/json
 Authorization: Bearer {{login.response.body.$.token}}
 If-Match: "0"
 
-< .\json\gemaelde-put-nicht-vorhanden
+< .\json\gemaelde-put-nicht-vorhanden.json
 
 ### Vorhandenes Gemaelde *OHNE* Versionsnummer aktualisieren
-PUT https://{{host}}/gemaelden/00000000-0000-0000-0000-000000000003
+PUT https://{{host}}/gemaelde/00000000-0000-0000-0000-000000000003
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.$.token}}
 
 < .\json\gemaelde-3-put.json
 
 ### Vorhandenes Gemaelde mit falscher Versionsnummer aktualisieren
-PUT https://{{host}}/gemaelden/00000000-0000-0000-0000-000000000003
+PUT https://{{host}}/gemaelde/00000000-0000-0000-0000-000000000003
 Content-Type: application/json
 If-Match: 0
 Authorization: Bearer {{login.response.body.$.token}}
@@ -66,7 +66,7 @@ Authorization: Bearer {{login.response.body.$.token}}
 < .\json\gemaelde-3-put.json
 
 ### Vorhandenes Gemaelde mit alter Versionsnummer aktualisieren
-PUT https://{{host}}/gemaelden/00000000-0000-0000-0000-000000000003
+PUT https://{{host}}/gemaelde/00000000-0000-0000-0000-000000000003
 Content-Type: application/json
 If-Match: "-1"
 Authorization: Bearer {{login.response.body.$.token}}

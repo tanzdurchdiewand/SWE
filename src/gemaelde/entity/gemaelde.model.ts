@@ -107,7 +107,12 @@ export const gemaeldeSchema = new Schema<
         wert: { type: Number, required: true },
         ausgestellt: Boolean,
         datum: Date,
-        zertifizierung: { type: String, required: true, unique: true, immutable: true },
+        zertifizierung: {
+            type: String,
+            required: true,
+            unique: true,
+            immutable: true,
+        },
         kategorien: { type: [String], sparse: true },
         // "anything goes"
         kuenstler: [{}],
