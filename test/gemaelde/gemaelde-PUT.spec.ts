@@ -41,27 +41,27 @@ const { expect } = chai;
 // -----------------------------------------------------------------------------
 const geaendertesGemaelde: Omit<Gemaelde, 'zertifizierung'> = {
     // zertifizierung wird nicht geaendet
-    titel: 'Geaendert',
-    art: 'OElGEMAELEDE',
-    haendler: 'HAENDLER1',
-    bewertung: 'AAA',
-    wert: 11.1,
-    ausgestellt: true,
-    beschreibung: 'Schön',
-    // https://docs.mongodb.com/manual/reference/method/Date
-    datum: new Date('2020-02-01'),
-    kategorien: ['Expressionismus'],
-    kuenstler: [
-        {
-            nachname: 'Beta',
-            vorname: 'Bert',
-        },
-        {
-            nachname: 'Alpha',
-            vorname: 'Alfred',
-        },
-    ]
-};
+            titel: 'Alpha',
+        art: 'OElGEMAELEDE',
+        haendler: 'HAENDLER1',
+        bewertung: 'AAA',
+        wert: 11.1,
+        ausgestellt: true,
+        beschreibung: 'Schön',
+        // https://docs.mongodb.com/manual/reference/method/Date
+        datum: new Date('2020-02-01'),
+        kategorien: ['Expressionismus'],
+        kuenstler: [
+            {
+                nachname: 'Beta',
+                vorname: 'Bert',
+            },
+            {
+                nachname: 'Alpha',
+                vorname: 'Alfred',
+            },
+        ]
+    };
 const idVorhanden = '00000000-0000-0000-0000-000000000003';
 
 const geaendertesGemaeldeIdNichtVorhanden: Omit<Gemaelde, 'zertifizierung' > = {
@@ -144,13 +144,14 @@ describe('PUT /api/gemaelden/:id', () => {
 
         // when
         const response = await fetch(request);
-
+        
         // then
         expect(response.status).to.be.equal(HttpStatus.NO_CONTENT);
         const responseBody = await response.text();
         expect(responseBody).to.be.empty;
+        
     });
-
+        
     test('Nicht-vorhandenes Gemaelde aendern', async () => {
         // given
         const token = await login(loginUri);

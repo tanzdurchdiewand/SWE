@@ -66,9 +66,9 @@ const neuesGemaeldeInvalid: object = {
     kategorien: ['XYZ'],
 };
 const neuesGemaeldeTitelExistiert: Gemaelde = {
-    titel: 'DerSchrei',
+    titel: 'Neu',
     beschreibung: "Schön",
-    art: 'OElGEMAELEDE',
+    art: 'SIEBDRUCK',
     haendler: 'HAENDLER1',
     bewertung: 'AAA',
     wert: 99.99,
@@ -165,17 +165,15 @@ describe('POST /api/gemaelden', () => {
 
         // then
         expect(response.status).to.be.equal(HttpStatus.BAD_REQUEST);
-        const { art, rating, verlag, datum, isbn } = await response.json();
+        const { art, datum, zertifizierung } = await response.json();
 
         expect(art).to.be.equal(
-            'Die Art eines Gemaeldes muss KINDLE oder DRUCKAUSGABE sein.',
+            'Die Art eines Gemaelde muss ein OELGEMAELDE, SIEBDRUCK oder WASSERFARBENGEMAELDE sein.',
         );
-        expect(rating).to.be.equal('Eine Bewertung muss zwischen 0 und 5 liegen.');
-        expect(verlag).to.be.equal(
-            'Der Verlag eines Gemaeldes muss FOO_VERLAG oder BAR_VERLAG sein.',
-        );
+        
+         
         expect(datum).to.be.equal('Das Datum muss im Format yyyy-MM-dd sein.');
-        expect(isbn).to.be.equal('Die ISBN-Nummer ist nicht korrekt.');
+        expect(zertifizierung).to.be.equal('Die Zertifizierungsnummer ist nicht korrekt.');
     });
 
     test('Neues Gemaelde, aber der Titel existiert bereits', async () => {
@@ -246,5 +244,5 @@ describe('POST /api/gemaelden', () => {
         expect(responseBody).to.be.equalIgnoreCase('unauthorized');
     });
 
-    test.todo('Test mit abgelaufenem Token');
+    
 });

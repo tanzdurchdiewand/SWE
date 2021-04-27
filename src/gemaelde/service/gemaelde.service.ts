@@ -114,7 +114,7 @@ export class GemaeldeService {
 
         // { titel: 'a', rating: 5, javascript: true }
         // Rest Properties
-        const { titel, oelgemaelde, siebdruck, ...dbQuery } = query;
+        const { titel, expressionismus, renaissance, modern, ...dbQuery } = query;
 
         // Gemaelde zur Query (= JSON-Objekt durch Express) asynchron suchen
         // Titel in der Query: Teilstring des Titels,
@@ -130,11 +130,14 @@ export class GemaeldeService {
 
         // z.B. {oelgemaelde: true, typescript: true}
         const kategorien = [];
-        if (oelgemaelde === 'true') {
-            kategorien.push('OElGEMAELEDE');
+        if (expressionismus === 'true') {
+            kategorien.push('Expressionismus');
         }
-        if (siebdruck === 'true') {
-            kategorien.push('SIEBDRUCK');
+        if (renaissance === 'true') {
+            kategorien.push('Renaissance');
+        }
+        if (modern === 'true') {
+            kategorien.push('Modern');
         }
         if (kategorien.length === 0) {
             delete dbQuery.kategorien;

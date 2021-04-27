@@ -80,7 +80,7 @@ export const testdaten: GemaeldeData[] = [
         updatedAt: new Date(),
     },
     {
-        _id: '00000000-0000-0000-0000-00000000003',
+        _id: '00000000-0000-0000-0000-000000000003',
         titel: 'DerSchrei',
         art: 'OElGEMAELEDE',
         haendler: 'HAENDLER1',
@@ -156,6 +156,61 @@ export const testdaten: GemaeldeData[] = [
         createdAt: new Date(),
         updatedAt: new Date(),
     },
+    {
+        _id: '00000000-0000-0000-0000-000000000006',
+        titel: 'Zeta',
+        art: 'OElGEMAELEDE',
+        haendler: 'HAENDLER1',
+        bewertung: 'AA',
+        wert: 11.1,
+        ausgestellt: true,
+        beschreibung: 'Schön',
+        // https://docs.mongodb.com/manual/reference/method/Date
+        datum: new Date('2020-02-01'),
+        zertifizierung: '978-3897225831',
+        kategorien: ['Abstrakt'],
+        kuenstler: [
+            {
+                nachname: 'Alpha',
+                vorname: 'Adriana',
+            },
+            {
+                nachname: 'Alpha',
+                vorname: 'Alfred',
+            },
+        ],
+        __v: 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    },
+    {
+        _id: '00000000-0000-0000-0000-000000000007',
+        titel: 'Yota',
+        art: 'OElGEMAELEDE',
+        haendler: 'HAENDLER1',
+        bewertung: 'B',
+        wert: 11.1,
+        ausgestellt: true,
+        beschreibung: 'Toll',
+        // https://docs.mongodb.com/manual/reference/method/Date
+        datum: new Date('2020-02-01'),
+        zertifizierung: '978-3897225831',
+        kategorien: ['Abstrakt'],
+        kuenstler: [
+            {
+                nachname: 'Alpha',
+                vorname: 'Adriana',
+            },
+            {
+                nachname: 'Alpha',
+                vorname: 'Alfred',
+            },
+        ],
+        __v: 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    },
+
 ];
 Object.freeze(testdaten);
 

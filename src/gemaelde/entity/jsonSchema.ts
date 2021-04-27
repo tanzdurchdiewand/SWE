@@ -72,7 +72,7 @@ export const jsonSchema: GenericJsonSchema = {
                 'Ein Gemaeldetitel muss mit einem Buchstaben oder einer Ziffer beginnen',
             beschreibung:
                 'Die Beschreibung muss vorhanden sein und darf maximal 99 Zeichen lang sein',
-            bewertung: 'Eine Bewertung muss zweischen AAA und C liegen',
+            bewertung: 'Eine Bewertung muss zwischen AAA und C liegen.',
             art:
                 'Die Art eines Gemaelde muss ein OELGEMAELDE, SIEBDRUCK oder WASSERFARBENGEMAELDE sein.',
             haendler:
